@@ -1,7 +1,6 @@
 import React from "react";
 import { useAppSelector } from "../../store/store";
 import { defaultStyles } from "@visx/tooltip";
-
 import {
   XYChart,
   LineSeries,

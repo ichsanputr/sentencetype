@@ -13,7 +13,7 @@ import {
 import { Stack, Typography, Tooltip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton/IconButton";
-import RefreshIcon from "@mui/icons-material/Refresh";
+import { Refresh } from "@mui/icons-material";
 
 function TestBox() {
   const dispatch = useAppDispatch();
@@ -65,11 +65,6 @@ function TestBox() {
     }
   };
 
-  // const focusInput = () => {
-  //   inputRef.current?.focus();
-  //   setIsInputFocused(true);
-  // };
-
   useEffect(() => {
     if (isInputFocused) {
       inputRef.current?.focus();
@@ -112,13 +107,6 @@ function TestBox() {
             {`${currentWordIndex}/${wordsList.length}`}
           </Typography>
         )}
-
-        {/* <Typography variant="h5" color={theme.main.main}>
-          {accuracy ? `${accuracy}%` : "0%"}
-        </Typography> */}
-        {/* <Typography variant="h5" color={theme.main.main}>
-          {wpm} WPM
-        </Typography> */}
       </Stack>
 
       <TestWords />
@@ -132,7 +120,6 @@ function TestBox() {
           width: "5%",
           opacity: 0,
         }}
-        // onChange={processInput}
         onKeyDown={processInput}
         disabled={
           (mode2 === "time" && timerCount >= time) ||
@@ -167,11 +154,11 @@ function TestBox() {
         <IconButton
           tabIndex={0}
           onClick={() => {
-            dispatch(resetTest());          
+            dispatch(resetTest());
           }}
           sx={{ margin: "12px auto", padding: "8px" }}
         >
-          <RefreshIcon htmlColor={theme.sub.main} />
+          <Refresh htmlColor={theme.sub.main} />
         </IconButton>
       </Tooltip>
     </Box>

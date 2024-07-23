@@ -1,7 +1,6 @@
 import { Box, Link, useTheme } from "@mui/material";
 import Stack from "@mui/material/Stack";
-import { FacebookOutlined , Instagram} from "@mui/icons-material";
-import PaletteRoundedIcon from "@mui/icons-material/PaletteRounded";
+import { FacebookOutlined , Instagram, PaletteRounded} from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { openModal } from "../store/themeSlice";
 import ThemeModal from "./ThemeModal";
@@ -86,7 +85,7 @@ function Footer() {
               },
             }}
           >
-            <PaletteRoundedIcon sx={{ padding: "1.5px" }} fontSize="small" />
+            <PaletteRounded sx={{ padding: "1.5px" }} fontSize="small" />
             {currentTheme}
           </Box>
         </Stack>

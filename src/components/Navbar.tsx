@@ -1,10 +1,7 @@
-import { Box, IconButton, Stack, Typography, useTheme } from "@mui/material";
 import React from "react";
 import MemoMtLogo from "./MtLogo";
-import KeyboardRoundedIcon from "@mui/icons-material/KeyboardRounded";
-import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { PersonRounded } from "@mui/icons-material";
+import { Box, IconButton, Stack, Typography, useTheme } from "@mui/material";
+import { PersonRounded, KeyboardRounded, Logout } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../store/store";
 import { resetTest } from "../store/testSlice";
@@ -94,7 +91,7 @@ function Navbar() {
             dispatch(resetTest());
           }}
         >
-          <KeyboardRoundedIcon fontSize="medium" />
+          <KeyboardRounded fontSize="medium" />
         </IconButton>
         <Box
           sx={{
@@ -110,7 +107,7 @@ function Navbar() {
         >
           {username && (
             <>
-              <PersonRoundedIcon fontSize="small" />
+              <PersonRounded fontSize="small" />
               <Typography
                 sx={{
                   marginLeft: 1 / 2,
@@ -140,7 +137,7 @@ function Navbar() {
           }}
         >
           {username ? (
-            <LogoutIcon fontSize="small" />
+            <Logout fontSize="small" />
           ) : (
             <PersonRounded fontSize="medium" />
           )}

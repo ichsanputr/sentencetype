@@ -1,10 +1,6 @@
-import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
-import WatchLaterIcon from "@mui/icons-material/WatchLater";
-import HdrAutoIcon from "@mui/icons-material/HdrAuto";
+import { AlternateEmail, WatchLater, HdrAuto, Tag, FormatQuote } from "@mui/icons-material";
 import { styled, useTheme } from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
-import TagIcon from "@mui/icons-material/Tag";
-import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import { Box } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import Grow from "@mui/material/Grow";
@@ -133,7 +129,7 @@ function ModesStack() {
             onClick={() => dispatch(togglePunctuation())}
             active={punctuation}
           >
-            <AlternateEmailIcon fontSize="small" sx={{ padding: 0.35 }} />
+            <AlternateEmail fontSize="small" sx={{ padding: 0.35 }} />
             punctuation
           </CustomButton>
 
@@ -141,7 +137,7 @@ function ModesStack() {
             onClick={() => dispatch(toggleNumbers())}
             active={numbers}
           >
-            <TagIcon fontSize="small" sx={{ padding: 0.35 }} />
+            <Tag fontSize="small" sx={{ padding: 0.35 }} />
             numbers
           </CustomButton>
         </ButtonContainer>
@@ -152,21 +148,21 @@ function ModesStack() {
           active={mode2 === "time"}
           onClick={() => dispatch(setMode2("time" as Mode2.time))}
         >
-          <WatchLaterIcon fontSize="small" sx={{ padding: 0.35 }} />
+          <WatchLater fontSize="small" sx={{ padding: 0.35 }} />
           time
         </CustomButton>
         <CustomButton
           active={mode2 === "words"}
           onClick={() => dispatch(setMode2("words" as Mode2.words))}
         >
-          <HdrAutoIcon fontSize="small" sx={{ padding: 0.35 }} />
+          <HdrAuto fontSize="small" sx={{ padding: 0.35 }} />
           words
         </CustomButton>
         <CustomButton
           active={mode2 === "quote"}
           onClick={() => dispatch(setMode2("quote" as Mode2.quote))}
         >
-          <FormatQuoteIcon fontSize="small" sx={{ padding: 0.35 }} />
+          <FormatQuote fontSize="small" sx={{ padding: 0.35 }} />
           quote
         </CustomButton>
       </ButtonContainer>
