@@ -15,7 +15,7 @@ import {
 import MultipleSelect from "./MultipleSelect";
 
 function getQuoteGroup(length: number) {
-  const allGroups = ["short", "medium", "long", "thicc"];
+  const allGroups = ["short", "medium", "long"];
   const groupRange = englishQuotes.groups;
   const quoteRangeMap = {} as Record<string, [number, number]>;
   allGroups.forEach((group, index) => {

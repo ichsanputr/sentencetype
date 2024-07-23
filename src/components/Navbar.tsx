@@ -54,7 +54,7 @@ function Navbar() {
               variant="caption"
               position={"absolute"}
               left={0}
-              top={-5}
+              top={-8}
               color={theme.sub.main}
             >
               fill sentences
@@ -65,7 +65,7 @@ function Navbar() {
               variant="caption"
               position={"absolute"}
               right={0}
-              bottom={-8}
+              bottom={-12}
               color={theme.sub.main}
             >
               learn english

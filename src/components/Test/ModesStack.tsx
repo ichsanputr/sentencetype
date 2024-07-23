@@ -4,6 +4,8 @@ import Stack from "@mui/material/Stack";
 import { Box } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import Grow from "@mui/material/Grow";
+import type { TimeOptionsType, Mode2 } from "../../typings";
+import Search from "@mui/icons-material/Search";
 
 import {
   quoteLengthOptions,
@@ -15,8 +17,6 @@ import {
   updateTime,
   wordLengthOptions,
 } from "../../store/testSlice";
-import type { TimeOptionsType, Mode2 } from "../../typings";
-import Search from "@mui/icons-material/Search";
 
 const CustomButton = styled(Box, {
   shouldForwardProp: (prop) => prop !== "active",
@@ -74,16 +74,14 @@ const ButtonContainer = styled(Stack)(({ theme }) => ({
   flexDirection: "row",
   alignItems: "center",
 }));
+
 function ModesStack() {
   const theme = useTheme();
   const isRunning = useAppSelector((state) => state.test.isRunning);
-  const time = useAppSelector((state) => state.test.time);
-  const punctuation = useAppSelector((state) => state.test.punctuation);
-  const numbers = useAppSelector((state) => state.test.numbers);
   const mode2 = useAppSelector((state) => state.test.mode2);
-  const wordLength = useAppSelector((state) => state.test.wordLength);
   const quoteLength = useAppSelector((state) => state.test.quoteLength);
   const dispatch = useAppDispatch();
+
   return (
     <Stack
       sx={{
@@ -122,8 +120,7 @@ function ModesStack() {
           : "fadeIn 0.5s ease-in-out forwards",
       }}
     >
-      {/* {mode2 !== "quote" && ( */}
-      <Grow in={mode2 !== "quote"} mountOnEnter unmountOnExit timeout={500}>
+      {/* <Grow in={mode2 !== "news"} mountOnEnter unmountOnExit timeout={500}>
         <ButtonContainer>
           <CustomButton
             onClick={() => dispatch(togglePunctuation())}
@@ -141,57 +138,32 @@ function ModesStack() {
             numbers
           </CustomButton>
         </ButtonContainer>
-      </Grow>
-      {/* )} */}
+      </Grow> */}
       <ButtonContainer>
         <CustomButton
-          active={mode2 === "time"}
-          onClick={() => dispatch(setMode2("time" as Mode2.time))}
+          active={mode2 === "conversation"}
+          onClick={() => dispatch(setMode2("conversation" as Mode2.conversation))}
         >
           <WatchLater fontSize="small" sx={{ padding: 0.35 }} />
           time
         </CustomButton>
         <CustomButton
-          active={mode2 === "words"}
-          onClick={() => dispatch(setMode2("words" as Mode2.words))}
+          active={mode2 === "story"}
+          onClick={() => dispatch(setMode2("story" as Mode2.story))}
         >
           <HdrAuto fontSize="small" sx={{ padding: 0.35 }} />
           words
         </CustomButton>
         <CustomButton
-          active={mode2 === "quote"}
-          onClick={() => dispatch(setMode2("quote" as Mode2.quote))}
+          active={mode2 === "news"}
+          onClick={() => dispatch(setMode2("news" as Mode2.news))}
         >
           <FormatQuote fontSize="small" sx={{ padding: 0.35 }} />
           quote
         </CustomButton>
       </ButtonContainer>
       <ButtonContainer>
-        {mode2 === "time" &&
-          [15, 30, 60, 120].map((t) => {
-            return (
-              <CustomButton
-                key={t}
-                active={t === time}
-                onClick={() => dispatch(updateTime(t as TimeOptionsType))}
-              >
-                {t}
-              </CustomButton>
-            );
-          })}
-        {mode2 === "words" &&
-          wordLengthOptions.map((w) => {
-            return (
-              <CustomButton
-                key={w}
-                active={w === wordLength}
-                onClick={() => dispatch(setWordLength(w))}
-              >
-                {w}
-              </CustomButton>
-            );
-          })}
-        {mode2 === "quote" &&
+        {
           quoteLengthOptions.map((w) => {
             return (
               <CustomButton

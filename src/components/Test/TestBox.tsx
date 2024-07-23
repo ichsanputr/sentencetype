@@ -45,13 +45,12 @@ function TestBox() {
   }, [isRunning, dispatch, mode2]);
 
   const processInput = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    // if test is over, return
-    if (
-      currentWordIndex === wordsList.length ||
-      (mode2 === "time" && timerCount >= time)
-    ) {
-      return;
-    }
+    // if (
+    //   currentWordIndex === wordsList.length ||
+    //   (mode2 === "time" && timerCount >= time)
+    // ) {
+    //   return;
+    // }
     const isCharacter = /^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/ ?]$/.test(
       e.key
     );
@@ -91,22 +90,15 @@ function TestBox() {
         direction={"row"}
         justifyContent={"space-between"}
       >
-        {mode2 === "time" && (
-          <Typography variant="h5" color={theme.main.main}>
-            {time - timerCount}
-          </Typography>
-        )}
-        {(mode2 === "words" || mode2 === "quote") && (
-          <Typography
-            sx={{
-              opacity: timerCount > 0 ? 1 : 0,
-            }}
-            variant="h5"
-            color={theme.main.main}
-          >
-            {`${currentWordIndex}/${wordsList.length}`}
-          </Typography>
-        )}
+        <Typography
+          sx={{
+            opacity: timerCount > 0 ? 1 : 0,
+          }}
+          variant="h5"
+          color={theme.main.main}
+        >
+          {`${currentWordIndex}/${wordsList.length}`}
+        </Typography>
       </Stack>
 
       <TestWords />
@@ -121,10 +113,6 @@ function TestBox() {
           opacity: 0,
         }}
         onKeyDown={processInput}
-        disabled={
-          (mode2 === "time" && timerCount >= time) ||
-          currentWordIndex === wordsList.length
-        }
         autoFocus
         onBlur={() => {
           dispatch(setInputFocus(false));

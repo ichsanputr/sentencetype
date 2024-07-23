@@ -13,23 +13,7 @@ export function getWords(
   quoteLength: quoteLengthOptionsType
 ) {
   let words = [...english.words];
-  if (mode2 === "quote") {
-    return getQuote(quoteLength).split(" ");
-  }
-
-  if (punctuation) {
-    words = punctuations(words);
-  }
-  if (numbers) {
-    words = numbersMode(words);
-  }
-  if (mode2 === "time") {
-    words = words.slice(0, Math.max(100, Math.floor(time / 0.6)));
-  } else if (mode2 === "words") {
-    words = words.slice(0, wordLength);
-  }
-  words.sort(() => Math.random() - 0.5);
-  return words;
+  return getQuote(quoteLength).split(" ");
 }
 
 function getQuote(length: quoteLengthOptionsType) {
@@ -37,7 +21,7 @@ function getQuote(length: quoteLengthOptionsType) {
     return quotes[Math.floor(Math.random() * quotes.length)].text;
 
   const groupIndex = quoteLengthOptions.findIndex((x) => x === length);
-  
+
   const group = groups[groupIndex - 1];
   const newQuotes = [...quotes].filter(
     (x) => group[0] <= x.length && x.length <= group[1]

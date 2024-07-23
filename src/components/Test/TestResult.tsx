@@ -138,7 +138,7 @@ function TestResult() {
             >
               test type
             </Typography>
-            <Typography
+            {/* <Typography
               sx={{
                 fontSize: "1rem",
                 lineHeight: "1",
@@ -151,7 +151,7 @@ function TestResult() {
                 : mode2 === "words"
                 ? wordLength
                 : quoteLength}
-            </Typography>
+            </Typography> */}
           </Box>
         </Grid>
         <Grid item xs={12} md={10}>

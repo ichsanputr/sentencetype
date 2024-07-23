@@ -10,15 +10,12 @@ import {
   wordLengthOptionsType,
 } from "../typings";
 
-// type Mode2 = "time" | "words" | "quote";
-
 export const wordLengthOptions: wordLengthOptionsType[] = [10, 25, 50, 100];
 export const quoteLengthOptions: quoteLengthOptionsType[] = [
   "all",
   "short",
   "medium",
   "long",
-  "thicc",
   "search",
 ];
 
@@ -256,39 +253,14 @@ export const testSlice = createSlice({
 
       state.currentCharIndex += 1;
 
-      // if mode is word limit or quote mode and user has typed the last word , stop the test
-      if (
-        (state.mode2 === "words" && state.currentWordIndex === state.wordLength - 1 && state.currentCharIndex === state.currentWords[state.currentWordIndex].length) ||
-        (state.mode2 === "quote" &&
-          state.currentWordIndex === state.wordsList.length - 1 && state.currentCharIndex === state.currentWords[state.currentWordIndex].length)
-      ) {
-        state.isRunning = false;
-        testSlice.caseReducers.stopTest(state);
-        return;
-      }
-
-      // if (value.endsWith(" ")) {
-      //   if (
-      //     (state.mode2 === "time" && state.time <= state.timerCount) ||
-      //     state.currentWordIndex === state.wordsList.length - 1
-      //   ) {
-      //     state.isRunning = false;
-      //     testSlice.caseReducers.stopTest(state);
-      //   } else {
-      //     state.userText = "";
-      //   }
-      //   state.correctWords[state.currentWordIndex] =
-      //     value.trim() === state.wordsList[state.currentWordIndex];
-      //   state.currentWordIndex += 1;
-
+      // if (
+      //   (state.mode2 === "words" && state.currentWordIndex === state.wordLength - 1 && state.currentCharIndex === state.currentWords[state.currentWordIndex].length) ||
+      //   (state.mode2 === "quote" &&
+      //     state.currentWordIndex === state.wordsList.length - 1 && state.currentCharIndex === state.currentWords[state.currentWordIndex].length)
+      // ) {
+      //   state.isRunning = false;
+      //   testSlice.caseReducers.stopTest(state);
       //   return;
-      // }
-
-      // state.userText = value;
-      // if (state.wordsList[state.currentWordIndex].startsWith(value)) {
-      //   state.correctWords[state.currentWordIndex] = true;
-      // } else {
-      //   state.correctWords[state.currentWordIndex] = false;
       // }
     },
 
@@ -300,21 +272,13 @@ export const testSlice = createSlice({
       } else {
         state.wpm =
           state.correctWords.filter(Boolean).length / (state.timerCount / 60);
-        // state.wpmHistory.push({
-        //   time: state.timerCount,
-        //   wpm: state.wpm,
-        // });
-        // state.rawHistory.push({
-        //   time: state.timerCount,
-        //   wpm: state.correctWords.length / (state.timerCount / 60),
-        // });
       }
 
-      if (state.mode2 === "time" && state.timerCount >= state.time) {
-        clearInterval(action.payload);
-        state.isRunning = false;
-        state.showResult = true;
-      }
+      // if (state.mode2 === "time" && state.timerCount >= state.time) {
+      //   clearInterval(action.payload);
+      //   state.isRunning = false;
+      //   state.showResult = true;
+      // }
     },
     setInputFocus(state, action: PayloadAction<boolean>) {
       state.isInputFocused = action.payload;
