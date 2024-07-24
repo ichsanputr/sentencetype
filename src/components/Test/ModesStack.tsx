@@ -1,4 +1,4 @@
-import { WatchLater, HdrAuto, FormatQuote } from "@mui/icons-material";
+import { EmojiPeople, Article, AutoStories } from "@mui/icons-material";
 import { styled, useTheme } from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
 import { Box } from "@mui/material";
@@ -114,46 +114,27 @@ function ModesStack() {
           : "fadeIn 0.5s ease-in-out forwards",
       }}
     >
-      {/* <Grow in={mode2 !== "news"} mountOnEnter unmountOnExit timeout={500}>
-        <ButtonContainer>
-          <CustomButton
-            onClick={() => dispatch(togglePunctuation())}
-            active={punctuation}
-          >
-            <AlternateEmail fontSize="small" sx={{ padding: 0.35 }} />
-            punctuation
-          </CustomButton>
-
-          <CustomButton
-            onClick={() => dispatch(toggleNumbers())}
-            active={numbers}
-          >
-            <Tag fontSize="small" sx={{ padding: 0.35 }} />
-            numbers
-          </CustomButton>
-        </ButtonContainer>
-      </Grow> */}
       <ButtonContainer>
         <CustomButton
           active={mode2 === "conversation"}
           onClick={() => dispatch(setMode2("conversation" as Mode2.conversation))}
         >
-          <WatchLater fontSize="small" sx={{ padding: 0.35 }} />
-          time
+          <EmojiPeople fontSize="small" sx={{ padding: 0.2 }} />
+          conversation
         </CustomButton>
         <CustomButton
           active={mode2 === "story"}
           onClick={() => dispatch(setMode2("story" as Mode2.story))}
         >
-          <HdrAuto fontSize="small" sx={{ padding: 0.35 }} />
-          words
+          <AutoStories fontSize="small" sx={{ padding: 0.2 }} />
+          story
         </CustomButton>
         <CustomButton
           active={mode2 === "news"}
           onClick={() => dispatch(setMode2("news" as Mode2.news))}
         >
-          <FormatQuote fontSize="small" sx={{ padding: 0.35 }} />
-          quote
+          <Article fontSize="small" sx={{ padding: 0.2 }} />
+          news
         </CustomButton>
       </ButtonContainer>
       <ButtonContainer>

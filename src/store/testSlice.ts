@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import english from "../languages/english.json";
 import news from "../languages/news.json";
+import story from "../languages/story.json";
+import conversation from "../languages/conversation.json";
 import { RootState } from "./store";
 import { getWords } from "../util/modeHelpers";
 import {
@@ -10,6 +12,7 @@ import {
   quoteLengthOptionsType,
   wordLengthOptionsType,
 } from "../typings";
+import getRandomInt from "../util/randNumber";
 
 export const wordLengthOptions: wordLengthOptionsType[] = [10, 25, 50, 100];
 export const quoteLengthOptions: quoteLengthOptionsType[] = [
@@ -107,10 +110,8 @@ const initialState: TestState = {
   currentWordIndex: 0,
   correctWords: [],
   currentCharIndex: 0,
-  // current: "",
-  // history: [],
   wordLength: 25,
-  mode2: "time" as Mode2,
+  mode2: "conversation" as Mode2.conversation,
   punctuation: false,
   numbers: false,
   quoteLength: "all",
@@ -164,7 +165,14 @@ export const testSlice = createSlice({
           );
 
       // Fill with new word list
-      state.currentWords = createLetters(news.words[0]);
+      if (state.mode2 == "conversation") {
+        state.currentWords = createLetters(conversation.words[getRandomInt(conversation.words.length)]);
+      } else if (state.mode2 == "story") {
+        state.currentWords = createLetters(story.words[getRandomInt(story.words.length)]);
+      } else if (state.mode2 == "news") {
+        state.currentWords = createLetters(news.words[getRandomInt(news.words.length)]);
+      }
+
       state.wpm = 0;
       state.showResult = false;
       state.wpmHistory = [];
