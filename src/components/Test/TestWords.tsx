@@ -9,8 +9,6 @@ import {  setCaretPosition, setInputFocus } from "../../store/testSlice";
 const LINE_HEIGHT = 40;
 
 const Caret = styled("span", {
-  // shouldForwardProp: (prop) => prop !== "left",
-  // shouldForwardProp: (prop) => prop !== "top",
 })<{ left: number; top: number }>(({ theme, top, left }) => ({
   position: "absolute",
   display: "inline-block",
@@ -46,8 +44,6 @@ function FocusInside() {
     <Box
       position={"absolute"}
       sx={{
-        // backdropFilter: "blur(4px)",
-        // background: "rgba(0, 0, 0, 0.1)",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -153,9 +149,9 @@ const LetterComponent = ({ letter }: { letter: Letter }) => {
       component={"span"}
       sx={{
         lineHeight: `${LINE_HEIGHT}px`,
-        fontSize: "24px",
+        fontSize: "26px",
         color: color[letter.status],
-        fontWeight: 300,
+        fontWeight: 400,
         marginRight: "1px",
       }}
     >
@@ -175,14 +171,12 @@ function TestWords() {
   const onClick = () => {
     dispatch(setInputFocus(true));
   };
-  console.log("showFocusInside", showFocusInside)
 
   const currentWordIndex = useAppSelector(
     (state) => state.test.currentWordIndex
   );
   const containerRef = useRef<HTMLDivElement | null>(null);
   const caretPosition = useAppSelector((state) => state.test.caretPosition);
-  console.log("caretPosition", caretPosition);
 
   useEffect(() => {
     containerRef.current?.scrollTo(0, 0);

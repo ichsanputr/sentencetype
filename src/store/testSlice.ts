@@ -252,16 +252,6 @@ export const testSlice = createSlice({
       }
 
       state.currentCharIndex += 1;
-
-      // if (
-      //   (state.mode2 === "words" && state.currentWordIndex === state.wordLength - 1 && state.currentCharIndex === state.currentWords[state.currentWordIndex].length) ||
-      //   (state.mode2 === "quote" &&
-      //     state.currentWordIndex === state.wordsList.length - 1 && state.currentCharIndex === state.currentWords[state.currentWordIndex].length)
-      // ) {
-      //   state.isRunning = false;
-      //   testSlice.caseReducers.stopTest(state);
-      //   return;
-      // }
     },
 
     incrementTimer: (state, action: PayloadAction<NodeJS.Timer>) => {
@@ -273,12 +263,6 @@ export const testSlice = createSlice({
         state.wpm =
           state.correctWords.filter(Boolean).length / (state.timerCount / 60);
       }
-
-      // if (state.mode2 === "time" && state.timerCount >= state.time) {
-      //   clearInterval(action.payload);
-      //   state.isRunning = false;
-      //   state.showResult = true;
-      // }
     },
     setInputFocus(state, action: PayloadAction<boolean>) {
       state.isInputFocused = action.payload;

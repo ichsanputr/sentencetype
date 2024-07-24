@@ -1,21 +1,15 @@
-import { AlternateEmail, WatchLater, HdrAuto, Tag, FormatQuote } from "@mui/icons-material";
+import { WatchLater, HdrAuto, FormatQuote } from "@mui/icons-material";
 import { styled, useTheme } from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
 import { Box } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import Grow from "@mui/material/Grow";
-import type { TimeOptionsType, Mode2 } from "../../typings";
+import type { Mode2 } from "../../typings";
 import Search from "@mui/icons-material/Search";
 
 import {
   quoteLengthOptions,
   setMode2,
   setQuoteLength,
-  setWordLength,
-  toggleNumbers,
-  togglePunctuation,
-  updateTime,
-  wordLengthOptions,
 } from "../../store/testSlice";
 
 const CustomButton = styled(Box, {

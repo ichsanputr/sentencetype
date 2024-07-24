@@ -243,12 +243,6 @@ function QuotesModal() {
               flex: 3,
             }}
           />
-          {/* <StyledInput
-            placeholder={"Filter by length"}
-            sx={{
-              flex: 2,
-            }}
-          /> */}
           <MultipleSelect
             selectedItems={lengthFilter}
             setSelectedItems={setLengthFilter}

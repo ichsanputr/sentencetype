@@ -19,9 +19,7 @@ function TestBox() {
   const dispatch = useAppDispatch();
   const inputRef = React.useRef<HTMLInputElement>(null);
   const isRunning = useAppSelector((state) => state.test.isRunning);
-  const currentWordIndex = useAppSelector(
-    (state) => state.test.currentWordIndex
-  );
+  const currentWordIndex = useAppSelector((state) => state.test.currentWordIndex);
   const wordsList = useAppSelector((state) => state.test.wordsList);
   const timerCount = useAppSelector((state) => state.test.timerCount);
   const theme = useTheme();
@@ -29,7 +27,6 @@ function TestBox() {
   const mode2 = useAppSelector((state) => state.test.mode2);
   const isInputFocused = useAppSelector((state) => state.test.isInputFocused);
 
-  // increment timer by 1 if isRunning is true
   useEffect(() => {
     let id: NodeJS.Timer;
     if (isRunning) {
@@ -45,22 +42,16 @@ function TestBox() {
   }, [isRunning, dispatch, mode2]);
 
   const processInput = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    // if (
-    //   currentWordIndex === wordsList.length ||
-    //   (mode2 === "time" && timerCount >= time)
-    // ) {
-    //   return;
-    // }
     const isCharacter = /^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/ ?]$/.test(
       e.key
     );
-    // if test is not running, start it
+    
     if (isCharacter && !isRunning) {
       dispatch(startTest());
     }
+
     if (isCharacter || e.key === "Backspace") {
       dispatch(setUserText(e.key));
-      // dispatch(calculateWMP());
     }
   };
 
@@ -80,6 +71,7 @@ function TestBox() {
         position: "relative",
       }}
     >
+      {/* 1/18 Word success typed */}
       <Stack
         sx={{
           opacity:
@@ -103,6 +95,7 @@ function TestBox() {
 
       <TestWords />
 
+      {/* Input to handle what user type */}
       <input
         ref={inputRef}
         autoCapitalize="off"
@@ -118,6 +111,7 @@ function TestBox() {
           dispatch(setInputFocus(false));
         }}
       />
+      {/* Tooltip Restart Test */}
       <Tooltip
         placement="left"
         componentsProps={{
