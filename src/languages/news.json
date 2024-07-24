@@ -3,7 +3,9 @@
   "leftToRight": true,
   "noLazyMode": true,
   "words": [
-    "Once upon a time, in a small town called Willowbrook, there lived a curious young boy named Timmy. Timmy’s father, Mr. Thompson, was a kind and hardworking man who often wore a special tie, but Timmy didn’t quite understand why it was so important to him",
-    "With excitement in his eyes, Timmy carefully put the tie around his neck and, to his surprise."
+    {
+      "text": "With excitement in his eyes,",
+      "fill": [0, 2]
+    }
   ]
 }

@@ -155,7 +155,7 @@ const LetterComponent = ({ letter }: { letter: Letter }) => {
         marginRight: "1px",
       }}
     >
-      {letter.letter}
+      {letter.hidden ? '_' : letter.letter}
     </Box>
   );
 };

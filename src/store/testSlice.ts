@@ -20,16 +20,20 @@ export const quoteLengthOptions: quoteLengthOptionsType[] = [
   "search",
 ];
 
-function createLetters(words: string[]): Letter[][] {
-  return words.map((word, i) => {
+function createLetters(words: { text: string, fill: number[] }): Letter[][] {
+  const text = words.text.split(" ")
+
+  // Iterate list of word
+  return text.map((word, i) => {
     const letters = word.split("");
     return letters.map((l, j) => ({
-      hidden: true,
+      hidden: words.fill.includes(i),
       letter: l,
       status: "untouched",
       charIndex: j,
       wordIndex: i,
-    }));
+    })
+    );
   });
 }
 
@@ -71,8 +75,6 @@ export interface TestState {
   wpm: number;
   searchQuoteModal: boolean;
   currentCharIndex: number;
-  // current: string;
-  // history: string[];
   punctuation: boolean;
   numbers: boolean;
   mode2: Mode2;
@@ -97,7 +99,7 @@ const randomizedWords = [...english.words].sort(() => Math.random() - 0.5);
 
 const initialState: TestState = {
   wordsList: randomizedWords,
-  currentWords: createLetters(randomizedWords),
+  currentWords: createLetters(news.words[0]),
   isRunning: false,
   time: 30,
   timerCount: 0,
@@ -139,7 +141,7 @@ export const testSlice = createSlice({
       state.rawHistory = [];
       state.currentCharIndex = 0;
       state.caretPosition = {
-        top: 5  ,
+        top: 5,
         left: 0,
       };
       state.startTime = new Date();
@@ -153,16 +155,16 @@ export const testSlice = createSlice({
         state.quoteLength === "search"
           ? state.wordsList
           : getWords(
-              state.punctuation,
-              state.numbers,
-              state.mode2,
-              state.time,
-              state.wordLength,
-              state.quoteLength
-            );
+            state.punctuation,
+            state.numbers,
+            state.mode2,
+            state.time,
+            state.wordLength,
+            state.quoteLength
+          );
 
       // Fill with new word list
-      state.currentWords = createLetters(news.words[1].split(' '));
+      state.currentWords = createLetters(news.words[0]);
       state.wpm = 0;
       state.showResult = false;
       state.wpmHistory = [];
@@ -176,6 +178,7 @@ export const testSlice = createSlice({
       state.isInputFocused = true;
 
     },
+
     stopTest: (state) => {
       state.isRunning = false;
       state.showResult = true;
@@ -185,6 +188,7 @@ export const testSlice = createSlice({
       };
       state.startTime = null;
     },
+
     setUserText: (state, action: PayloadAction<string>) => {
       if (!state.isRunning) return;
 
@@ -326,8 +330,8 @@ export const testSlice = createSlice({
       const wpm = Math.ceil(charsTyped.correct / 4 / (timeElapsed / 60));
       const rawWpm = Math.ceil(
         (charsTyped.correct + charsTyped.wrong + charsTyped.extra) /
-          4 /
-          (timeElapsed / 60)
+        4 /
+        (timeElapsed / 60)
       );
       state.wpmHistory.push({
         time: timeElapsed,
