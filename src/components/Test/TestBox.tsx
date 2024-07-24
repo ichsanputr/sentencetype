@@ -51,6 +51,7 @@ function TestBox() {
     }
 
     if (isCharacter || e.key === "Backspace") {
+      // Set user text
       dispatch(setUserText(e.key));
     }
   };

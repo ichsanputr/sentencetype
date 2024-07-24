@@ -193,8 +193,8 @@ export const testSlice = createSlice({
       if (!state.isRunning) return;
 
       const typedLetter = action.payload;
-      const expectedLetter =
-        state.currentWords[state.currentWordIndex][state.currentCharIndex];
+      console.log(action.payload)
+      const expectedLetter = state.currentWords[state.currentWordIndex][state.currentCharIndex];
 
       if (typedLetter === "Backspace") {
         if (state.currentCharIndex === 0) {
@@ -254,6 +254,10 @@ export const testSlice = createSlice({
         state.currentWords[state.currentWordIndex][
           state.currentCharIndex
         ].status = "correct";
+
+        state.currentWords[state.currentWordIndex][
+          state.currentCharIndex
+        ].hidden = false;
       } else {
         state.currentWords[state.currentWordIndex][
           state.currentCharIndex
