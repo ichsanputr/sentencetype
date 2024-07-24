@@ -2,7 +2,6 @@ export type TimeOptionsType = 15 | 30 | 60 | 120;
 
 export type Mode = "punctuation" | "numbers";
 
-// export type Mode2 = "time" | "words" | "quote";
 export enum Mode2 {
   conversation = "conversation",
   story = "story",
@@ -37,6 +36,7 @@ export type HistoryType = {
 
 
 export interface Letter {
+  hidden: boolean;
   letter: string;
   status: "correct" | "wrong" | "extra" | "untouched";
   wordIndex: number;

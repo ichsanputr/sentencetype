@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import React, { useCallback, useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { Letter } from "../../typings";
-import {  setCaretPosition, setInputFocus } from "../../store/testSlice";
+import { setCaretPosition, setInputFocus } from "../../store/testSlice";
 
 const LINE_HEIGHT = 40;
 
@@ -142,7 +142,7 @@ const LetterComponent = ({ letter }: { letter: Letter }) => {
     untouched: theme.sub.main,
     extra: theme.error.extra,
   };
-
+  
   return (
     <Box
       ref={letterRef}

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import english from "../languages/english.json";
+import news from "../languages/news.json";
 import { RootState } from "./store";
 import { getWords } from "../util/modeHelpers";
 import {
@@ -23,6 +24,7 @@ function createLetters(words: string[]): Letter[][] {
   return words.map((word, i) => {
     const letters = word.split("");
     return letters.map((l, j) => ({
+      hidden: true,
       letter: l,
       status: "untouched",
       charIndex: j,
@@ -158,7 +160,9 @@ export const testSlice = createSlice({
               state.wordLength,
               state.quoteLength
             );
-      state.currentWords = createLetters(state.wordsList);
+
+      // Fill with new word list
+      state.currentWords = createLetters(news.words[1].split(' '));
       state.wpm = 0;
       state.showResult = false;
       state.wpmHistory = [];
@@ -232,6 +236,7 @@ export const testSlice = createSlice({
         state.currentCharIndex
       ) {
         state.currentWords[state.currentWordIndex].push({
+          hidden: true,
           letter: typedLetter,
           status: "extra",
           wordIndex: state.currentWordIndex,
