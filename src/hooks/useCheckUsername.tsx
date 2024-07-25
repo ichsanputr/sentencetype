@@ -9,10 +9,7 @@ function useCheckUsername() {
   const [isValid, setIsValid] = React.useState(false);
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value.toLowerCase();
-    // force form  value typed in form to match correct format
     const re = /^(?=[a-zA-Z0-9._]{3,15}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
-
-    // only set form value if length is <3 or it passes regex
 
     if (val.length < 3) {
       setUsername(val);
@@ -28,8 +25,6 @@ function useCheckUsername() {
 
   useEffect(() => {
     checkUsername(username);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [username]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
