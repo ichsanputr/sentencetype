@@ -2,9 +2,10 @@ import { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
-import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import {PersonAddAltRounded, Google} from "@mui/icons-material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, firestore } from "../../util/firebase";
+import { auth, firestore, googleAuthProvider } from "../../util/firebase";
 import { collection, doc, writeBatch } from "firebase/firestore";
 import useCheckUsername from "../../hooks/useCheckUsername";
 import {
@@ -12,7 +13,7 @@ import {
   StyledLoginButton,
   validateEmail,
   validatePassword,
-} from "./Login";
+} from "./Register";
 
 function RegisterForm() {
   const theme = useTheme();
@@ -21,6 +22,7 @@ function RegisterForm() {
   const [verifyEmail, setVerifyEmail] = useState("");
   const [verifyPassword, setVerifyPassword] = useState("");
   const { username, isValid, loading, onChange } = useCheckUsername();
+  const [showUsernameModal, setShowUsernameModal] = useState(false);
 
   async function registerHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -49,15 +51,27 @@ function RegisterForm() {
     }
   }
 
+  async function signInWithGoogle() {
+    try {
+      await signInWithPopup(auth, googleAuthProvider);
+      setShowUsernameModal(true);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   return (
     <Box
       bgcolor={"transparent"}
       display="flex"
       flexDirection={"column"}
-      width={"240px"}
+      width={"340px"}
     >
-      <Typography color={theme.text.main} variant="h6">
-        register
+      <Typography color={theme.text.main} variant="h6" sx={{
+        marginBottom: "1rem",
+        fontSize: "1.5rem"
+      }}>
+        Register to CatSentence
       </Typography>
       <form
         onSubmit={registerHandler}
@@ -76,8 +90,8 @@ function RegisterForm() {
               ? loading
                 ? "loading"
                 : isValid
-                ? "correct"
-                : "wrong"
+                  ? "correct"
+                  : "wrong"
               : undefined
           }
           message={
@@ -144,8 +158,21 @@ function RegisterForm() {
           message="passwords must match"
         />
         <StyledLoginButton type={"submit"}>
-          <PersonAddAltRoundedIcon />
+          <PersonAddAltRounded />
           Sign Up
+        </StyledLoginButton>
+        <span
+          style={{
+            margin: "4px auto",
+            color: theme.text.main,
+            fontSize: "0.75rem",
+          }}
+        >
+          or
+        </span>
+        <StyledLoginButton onClick={signInWithGoogle}>
+          <Google />
+          Google Sign Up
         </StyledLoginButton>
       </form>
     </Box>

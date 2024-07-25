@@ -16,6 +16,7 @@ import {
 } from "react-router-dom";
 import Test from "./components/Test/Test";
 import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
 import { UserContext, UserContextProvider } from "./store/userContext";
 import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
 import { auth } from "./util/firebase";
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Test /> },
       { path: "/login", element: <Login /> },
+      { path: "/register", element: <Register /> },
       { path: "*", element: "Not Found" },
     ],
   },

@@ -9,7 +9,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Tooltip from "@mui/material/Tooltip";
 import { UserContext } from "../../store/userContext";
 import { useNavigate } from "react-router-dom";
-import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
 
 export const validateEmail = (email: string) => {
   return email.match(
@@ -21,7 +21,7 @@ export const validatePassword = (password: string) => {
   return password.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
 };
 
-function Login() {
+function Register() {
   const { username } = useContext(UserContext);
   const navigate = useNavigate();
   useEffect(() => {
@@ -43,7 +43,7 @@ function Login() {
         gap: "3rem",
       }}
     >
-      <LoginForm />
+      <RegisterForm />
     </Box>
   );
 }
@@ -129,4 +129,4 @@ export const StyledLoginButton = styled("button")(({ theme }) => ({
   },
 }));
 
-export default Login;
+export default Register;

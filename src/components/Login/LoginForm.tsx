@@ -2,8 +2,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import React, { useState, useEffect, useContext } from "react";
-import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
-import GoogleIcon from "@mui/icons-material/Google";
+import {LoginRounded, Google} from "@mui/icons-material";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleAuthProvider } from "../../util/firebase";
 import UsernameModal from "./UsernameModal";
@@ -43,10 +42,13 @@ function LoginForm() {
       bgcolor={"transparent"}
       display="flex"
       flexDirection={"column"}
-      width={"240px"}
+      width={"340px"}
     >
-      <Typography color={theme.text.main} variant="h6">
-        login
+      <Typography color={theme.text.main} sx={{
+        marginBottom: "1rem",
+        fontSize: "1.5rem"
+      }} variant="h6">
+        Login to CatSentence
       </Typography>
       <form
         onSubmit={submitHandler}
@@ -71,7 +73,7 @@ function LoginForm() {
           status={undefined}
         />
         <StyledLoginButton>
-          <LoginRoundedIcon />
+          <LoginRounded />
           Sign In
         </StyledLoginButton>
         <span
@@ -84,7 +86,7 @@ function LoginForm() {
           or
         </span>
         <StyledLoginButton onClick={signInWithGoogle}>
-          <GoogleIcon />
+          <Google />
           Google Sign In
         </StyledLoginButton>
       </form>
