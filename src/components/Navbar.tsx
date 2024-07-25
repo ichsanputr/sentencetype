@@ -1,7 +1,7 @@
 import React from "react";
 import MemoMtLogo from "./MtLogo";
 import { Box, IconButton, Stack, Typography, useTheme } from "@mui/material";
-import { PersonRounded, KeyboardRounded, Logout, History } from "@mui/icons-material";
+import { PersonRounded, KeyboardRounded, Logout, History, Login } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../store/store";
 import { resetTest } from "../store/testSlice";
@@ -22,7 +22,6 @@ function Navbar() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { username } = React.useContext(UserContext);
-
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -31,6 +30,10 @@ function Navbar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const navigateLogin = () => {
+    navigate("/login")
+  }
 
   return (
     <Stack
@@ -174,7 +177,7 @@ function Navbar() {
                 },
               }}
             >
-              <PersonRounded fontSize="medium" />
+              <Avatar sx={{ width: 24, height: 24 }}>M</Avatar>
             </IconButton>
           </Tooltip>
         </Box>
@@ -213,28 +216,43 @@ function Navbar() {
           transformOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon>
-              <PersonRounded fontSize="small" />
-            </ListItemIcon>
-            Profile
-          </MenuItem>
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon>
-              <History fontSize="small" />
-            </ListItemIcon>
-            History
-          </MenuItem>
+          {username && (
+            <MenuItem onClick={handleClose}>
+              <ListItemIcon>
+                <PersonRounded fontSize="small" />
+              </ListItemIcon>
+              Profile
+            </MenuItem>
+          )}
+          {
+            username && (
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <History fontSize="small" />
+                </ListItemIcon>
+                History
+              </MenuItem>
+            )
+          }
           <Divider />
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon>
-              <Logout fontSize="small" />
-            </ListItemIcon>
-            Logout
-          </MenuItem>
+          {username ? (
+            <MenuItem onClick={handleClose}>
+              <ListItemIcon>
+                <Logout fontSize="small" />
+              </ListItemIcon>
+              Logout
+            </MenuItem>
+          ) : (
+            <MenuItem onClick={navigateLogin}>
+              <ListItemIcon>
+                <Login fontSize="small" />
+              </ListItemIcon>
+              Login
+            </MenuItem>
+          )}
         </Menu>
       </Stack>
-    </Stack>
+    </Stack >
   );
 }
 
