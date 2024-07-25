@@ -266,29 +266,19 @@ export const testSlice = createSlice({
       }
 
       if (state.currentWords[state.currentWordIndex].length === state.currentCharIndex) {
-        // extra letter
-        // state.currentWords[state.currentWordIndex].push({
-        //   hidden: false,
-        //   letter: typedLetter,
-        //   status: "extra",
-        //   wordIndex: state.currentWordIndex,
-        //   charIndex: state.currentCharIndex,
-        // });
-
-        // state.currentCharIndex += 1;
         return;
       }
-
-      // show real letter
-      state.currentWords[state.currentWordIndex][
-        state.currentCharIndex
-      ].hidden = false;
 
       // checking typed letter user 
       if (expectedLetter.letter === typedLetter) {
         state.currentWords[state.currentWordIndex][
           state.currentCharIndex
         ].status = "correct";
+
+        // show real letter
+        state.currentWords[state.currentWordIndex][
+          state.currentCharIndex
+        ].hidden = false;
 
         if (state.currentWordIndex + 1 === state.wordsList.length && state.currentCharIndex === state.currentWords[state.currentWordIndex].length - 1) {
           state.showResult = true

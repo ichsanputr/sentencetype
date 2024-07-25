@@ -1,19 +1,37 @@
 import React from "react";
 import MemoMtLogo from "./MtLogo";
 import { Box, IconButton, Stack, Typography, useTheme } from "@mui/material";
-import { PersonRounded, KeyboardRounded, Logout } from "@mui/icons-material";
+import { PersonRounded, KeyboardRounded, Logout, History } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../store/store";
 import { resetTest } from "../store/testSlice";
 import { UserContext } from "../store/userContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../util/firebase";
+import Avatar from '@mui/material/Avatar';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Divider from '@mui/material/Divider';
+import Tooltip from '@mui/material/Tooltip';
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import Settings from '@mui/icons-material/Settings';
 
 function Navbar() {
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { username } = React.useContext(UserContext);
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <Stack
       padding={" 5px 0"}
@@ -93,7 +111,7 @@ function Navbar() {
         >
           <KeyboardRounded fontSize="medium" />
         </IconButton>
-        <Box
+        {/* <Box
           sx={{
             color: theme.sub.main,
             transition: "color 0.2s",
@@ -141,7 +159,80 @@ function Navbar() {
           ) : (
             <PersonRounded fontSize="medium" />
           )}
-        </IconButton>
+        </IconButton> */}
+
+        <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+          <Tooltip title="Settings & Other">
+            <IconButton
+              onClick={handleClick}
+              tabIndex={-1}
+              sx={{
+                color: theme.sub.main,
+                transition: "color 0.2s",
+                "&:hover": {
+                  color: theme.text.main,
+                },
+              }}
+            >
+              <PersonRounded fontSize="medium" />
+            </IconButton>
+          </Tooltip>
+        </Box>
+        <Menu
+          anchorEl={anchorEl}
+          id="account-menu"
+          open={open}
+          onClose={handleClose}
+          onClick={handleClose}
+          PaperProps={{
+            elevation: 0,
+            sx: {
+              overflow: 'visible',
+              filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+              mt: 1.5,
+              '& .MuiAvatar-root': {
+                width: 32,
+                height: 32,
+                ml: -0.5,
+                mr: 1,
+              },
+              '&::before': {
+                content: '""',
+                display: 'block',
+                position: 'absolute',
+                top: 0,
+                right: 14,
+                width: 10,
+                height: 10,
+                bgcolor: 'background.paper',
+                transform: 'translateY(-50%) rotate(45deg)',
+                zIndex: 0,
+              },
+            },
+          }}
+          transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        >
+          <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <PersonRounded fontSize="small" />
+            </ListItemIcon>
+            Profile
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <History fontSize="small" />
+            </ListItemIcon>
+            History
+          </MenuItem>
+          <Divider />
+          <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            Logout
+          </MenuItem>
+        </Menu>
       </Stack>
     </Stack>
   );

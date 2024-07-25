@@ -3,11 +3,12 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import {PersonAddAltRounded, Google} from "@mui/icons-material";
+import { PersonAddAltRounded, Google } from "@mui/icons-material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, firestore, googleAuthProvider } from "../../util/firebase";
 import { collection, doc, writeBatch } from "firebase/firestore";
 import useCheckUsername from "../../hooks/useCheckUsername";
+import { useNavigate } from "react-router-dom";
 import {
   LoginInput,
   StyledLoginButton,
@@ -19,14 +20,14 @@ function RegisterForm() {
   const theme = useTheme();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [verifyEmail, setVerifyEmail] = useState("");
   const [verifyPassword, setVerifyPassword] = useState("");
   const { username, isValid, loading, onChange } = useCheckUsername();
   const [showUsernameModal, setShowUsernameModal] = useState(false);
+  const navigate = useNavigate()
 
   async function registerHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!email || !password || !username || !verifyEmail || !verifyPassword) {
+    if (!email || !password || !username || !verifyPassword) {
       return;
     }
 
@@ -114,18 +115,6 @@ function RegisterForm() {
           message={"invalid email"}
         />
         <LoginInput
-          value={verifyEmail}
-          onChange={(e) => setVerifyEmail(e.target.value)}
-          placeholder="verify email"
-          status={
-            email.length > 0
-              ? email === verifyEmail
-                ? "correct"
-                : "wrong"
-              : undefined
-          }
-        />
-        <LoginInput
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           type="password"
@@ -147,7 +136,7 @@ function RegisterForm() {
           value={verifyPassword}
           type={"password"}
           onChange={(e) => setVerifyPassword(e.target.value)}
-          placeholder="verify password"
+          placeholder="retype password"
           status={
             password.length > 0
               ? password === verifyPassword
@@ -161,6 +150,21 @@ function RegisterForm() {
           <PersonAddAltRounded />
           Sign Up
         </StyledLoginButton>
+        <span
+          style={{
+            margin: "8px 0",
+            color: theme.text.main,
+            fontSize: "0.75rem",
+          }}
+        >
+          Already have account? <span onClick={() => { navigate('/login') }} style={{
+            margin: "4px 0",
+            color: theme.text.main,
+            fontSize: "0.75rem",
+            textDecoration: "underline",
+            cursor: "pointer"
+          }}>Login</span>
+        </span>
         <span
           style={{
             margin: "4px auto",

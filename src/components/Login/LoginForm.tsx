@@ -2,12 +2,13 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import React, { useState, useEffect, useContext } from "react";
-import {LoginRounded, Google} from "@mui/icons-material";
+import { LoginRounded, Google } from "@mui/icons-material";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleAuthProvider } from "../../util/firebase";
 import UsernameModal from "./UsernameModal";
 import { LoginInput, StyledLoginButton } from "./Login";
 import { UserContext } from "../../store/userContext";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
   const theme = useTheme();
@@ -15,6 +16,7 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [showUsernameModal, setShowUsernameModal] = useState(false);
   const { user, username, loading } = useContext(UserContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!loading && user && !username) {
@@ -76,6 +78,21 @@ function LoginForm() {
           <LoginRounded />
           Sign In
         </StyledLoginButton>
+        <span
+          style={{
+            margin: "8px 0",
+            color: theme.text.main,
+            fontSize: "0.75rem",
+          }}
+        >
+          Does'nt have account? <span onClick={() => { navigate('/register') }} style={{
+            margin: "4px 0",
+            color: theme.text.main,
+            fontSize: "0.75rem",
+            textDecoration: "underline",
+            cursor: "pointer"
+          }}>Register</span>
+        </span>
         <span
           style={{
             margin: "4px auto",
