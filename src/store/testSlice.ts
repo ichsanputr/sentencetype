@@ -208,7 +208,6 @@ export const testSlice = createSlice({
 
       const typedLetter = action.payload;
       const expectedLetter = state.currentWords[state.currentWordIndex][state.currentCharIndex];
-      console.log(state.currentWords[state.currentWordIndex])
 
       if (typedLetter === "Backspace") {
         if (state.currentCharIndex === 0) {
@@ -242,12 +241,22 @@ export const testSlice = createSlice({
 
       // space handle
       if (typedLetter === " ") {
-        if (state.currentCharIndex === 0) {
+        if (state.currentCharIndex === 0 || state.currentCharIndex != state.currentWords[state.currentWordIndex].length) {
           return;
         }
 
-        state.currentWordIndex += 1;
-        state.currentCharIndex = 0;
+        let anyWrong = false;
+
+        for (let i = 0; i < state.currentCharIndex; i++) {
+          if (state.currentWords[state.currentWordIndex][i].status == "wrong") {
+            anyWrong = true
+          }
+        }
+
+        if (!anyWrong) {
+          state.currentWordIndex += 1;
+          state.currentCharIndex = 0;
+        }
 
         return;
       }
