@@ -258,14 +258,14 @@ export const testSlice = createSlice({
         return;
       }
 
+      state.currentWords[state.currentWordIndex][
+        state.currentCharIndex
+      ].hidden = false;
+
       if (expectedLetter.letter === typedLetter) {
         state.currentWords[state.currentWordIndex][
           state.currentCharIndex
         ].status = "correct";
-
-        state.currentWords[state.currentWordIndex][
-          state.currentCharIndex
-        ].hidden = false;
       } else {
         state.currentWords[state.currentWordIndex][
           state.currentCharIndex
