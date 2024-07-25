@@ -1,6 +1,3 @@
-// This code is the main component of the app, it renders the Navbar, the footer and the content of the page.
-// AppWithTheme is a wrapper that adds the theme provider to the app. The theme is set in the store.
-
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import "./App.css";
 import { Box, Container } from "@mui/material";

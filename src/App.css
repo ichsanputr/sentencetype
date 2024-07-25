@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+
+.second {
+  font-size:40px;
+}
+
+.result-word {
+  margin-right: 8px;
+}
+
+.word-highlight {
+  font-weight: 600;
+  font-size: 28px;
+  text-decoration: underline;
+}
+
+p {
+  line-height: 2.5rem !important;
+}

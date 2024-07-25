@@ -5,7 +5,6 @@ import news from "../languages/news.json";
 import story from "../languages/story.json";
 import conversation from "../languages/conversation.json";
 import { RootState } from "./store";
-import { getWords } from "../util/modeHelpers";
 import {
   Letter,
   Mode2,
@@ -68,6 +67,7 @@ interface caretPosition {
 }
 
 export interface TestState {
+  fillWord: number[],
   isRunning: boolean;
   wordsList: string[];
   currentWords: Letter[][];
@@ -103,6 +103,7 @@ const randomizedWords = [...english.words].sort(() => Math.random() - 0.5);
 const initialState: TestState = {
   wordsList: randomizedWords,
   currentWords: createLetters(news.words[0]),
+  fillWord: [],
   isRunning: false,
   time: 30,
   timerCount: 0,
@@ -165,19 +166,19 @@ export const testSlice = createSlice({
       //     );
 
       // Fill with new word list
+      let words: any;
+
       if (state.mode2 == "conversation") {
-        const words = conversation.words[getRandomInt(conversation.words.length)]
-        state.wordsList = words.text.split(" ")
-        state.currentWords = createLetters(words);
+        words = conversation.words[getRandomInt(conversation.words.length)]
       } else if (state.mode2 == "story") {
-        const words = story.words[getRandomInt(conversation.words.length)]
-        state.wordsList = words.text.split(" ")
-        state.currentWords = createLetters(words);
+        words = story.words[getRandomInt(conversation.words.length)]
       } else if (state.mode2 == "news") {
-        const words = news.words[getRandomInt(conversation.words.length)]
-        state.wordsList = words.text.split(" ")
-        state.currentWords = createLetters(words);
+        words = news.words[getRandomInt(conversation.words.length)]
       }
+
+      state.wordsList = words!.text.split(" ")
+      state.currentWords = createLetters(words!);
+      state.fillWord = words!.fill
 
       state.wpm = 0;
       state.showResult = false;
@@ -190,7 +191,6 @@ export const testSlice = createSlice({
       };
       state.startTime = null;
       state.isInputFocused = true;
-
     },
 
     stopTest: (state) => {
@@ -212,30 +212,34 @@ export const testSlice = createSlice({
       if (typedLetter === "Backspace") {
         if (state.currentCharIndex === 0) {
           if (state.currentWordIndex === 0) return;
+          console.log(9999)
           state.currentWordIndex -= 1;
           let newCharIndex = state.currentWords[state.currentWordIndex].length;
 
-          while (
-            state.currentWords[state.currentWordIndex][newCharIndex - 1]
-              .status === "untouched"
-          ) {
-            newCharIndex--;
-          }
+          // while (
+          //   state.currentWords[state.currentWordIndex][newCharIndex - 1]
+          //     .status === "untouched"
+          // ) {
+          //   newCharIndex -= 2;
+          // }
           state.currentCharIndex = newCharIndex;
           return;
-        }
-        state.currentCharIndex -= 1;
-        const isExtra =
-          state.currentWords[state.currentWordIndex][state.currentCharIndex]
-            .status === "extra";
+        } else {
+          state.currentCharIndex -= 1;
 
-        if (isExtra) {
-          state.currentWords[state.currentWordIndex].pop();
-          return;
+          const isExtra =
+            state.currentWords[state.currentWordIndex][state.currentCharIndex]
+              .status === "extra";
+
+          if (isExtra) {
+            state.currentWords[state.currentWordIndex].pop();
+            return;
+          }
+          state.currentWords[state.currentWordIndex][
+            state.currentCharIndex
+          ].status = "untouched";
         }
-        state.currentWords[state.currentWordIndex][
-          state.currentCharIndex
-        ].status = "untouched";
+
         return;
       }
 
@@ -261,29 +265,34 @@ export const testSlice = createSlice({
         return;
       }
 
-      if (
-        state.currentWords[state.currentWordIndex].length ===
-        state.currentCharIndex
-      ) {
-        state.currentWords[state.currentWordIndex].push({
-          hidden: true,
-          letter: typedLetter,
-          status: "extra",
-          wordIndex: state.currentWordIndex,
-          charIndex: state.currentCharIndex,
-        });
-        state.currentCharIndex += 1;
+      if (state.currentWords[state.currentWordIndex].length === state.currentCharIndex) {
+        // extra letter
+        // state.currentWords[state.currentWordIndex].push({
+        //   hidden: false,
+        //   letter: typedLetter,
+        //   status: "extra",
+        //   wordIndex: state.currentWordIndex,
+        //   charIndex: state.currentCharIndex,
+        // });
+
+        // state.currentCharIndex += 1;
         return;
       }
 
+      // show real letter
       state.currentWords[state.currentWordIndex][
         state.currentCharIndex
       ].hidden = false;
 
+      // checking typed letter user 
       if (expectedLetter.letter === typedLetter) {
         state.currentWords[state.currentWordIndex][
           state.currentCharIndex
         ].status = "correct";
+
+        if (state.currentWordIndex + 1 === state.wordsList.length && state.currentCharIndex === state.currentWords[state.currentWordIndex].length - 1) {
+          state.showResult = true
+        }
       } else {
         state.currentWords[state.currentWordIndex][
           state.currentCharIndex

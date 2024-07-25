@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid, Stack, Tooltip, Typography, useTheme } from "@mui/material";
+import { Box, Grid, Tooltip, Typography, useTheme } from "@mui/material";
 import IconButton from "@mui/material/IconButton/IconButton";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useAppDispatch, useAppSelector } from "../../store/store";
@@ -8,62 +8,20 @@ import {
   resetTest,
   wpmSelector,
 } from "../../store/testSlice";
-import WpmChart from "./WpmChart";
-const StatBox = ({
-  title,
-  value,
-}: {
-  title: string;
-  value: string | number;
-}) => {
-  const theme = useTheme();
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-start",
-      }}
-    >
-      <Typography
-        sx={{
-          fontSize: "1rem",
-          lineHeight: "1",
-          paddingBottom: "4px",
-        }}
-        color={theme.sub.main}
-      >
-        {title}
-      </Typography>
-      <Typography
-        sx={{
-          fontSize: "2rem",
-          lineHeight: "1",
-        }}
-        color={theme.main.main}
-      >
-        {value}
-      </Typography>
-    </Box>
-  );
-};
 
 function TestResult() {
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const wpm = useAppSelector(wpmSelector);
-  const mode2 = useAppSelector((state) => state.test.mode2);
-  const time = useAppSelector((state) => state.test.time);
   const rawWpm = useAppSelector(rawWpmSelector);
-  const accuracy = Math.round(wpm/rawWpm * 100);
+  const accuracy = Math.round(wpm / rawWpm * 100);
   const timerCount = useAppSelector((state) => state.test.timerCount);
-  const wordLength = useAppSelector((state) => state.test.wordLength);
-  const quoteLength = useAppSelector((state) => state.test.quoteLength);
+  const sentence = useAppSelector((state) => state.test.wordsList);
+  const fillWord = useAppSelector((state) => state.test.fillWord);
 
   return (
     <Box
       sx={{
-        // justifySelf: "center",
         margin: "auto 0",
         display: "flex",
         flexDirection: "column",
@@ -76,6 +34,7 @@ function TestResult() {
             flexDirection: "column",
             justifyContent: "space-between",
             padding: 0,
+            gap: 3
           }}
           item
           xs={12}
@@ -84,30 +43,53 @@ function TestResult() {
           <Box display={"flex"} flexDirection={"column"} >
             <Typography
               sx={{
-                fontSize: "2rem",
+                fontSize: "1.75rem",
                 lineHeight: "1",
               }}
               variant="h4"
               color={theme.sub.main}
             >
-              wpm
+              words
             </Typography>
             <Typography
               sx={{
-                fontSize: "4rem",
+                fontSize: "3.5rem",
                 lineHeight: "1",
                 marginBottom: "0.5rem",
               }}
               variant="h2"
               color={theme.main.main}
             >
-              {Math.round(wpm)}
+              {sentence.length}
+            </Typography>
+          </Box>
+          <Box display={"flex"} flexDirection={"column"} >
+            <Typography
+              sx={{
+                fontSize: "1.75rem",
+                lineHeight: "1",
+              }}
+              variant="h4"
+              color={theme.sub.main}
+            >
+              time
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: "3.5rem",
+                lineHeight: "1",
+                marginBottom: "0.5rem",
+              }}
+              variant="h2"
+              color={theme.main.main}
+            >
+              {timerCount.toString()}<span className="second">s</span>
             </Typography>
           </Box>
           <Box marginBottom={"1rem"}  >
             <Typography
               sx={{
-                fontSize: "2rem",
+                fontSize: "1.75rem",
                 lineHeight: "1",
               }}
               variant="h4"
@@ -117,7 +99,7 @@ function TestResult() {
             </Typography>
             <Typography
               sx={{
-                fontSize: "4rem",
+                fontSize: "3.5rem",
                 lineHeight: "1",
               }}
               variant="h2"
@@ -126,92 +108,75 @@ function TestResult() {
               {accuracy}%
             </Typography>
           </Box>
-          <Box>
+        </Grid>
+        <Grid item xs={12} md={10} sx={{
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "column",
+          alignItems: "center"
+        }}>
+          <Box boxSizing={"border-box"}>
             <Typography
               sx={{
-                fontSize: "1rem",
+                fontSize: "1.5rem",
                 lineHeight: "1",
                 paddingBottom: "4px",
-              }}
-              variant="body1"
-              color={theme.sub.main}
-            >
-              test type
-            </Typography>
-            {/* <Typography
-              sx={{
-                fontSize: "1rem",
-                lineHeight: "1",
+                wordBreak: "break-word",
+                textAlign: "center",
               }}
               color={theme.main.main}
             >
-              {mode2}&nbsp;
-              {mode2 === "time"
-                ? time
-                : mode2 === "words"
-                ? wordLength
-                : quoteLength}
-            </Typography> */}
+              {sentence.map((v, i) => (
+                <span className={fillWord.includes(i) ? 'result-word word-highlight' : 'result-word'}>
+                  {v}
+                </span>
+              ))}
+            </Typography>
           </Box>
-        </Grid>
-        <Grid item xs={12} md={10}>
-          <Box height={"220px"} boxSizing={"border-box"}>
-            <WpmChart />
+          <Box>
+            <Tooltip
+              componentsProps={{
+                tooltip: {
+                  sx: {
+                    backgroundColor: theme.sub.alt,
+                    color: theme.main.main,
+                    fontSize: "1rem",
+                    padding: "4px 1rem",
+                  },
+                },
+                arrow: {
+                  sx: {
+                    color: theme.sub.alt,
+                  },
+                },
+              }}
+              arrow
+              title="Next test"
+            >
+              <IconButton
+                tabIndex={1}
+                onClick={() => {
+                  dispatch(resetTest());
+                  // inputRef.current?.focus();
+                }}
+                focusRipple={true}
+                sx={{
+                  margin: "1.5rem auto",
+                  padding: "8px 0.75rem",
+                  borderRadius: "20px",
+                  color: theme.sub.main,
+                  "&:hover": {
+                    backgroundColor: theme.main.main,
+                    color: theme.sub.alt,
+                  },
+                }}
+              >
+                <NavigateNextIcon fontSize="large" />
+              </IconButton>
+            </Tooltip>
           </Box>
-          <Stack
-            width={"100%"}
-            direction={"row"}
-            justifyContent={"space-evenly"}
-            marginTop={"1rem"}
-          >
-            <StatBox title={"raw"} value={rawWpm} />
-            {/* <StatBox title={"consistency"} value={"82%"} /> */}
-            <StatBox title={"time"} value={timerCount.toString() + "s"} />
-            {/* <StatBox title={"raw"} value={"85"} /> */}
-          </Stack>
         </Grid>
       </Grid>
-      <Tooltip
-        componentsProps={{
-          tooltip: {
-            sx: {
-              backgroundColor: theme.sub.alt,
-              color: theme.main.main,
-              fontSize: "1rem",
-              padding: "4px 1rem",
-            },
-          },
-          arrow: {
-            sx: {
-              color: theme.sub.alt,
-            },
-          },
-        }}
-        arrow
-        title="Next test"
-      >
-        <IconButton
-          tabIndex={1}
-          onClick={() => {
-            dispatch(resetTest());
-            // inputRef.current?.focus();
-          }}
-          focusRipple={false}
-          disableRipple
-          sx={{
-            margin: "1.5rem auto",
-            padding: "8px 2rem",
-            borderRadius: "20px",
-            color: theme.sub.main,
-            "&:active": {
-              backgroundColor: theme.main.main,
-              color: theme.sub.alt,
-            },
-          }}
-        >
-          <NavigateNextIcon fontSize="large" />
-        </IconButton>
-      </Tooltip>
     </Box>
   );
 }
