@@ -71,7 +71,7 @@ function Navbar() {
               learn english
             </Typography>
             <Typography fontFamily="Comfortaa" color={theme.text.main} variant="h4">
-              sentencetype
+              catsentence
             </Typography>
           </Box>
         </Box>
