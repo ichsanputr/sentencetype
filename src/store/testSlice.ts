@@ -152,25 +152,31 @@ export const testSlice = createSlice({
       state.timerCount = 0;
       state.currentWordIndex = 0;
       state.correctWords = [];
-      state.wordsList =
-        state.quoteLength === "search"
-          ? state.wordsList
-          : getWords(
-            state.punctuation,
-            state.numbers,
-            state.mode2,
-            state.time,
-            state.wordLength,
-            state.quoteLength
-          );
+      // state.wordsList =
+      //   state.quoteLength === "search"
+      //     ? state.wordsList
+      //     : getWords(
+      //       state.punctuation,
+      //       state.numbers,
+      //       state.mode2,
+      //       state.time,
+      //       state.wordLength,
+      //       state.quoteLength
+      //     );
 
       // Fill with new word list
       if (state.mode2 == "conversation") {
-        state.currentWords = createLetters(conversation.words[getRandomInt(conversation.words.length)]);
+        const words = conversation.words[getRandomInt(conversation.words.length)]
+        state.wordsList = words.text.split(" ")
+        state.currentWords = createLetters(words);
       } else if (state.mode2 == "story") {
-        state.currentWords = createLetters(story.words[getRandomInt(story.words.length)]);
+        const words = story.words[getRandomInt(conversation.words.length)]
+        state.wordsList = words.text.split(" ")
+        state.currentWords = createLetters(words);
       } else if (state.mode2 == "news") {
-        state.currentWords = createLetters(news.words[getRandomInt(news.words.length)]);
+        const words = news.words[getRandomInt(conversation.words.length)]
+        state.wordsList = words.text.split(" ")
+        state.currentWords = createLetters(words);
       }
 
       state.wpm = 0;
@@ -201,8 +207,8 @@ export const testSlice = createSlice({
       if (!state.isRunning) return;
 
       const typedLetter = action.payload;
-      console.log(action.payload)
       const expectedLetter = state.currentWords[state.currentWordIndex][state.currentCharIndex];
+      console.log(state.currentWords[state.currentWordIndex])
 
       if (typedLetter === "Backspace") {
         if (state.currentCharIndex === 0) {
@@ -234,12 +240,15 @@ export const testSlice = createSlice({
         return;
       }
 
+      // space handle
       if (typedLetter === " ") {
         if (state.currentCharIndex === 0) {
           return;
         }
+
         state.currentWordIndex += 1;
         state.currentCharIndex = 0;
+
         return;
       }
 

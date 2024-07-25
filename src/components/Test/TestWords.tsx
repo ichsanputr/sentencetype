@@ -220,7 +220,7 @@ function TestWords() {
         }}
       >
         <Caret left={caretPosition.left} top={caretPosition.top} />
-        {currentWords.map((word, index) => (
+        {currentWords.map((word: any, index: number) => (
           <Box
             sx={{
               display: "flex",
