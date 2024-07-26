@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 import TestResult from "./TestResult";
 import ModesStack from "./ModesStack";
 import TestBox from "./TestBox";
-import QuotesModal from "../Modals/QuotesModal";
+import SentenceModal from "../Modals/SentenceModal";
 
 function Test() {
   const showResult = useAppSelector((state) => state.test.showResult);
@@ -17,7 +17,7 @@ function Test() {
         <>
           <ModesStack />
           <TestBox />
-          <QuotesModal />
+          <SentenceModal />
         </>
       )}
     </Box>

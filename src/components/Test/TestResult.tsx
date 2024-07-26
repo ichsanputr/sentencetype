@@ -31,7 +31,10 @@ function TestResult() {
         <Grid
           sx={{
             display: "flex",
-            flexDirection: "column",
+            flexDirection: {
+              xs: "row",
+              sm: "column"
+            },
             justifyContent: "space-between",
             padding: 0,
             gap: 3
@@ -43,7 +46,10 @@ function TestResult() {
           <Box display={"flex"} flexDirection={"column"} >
             <Typography
               sx={{
-                fontSize: "1.75rem",
+                fontSize: {
+                  xs: "1.25rem",
+                  sm: "1.75rem"
+                },
                 lineHeight: "1",
               }}
               variant="h4"
@@ -53,7 +59,10 @@ function TestResult() {
             </Typography>
             <Typography
               sx={{
-                fontSize: "3.5rem",
+                fontSize: {
+                  xs: "2.75rem",
+                  sm: "3rem"
+                },
                 lineHeight: "1",
                 marginBottom: "0.5rem",
               }}
@@ -66,7 +75,10 @@ function TestResult() {
           <Box display={"flex"} flexDirection={"column"} >
             <Typography
               sx={{
-                fontSize: "1.75rem",
+                fontSize: {
+                  xs: "1.25rem",
+                  sm: "1.75rem"
+                },
                 lineHeight: "1",
               }}
               variant="h4"
@@ -76,7 +88,10 @@ function TestResult() {
             </Typography>
             <Typography
               sx={{
-                fontSize: "3.5rem",
+                fontSize: {
+                  xs: "2.75rem",
+                  sm: "3rem"
+                },
                 lineHeight: "1",
                 marginBottom: "0.5rem",
               }}
@@ -89,7 +104,10 @@ function TestResult() {
           <Box marginBottom={"1rem"}  >
             <Typography
               sx={{
-                fontSize: "1.75rem",
+                fontSize: {
+                  xs: "1.25rem",
+                  sm: "1.75rem"
+                },
                 lineHeight: "1",
               }}
               variant="h4"
@@ -99,7 +117,10 @@ function TestResult() {
             </Typography>
             <Typography
               sx={{
-                fontSize: "3.5rem",
+                fontSize: {
+                  xs: "2.75rem",
+                  sm: "3rem"
+                },
                 lineHeight: "1",
               }}
               variant="h2"
@@ -118,7 +139,10 @@ function TestResult() {
           <Box boxSizing={"border-box"}>
             <Typography
               sx={{
-                fontSize: "1.5rem",
+                fontSize: {
+                  xs: "1.25rem",
+                  sm: "1.5rem"
+                },
                 lineHeight: "1",
                 paddingBottom: "4px",
                 wordBreak: "break-word",

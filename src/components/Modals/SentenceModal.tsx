@@ -3,18 +3,20 @@ import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
-import MiniSearch from "minisearch";
 import englishQuotes from "../../languages/english_quotes.json";
 import { Typography } from "@mui/material";
-import { StyledInput } from "../Login/Login";
 import {
   closeSearchModal,
   quoteLengthOptions,
   setSearchQuote,
+  categoryOptions
 } from "../../store/testSlice";
-import MultipleSelect from "./MultipleSelect";
+import SelectBox from "./SelectBox";
 
-function getQuoteGroup(length: number) {
+type searchResultType = Awaited<ReturnType<typeof searchSentence>>[0];
+type quoteType = typeof englishQuotes.quotes[0];
+
+function getSentenceGroup(length: number) {
   const allGroups = ["short", "medium", "long"];
   const groupRange = englishQuotes.groups;
   const quoteRangeMap = {} as Record<string, [number, number]>;
@@ -30,54 +32,13 @@ function getQuoteGroup(length: number) {
   return quoteGroup;
 }
 
-async function searchQuotes(search: string, filterLength: string[]) {
-  if (search.length === 0) {
-    if (filterLength.length === 0) return englishQuotes.quotes;
-    return englishQuotes.quotes.filter((quote) => {
-      const quoteGroup = getQuoteGroup(quote.length);
-      return filterLength.includes(quoteGroup!);
-    });
-  }
-
-  const searchIndex = new MiniSearch<{
-    text: string;
-    source: string;
-    id: number;
-    length: number;
-  }>({
-    fields: ["text", "source"], // fields to index for full-text search
-    storeFields: ["text", "source", "id", "length"],
-    searchOptions: {
-      boost: { text: 1, source: 2 }, // fields to boost for fuzzy search
-      prefix: true, // use prefix search
-      fuzzy: 0.25,
-      combineWith: "AND",
-    },
-  });
-
-  await searchIndex.addAllAsync(englishQuotes.quotes);
-
-  const searchResults = searchIndex.search(search, {
-    filter: (quote) => {
-      if (filterLength.length === 0) return true;
-
-      const quoteGroup = getQuoteGroup(quote.length);
-      return filterLength.includes(quoteGroup!);
-    },
-  });
-  return searchResults;
-}
-
-type searchResultType = Awaited<ReturnType<typeof searchQuotes>>[0];
-type quoteType = typeof englishQuotes.quotes[0];
-
-function Quote({ quote }: { quote: searchResultType | quoteType }) {
+function SentenceBox({ sentence }: { sentence: searchResultType | quoteType }) {
   const theme = useTheme();
   const dispatch = useAppDispatch();
   return (
     <Box
       onClick={() => {
-        dispatch(setSearchQuote(quote.text.split(" ")));
+        dispatch(setSearchQuote(sentence.text.split(" ")));
       }}
       boxSizing={"border-box"}
       display="flex"
@@ -105,7 +66,7 @@ function Quote({ quote }: { quote: searchResultType | quoteType }) {
         variant="body1"
         color={theme.text.main}
       >
-        {quote.text}
+        {sentence.text}
       </Typography>
       <Box
         display="flex"
@@ -130,7 +91,7 @@ function Quote({ quote }: { quote: searchResultType | quoteType }) {
           >
             id
           </Typography>
-          <Typography color={theme.sub.main}>{quote.id}</Typography>
+          <Typography color={theme.sub.main}>{sentence.id}</Typography>
         </Box>
         <Box flex={1} display="flex" flexDirection={"column"}>
           <Typography
@@ -142,7 +103,7 @@ function Quote({ quote }: { quote: searchResultType | quoteType }) {
             length
           </Typography>
           <Typography color={theme.sub.main}>
-            {getQuoteGroup(quote.length)}
+            {getSentenceGroup(sentence.length)}
           </Typography>
         </Box>
         <Box flex={2} display="flex" flexDirection={"column"}>
@@ -152,33 +113,42 @@ function Quote({ quote }: { quote: searchResultType | quoteType }) {
             }}
             color={theme.sub.main}
           >
-            source
+            category
           </Typography>
-          <Typography color={theme.sub.main}>{quote.source}</Typography>
+          <Typography color={theme.sub.main}>{sentence.source}</Typography>
         </Box>
       </Box>
     </Box>
   );
 }
 
-function QuotesModal() {
+async function searchSentence(category: string, filterLength: string) {
+  return [
+    { id: 90, source: "kolak", length: 12, text: "koalskalskals" },
+    { id: 90, source: "kolak", length: 12, text: "koalskalskals" },
+    { id: 90, source: "kolak", length: 12, text: "koalskalskals" },
+  ]
+}
+
+function SentenceModal() {
   const open = useAppSelector((state) => state.test.searchQuoteModal);
   const dispatch = useAppDispatch();
   const theme = useTheme();
-  const [search, setSearch] = useState("");
-  const [lengthFilter, setLengthFilter] = useState<string[]>([]);
-
-
+  const [lengthFilter, setLengthFilter] = useState<string>('');
+  const [category, setCategory] = useState<string>('')
   const [searchResults, setSearchResults] = useState<searchResultType[]>([]);
+
+  // get date when filter changed
   useEffect(() => {
     let isCurrent = true;
-    searchQuotes(search, lengthFilter).then((res) => {
+    searchSentence(category, lengthFilter).then((res) => {
+      // store array of sentence to state
       if (isCurrent) setSearchResults(res);
     });
     return () => {
       isCurrent = false;
     };
-  }, [search, lengthFilter]);
+  }, [category, lengthFilter]);
 
   const handleClose = () => {
     dispatch(closeSearchModal());
@@ -221,7 +191,7 @@ function QuotesModal() {
         {/* Head */}
         <Box marginBottom={"1rem"}>
           <Typography variant="h5" color={theme.sub.main}>
-            Quote Search
+            Sentence Search
           </Typography>
         </Box>
         {/* search and filter input */}
@@ -236,21 +206,19 @@ function QuotesModal() {
             },
           }}
         >
-          <StyledInput
-            placeholder={"Filter by text"}
-            onChange={(e) => setSearch(e.target.value)}
-            sx={{
-              flex: 3,
-            }}
+          <SelectBox
+            selectedItems={category}
+            setSelectedItems={setCategory}
+            inputLabel={"Filter by category"}
+            items={categoryOptions}
           />
-          <MultipleSelect
+          <SelectBox
             selectedItems={lengthFilter}
             setSelectedItems={setLengthFilter}
             inputLabel={"Filter by length"}
             items={quoteLengthOptions.filter(
               (q) => q !== "search" && q !== "all"
             )}
-            
           />
         </Box>
         <Typography
@@ -267,7 +235,6 @@ function QuotesModal() {
           {searchResults.length}
           {` result(s)`}
         </Typography>
-        {/* results */}
         <Box
           overflow={"auto"}
           mt={1}
@@ -285,8 +252,8 @@ function QuotesModal() {
             },
           }}
         >
-          {searchResults.slice(0, 100).map((quote) => (
-            <Quote key={quote.id} quote={quote} />
+          {searchResults.slice(0, 100).map((_sentence) => (
+            <SentenceBox key={_sentence.id} sentence={_sentence} />
           ))}
         </Box>
       </Box>
@@ -294,4 +261,4 @@ function QuotesModal() {
   );
 }
 
-export default QuotesModal;
+export default SentenceModal;

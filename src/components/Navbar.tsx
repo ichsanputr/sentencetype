@@ -1,21 +1,11 @@
 import React from "react";
 import MemoMtLogo from "./MtLogo";
-import { Box, IconButton, Stack, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Stack, Typography, Divider, Tooltip, Avatar, Menu, MenuItem, ListItemIcon, useTheme } from "@mui/material";
 import { PersonRounded, KeyboardRounded, Logout, History, Login } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../store/store";
 import { resetTest } from "../store/testSlice";
 import { UserContext } from "../store/userContext";
-import { signOut } from "firebase/auth";
-import { auth } from "../util/firebase";
-import Avatar from '@mui/material/Avatar';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
-import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
 
 function Navbar() {
   const theme = useTheme();
@@ -37,7 +27,7 @@ function Navbar() {
 
   return (
     <Stack
-      padding={" 5px 0"}
+      padding={"5px 0"}
       direction={"row"}
       justifyContent={"space-between"}
       alignItems={"center"}
@@ -63,7 +53,6 @@ function Navbar() {
           <Box
             sx={{
               display: {
-                xs: "none",
                 sm: "block",
               },
             }}
@@ -75,7 +64,10 @@ function Navbar() {
               variant="caption"
               position={"absolute"}
               left={0}
-              top={-8}
+              top={{
+                sm: -4,
+                xs: -5
+              }}
               color={theme.sub.main}
             >
               fill sentences
@@ -86,12 +78,19 @@ function Navbar() {
               variant="caption"
               position={"absolute"}
               right={0}
-              bottom={-12}
+              bottom={{
+                xs: -10,
+                sm: -6
+              }}
               color={theme.sub.main}
             >
               learn english
             </Typography>
-            <Typography fontFamily="Comfortaa" color={theme.text.main} variant="h4">
+            <Typography fontFamily="Comfortaa" color={theme.text.main} variant="h6" sx={{
+              fontSize: {
+                sm: "2rem",
+              }
+            }}>
               catsentence
             </Typography>
           </Box>
@@ -114,56 +113,6 @@ function Navbar() {
         >
           <KeyboardRounded fontSize="medium" />
         </IconButton>
-        {/* <Box
-          sx={{
-            color: theme.sub.main,
-            transition: "color 0.2s",
-            display: "flex",
-            alignItems: "center",
-            cursor: "pointer",
-            "&:hover": {
-              color: theme.text.main,
-            },
-          }}
-        >
-          {username && (
-            <>
-              <PersonRounded fontSize="small" />
-              <Typography
-                sx={{
-                  marginLeft: 1 / 2,
-                }}
-                variant="body2"
-              >
-                {username}
-              </Typography>
-            </>
-          )}
-        </Box>
-
-        <IconButton
-          tabIndex={-1}
-          sx={{
-            color: theme.sub.main,
-            transition: "color 0.2s",
-            "&:hover": {
-              color: theme.text.main,
-            },
-          }}
-          onClick={() => {
-            if (username) {
-              signOut(auth);
-            }
-            navigate("/login");
-          }}
-        >
-          {username ? (
-            <Logout fontSize="small" />
-          ) : (
-            <PersonRounded fontSize="medium" />
-          )}
-        </IconButton> */}
-
         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
           <Tooltip title="Settings & Other">
             <IconButton
@@ -177,7 +126,7 @@ function Navbar() {
                 },
               }}
             >
-              <Avatar sx={{ width: 24, height: 24 }}>M</Avatar>
+              <Avatar sx={{ width: 22, height: 22, textTransform: "capitalize", fontSize: "12px", bgcolor: theme.sub.main }}>{username ? username[0] : '-'}</Avatar>
             </IconButton>
           </Tooltip>
         </Box>

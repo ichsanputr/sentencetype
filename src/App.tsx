@@ -56,7 +56,9 @@ function App() {
 
   return (
     <Box
-      padding={"24px 0px"}
+      sx={{
+        py: { xs: 2, sm: 3 },
+      }}
       margin={0}
       width={"100%"}
       minHeight={"100vh"}
@@ -101,7 +103,7 @@ function App() {
 export const AppWithTheme = () => {
   const theme = useAppSelector((state) => state.theme.theme);
   const muiTheme = useMemo(() => getTheme(theme), [theme]);
-  
+
   useFavicon('/favicon.ico');
 
   return (

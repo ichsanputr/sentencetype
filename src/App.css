@@ -38,7 +38,7 @@
 }
 
 .second {
-  font-size:40px;
+  font-size:30px;
 }
 
 .result-word {
@@ -47,7 +47,7 @@
 
 .word-highlight {
   font-weight: 600;
-  font-size: 28px;
+  font-size: 24px;
   text-decoration: underline;
 }
 

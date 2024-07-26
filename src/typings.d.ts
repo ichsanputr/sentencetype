@@ -15,6 +15,10 @@ export type quoteLengthOptionsType =
   | "medium"
   | "long"
   | "search";
+export type CategoryType =
+  | "conversation"
+  | "story"
+  | "news"
 
 export type CustomTheme = {
   bgColor: string;

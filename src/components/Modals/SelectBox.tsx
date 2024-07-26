@@ -10,7 +10,7 @@ import { Box, Chip } from "@mui/material";
 const ITEM_HEIGHT = 28;
 const ITEM_PADDING_TOP = 4;
 
-function getStyles(name: string, items: string[], theme: Theme) {
+function getStyles(name: string, items: string, theme: Theme) {
   const isSelected = items.indexOf(name) > -1;
   return {
     backgroundColor: isSelected ? "red" : theme.background.main,
@@ -21,7 +21,7 @@ function getStyles(name: string, items: string[], theme: Theme) {
   };
 }
 
-export default function MultipleSelect({
+export default function SelectBox({
   items,
   inputLabel,
   selectedItems,
@@ -29,19 +29,17 @@ export default function MultipleSelect({
 }: {
   items: string[];
   inputLabel: string;
-  selectedItems: string[];
-  setSelectedItems: React.Dispatch<React.SetStateAction<string[]>>;
+  selectedItems: string;
+  setSelectedItems: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const theme = useTheme();
   // const [selectedItems, setSelectedItems] = React.useState<string[]>([]);
-
   const handleChange = (event: SelectChangeEvent<typeof selectedItems>) => {
     const {
       target: { value },
     } = event;
     setSelectedItems(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
+      value
     );
   };
 
@@ -54,20 +52,17 @@ export default function MultipleSelect({
       <Select
         labelId="demo-multiple-name-label"
         id="demo-multiple-name"
-        multiple
         value={selectedItems}
         onChange={handleChange}
         renderValue={(selected) => (
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-            {selected.map((value) => (
-              <Chip
-                key={value}
-                label={value}
-                sx={{
-                  color: theme.text.main,
-                }}
-              />
-            ))}
+            <Chip
+              key={selected}
+              label={selected}
+              sx={{
+                color: theme.text.main,
+              }}
+            />
           </Box>
         )}
         input={
@@ -105,6 +100,5 @@ export default function MultipleSelect({
         ))}
       </Select>
     </FormControl>
-    // </div>
   );
 }

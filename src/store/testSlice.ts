@@ -10,6 +10,7 @@ import {
   Mode2,
   quoteLengthOptionsType,
   wordLengthOptionsType,
+  CategoryType
 } from "../typings";
 import getRandomInt from "../util/randNumber";
 
@@ -20,6 +21,11 @@ export const quoteLengthOptions: quoteLengthOptionsType[] = [
   "medium",
   "long",
   "search",
+];
+export const categoryOptions: CategoryType[] = [
+  "conversation",
+  "story",
+  "news",
 ];
 
 function createLetters(words: { text: string, fill: number[] }): Letter[][] {
