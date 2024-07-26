@@ -175,31 +175,33 @@ export const testSlice = createSlice({
 
       if (state.mode2 == "conversation") {
         categoryWords = conversation.words.filter(v => v.category == state.quoteLength)
-        state.wordsTemp = categoryWords[getRandomInt(conversation.words.length)]
+        state.wordsTemp = categoryWords[getRandomInt(categoryWords.length)]
       } else if (state.mode2 == "story") {
         categoryWords = story.words.filter(v => v.category == state.quoteLength)
-        state.wordsTemp = categoryWords[getRandomInt(conversation.words.length)]
+        state.wordsTemp = categoryWords[getRandomInt(categoryWords.length)]
       } else if (state.mode2 == "news") {
         categoryWords = news.words.filter(v => v.category == state.quoteLength)
-        state.wordsTemp = categoryWords[getRandomInt(conversation.words.length)]
+        state.wordsTemp = categoryWords[getRandomInt(categoryWords.length)]
       }
 
-      setTimeout(() => {
+      if (state.wordsTemp) {
         state.wordsList = state.wordsTemp.text.split(" ")
         state.currentWords = createLetters(state.wordsTemp);
         state.fillWord = state.wordsTemp.fill
 
-        state.showResult = false;
-        state.wpmHistory = [];
-        state.rawHistory = [];
-        state.currentCharIndex = 0;
-        state.caretPosition = {
-          top: 5,
-          left: 0,
-        };
-        state.startTime = null;
-        state.isInputFocused = true;
-      }, 500)
+        console.log("kakak")
+      }
+
+      state.showResult = false;
+      state.wpmHistory = [];
+      state.rawHistory = [];
+      state.currentCharIndex = 0;
+      state.caretPosition = {
+        top: 5,
+        left: 0,
+      };
+      state.startTime = null;
+      state.isInputFocused = true;
     },
 
     stopTest: (state) => {
