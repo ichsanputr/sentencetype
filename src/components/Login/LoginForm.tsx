@@ -1,5 +1,4 @@
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import { Box, Typography, CircularProgress } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import React, { useState, useEffect, useContext } from "react";
 import { LoginRounded, Google } from "@mui/icons-material";
@@ -14,6 +13,7 @@ function LoginForm() {
   const theme = useTheme();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLogging, setIsLogging] = useState(false);
   const [showUsernameModal, setShowUsernameModal] = useState(false);
   const { user, username, loading } = useContext(UserContext);
   const navigate = useNavigate();
@@ -26,8 +26,15 @@ function LoginForm() {
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLogging(true)
 
-    await signInWithEmailAndPassword(auth, email, password);
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      setIsLogging(false)
+    } catch (e) {
+      console.log(e)
+      setIsLogging(false)
+    }
   };
 
   async function signInWithGoogle() {
@@ -46,6 +53,22 @@ function LoginForm() {
       flexDirection={"column"}
       width={"340px"}
     >
+      {/* <Snackbar sx={{
+        display: "flex"
+      }} open={showLoadingSave} anchorOrigin={{ vertical: "bottom", horizontal: "center" }} onClose={handleClose}>
+        <Box
+          sx={{bgcolor: "#379777", padding: "4px 1rem", display: "flex", alignItems: "center", margin: "auto 0", borderRadius: "0.75rem" }}
+        >
+          <CircularProgress size={18} />
+          <Typography sx={{
+            color: "white",
+            marginLeft: "8px",
+            fontSize: "14px"
+          }}>
+            Saving the result...
+          </Typography>
+        </Box>
+      </Snackbar> */}
       <Typography color={theme.text.main} sx={{
         marginBottom: "1rem",
         fontSize: "1.5rem"
@@ -75,8 +98,20 @@ function LoginForm() {
           status={undefined}
         />
         <StyledLoginButton>
-          <LoginRounded />
-          Sign In
+          {isLogging ? (
+            <CircularProgress sx={{
+              color: "black"
+            }} size={18} />
+          ) : <Box sx={{
+            display: "flex",
+            alignItems: "center"
+          }}>
+            <LoginRounded sx={{
+              width: "20px",
+              marginRight: "4px"
+            }} />
+            Login
+          </Box>}
         </StyledLoginButton>
         <span
           style={{

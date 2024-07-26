@@ -78,6 +78,7 @@ export interface TestState {
     fill: number[],
     category: string
   };
+  showLoadingSaveResult: boolean,
   fillWord: number[],
   isRunning: boolean;
   wordsList: string[];
@@ -134,6 +135,7 @@ const initialState: TestState = {
   numbers: false,
   quoteLength: "all",
   showResult: false,
+  showLoadingSaveResult: false,
   wpmHistory: [],
   rawHistory: [],
   searchQuoteModal: false,
@@ -188,8 +190,6 @@ export const testSlice = createSlice({
         state.wordsList = state.wordsTemp.text.split(" ")
         state.currentWords = createLetters(state.wordsTemp);
         state.fillWord = state.wordsTemp.fill
-
-        console.log("kakak")
       }
 
       state.showResult = false;
@@ -225,13 +225,6 @@ export const testSlice = createSlice({
           if (state.currentWordIndex === 0) return;
           state.currentWordIndex -= 1;
           let newCharIndex = state.currentWords[state.currentWordIndex].length;
-
-          // while (
-          //   state.currentWords[state.currentWordIndex][newCharIndex - 1]
-          //     .status === "untouched"
-          // ) {
-          //   newCharIndex -= 2;
-          // }
           state.currentCharIndex = newCharIndex;
           return;
         } else {
@@ -291,6 +284,7 @@ export const testSlice = createSlice({
         ].hidden = false;
 
         if (state.currentWordIndex + 1 === state.wordsList.length && state.currentCharIndex === state.currentWords[state.currentWordIndex].length - 1) {
+          state.showLoadingSaveResult = true
           state.showResult = true
         }
       } else {
@@ -351,6 +345,9 @@ export const testSlice = createSlice({
     closeSearchModal(state) {
       state.searchQuoteModal = false;
     },
+    closeLoadingSaveResult(state) {
+      state.showLoadingSaveResult = false;
+    },
     setCaretPosition(state, action: PayloadAction<caretPosition>) {
       state.caretPosition = action.payload;
     },
@@ -402,6 +399,7 @@ export const {
   setCaretPosition,
   calculateWMP,
   setInputFocus,
+  closeLoadingSaveResult
 } = testSlice.actions;
 
 export default testSlice.reducer;

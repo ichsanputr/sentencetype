@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid, Tooltip, Typography, useTheme } from "@mui/material";
+import { Box, Grid, Tooltip, Typography, useTheme, Snackbar, Alert, CircularProgress } from "@mui/material";
 import IconButton from "@mui/material/IconButton/IconButton";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useAppDispatch, useAppSelector } from "../../store/store";
@@ -7,6 +7,7 @@ import {
   rawWpmSelector,
   resetTest,
   wpmSelector,
+  closeLoadingSaveResult
 } from "../../store/testSlice";
 
 function TestResult() {
@@ -17,7 +18,12 @@ function TestResult() {
   const accuracy = Math.round(wpm / rawWpm * 100);
   const timerCount = useAppSelector((state) => state.test.timerCount);
   const sentence = useAppSelector((state) => state.test.wordsList);
+  const showLoadingSave = useAppSelector((state) => state.test.showLoadingSaveResult);
   const fillWord = useAppSelector((state) => state.test.fillWord);
+
+  function handleClose() {
+    dispatch(closeLoadingSaveResult())
+  }
 
   return (
     <Box
@@ -27,6 +33,22 @@ function TestResult() {
         flexDirection: "column",
       }}
     >
+      <Snackbar sx={{
+        display: "flex"
+      }} open={showLoadingSave} anchorOrigin={{ vertical: "bottom", horizontal: "center" }} onClose={handleClose}>
+        <Box
+          sx={{bgcolor: "#379777", padding: "4px 1rem", display: "flex", alignItems: "center", margin: "auto 0", borderRadius: "0.75rem" }}
+        >
+          <CircularProgress size={18} />
+          <Typography sx={{
+            color: "white",
+            marginLeft: "8px",
+            fontSize: "14px"
+          }}>
+            Saving the result...
+          </Typography>
+        </Box>
+      </Snackbar>
       <Grid container spacing={2}>
         <Grid
           sx={{
