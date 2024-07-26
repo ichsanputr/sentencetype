@@ -4,6 +4,9 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
 import englishQuotes from "../../languages/english_quotes.json";
+import news from "../../languages/news.json";
+import story from "../../languages/story.json";
+import conversation from "../../languages/conversation.json";
 import { Typography } from "@mui/material";
 import {
   closeSearchModal,
@@ -13,8 +16,12 @@ import {
 } from "../../store/testSlice";
 import SelectBox from "./SelectBox";
 
-type searchResultType = Awaited<ReturnType<typeof searchSentence>>[0];
-type quoteType = typeof englishQuotes.quotes[0];
+type searchResultType = {
+  id: number,
+  text: string,
+  source: string,
+  length: number,
+};
 
 function getSentenceGroup(length: number) {
   const allGroups = ["short", "medium", "long"];
@@ -32,7 +39,7 @@ function getSentenceGroup(length: number) {
   return quoteGroup;
 }
 
-function SentenceBox({ sentence }: { sentence: searchResultType | quoteType }) {
+function SentenceBox({ sentence }: { sentence: searchResultType }) {
   const theme = useTheme();
   const dispatch = useAppDispatch();
   return (
@@ -47,10 +54,10 @@ function SentenceBox({ sentence }: { sentence: searchResultType | quoteType }) {
       sx={{
         cursor: "pointer",
         borderRadius: "10px",
-        "&:hover": {
-          backgroundColor: theme.sub.alt,
-          transition: "background-color 0.2s ease-in-out",
-        },
+        padding: "16px 24px",
+        marginBottom: "1.5rem",
+        backgroundColor: theme.sub.alt,
+        transition: "background-color 0.2s ease-in-out",
       }}
     >
       <Typography
@@ -74,13 +81,6 @@ function SentenceBox({ sentence }: { sentence: searchResultType | quoteType }) {
         justifyContent={"space-between"}
       >
         <Box
-          flex={1}
-          sx={{
-            display: {
-              xs: "none",
-              sm: "flex",
-            },
-          }}
           flexDirection={"column"}
         >
           <Typography
@@ -93,7 +93,18 @@ function SentenceBox({ sentence }: { sentence: searchResultType | quoteType }) {
           </Typography>
           <Typography color={theme.sub.main}>{sentence.id}</Typography>
         </Box>
-        <Box flex={1} display="flex" flexDirection={"column"}>
+        <Box display="flex" flexDirection={"column"}>
+          <Typography
+            sx={{
+              opacity: 0.5,
+            }}
+            color={theme.sub.main}
+          >
+            category
+          </Typography>
+          <Typography color={theme.sub.main}>{sentence.source}</Typography>
+        </Box>
+        <Box display="flex" flexDirection={"column"}>
           <Typography
             sx={{
               opacity: 0.5,
@@ -106,42 +117,60 @@ function SentenceBox({ sentence }: { sentence: searchResultType | quoteType }) {
             {getSentenceGroup(sentence.length)}
           </Typography>
         </Box>
-        <Box flex={2} display="flex" flexDirection={"column"}>
-          <Typography
-            sx={{
-              opacity: 0.5,
-            }}
-            color={theme.sub.main}
-          >
-            category
-          </Typography>
-          <Typography color={theme.sub.main}>{sentence.source}</Typography>
-        </Box>
       </Box>
     </Box>
   );
 }
 
 async function searchSentence(category: string, filterLength: string) {
-  return [
-    { id: 90, source: "kolak", length: 12, text: "koalskalskals" },
-    { id: 90, source: "kolak", length: 12, text: "koalskalskals" },
-    { id: 90, source: "kolak", length: 12, text: "koalskalskals" },
-  ]
+  let wordsCategory = null
+
+  if (category == "conversation") {
+    wordsCategory = conversation.words
+  } else if (category == "story") {
+    wordsCategory = story.words
+  } else if (category == "news") {
+    wordsCategory = news.words
+  }
+
+  if (filterLength.length > 0) {
+    wordsCategory = wordsCategory!.filter(v => {
+      return v.category == filterLength
+    })
+  }
+
+  return wordsCategory?.map(v => {
+    let arrText: any = v.text.split(" ")
+
+    arrText = arrText.map((j: string, k: number) => {
+      if (v.fill.includes(k)) {
+        j = "__"
+      }
+
+      return j
+    })
+
+    return {
+      id: v.id,
+      source: v.category,
+      text: arrText.join(" "),
+      length: v.text.split(" ").length
+    }
+  })
 }
 
 function SentenceModal() {
   const open = useAppSelector((state) => state.test.searchQuoteModal);
   const dispatch = useAppDispatch();
   const theme = useTheme();
-  const [lengthFilter, setLengthFilter] = useState<string>('');
-  const [category, setCategory] = useState<string>('')
+  const [lengthFilter, setLengthFilter] = useState<string>('medium');
+  const [category, setCategory] = useState<string>('story')
   const [searchResults, setSearchResults] = useState<searchResultType[]>([]);
 
   // get date when filter changed
   useEffect(() => {
     let isCurrent = true;
-    searchSentence(category, lengthFilter).then((res) => {
+    searchSentence(category, lengthFilter).then((res: any) => {
       // store array of sentence to state
       if (isCurrent) setSearchResults(res);
     });
@@ -233,7 +262,7 @@ function SentenceModal() {
           mt={1}
         >
           {searchResults.length}
-          {` result(s)`}
+          {` results`}
         </Typography>
         <Box
           overflow={"auto"}

@@ -4,8 +4,48 @@
   "noLazyMode": true,
   "words": [
     {
+      "id": 1,
       "text": "Bye friend right now",
-      "fill": [1]
+      "fill": [
+        1
+      ],
+      "category": "short"
+    },
+    {
+      "id": 2,
+      "text": "Hi, I need help with a smart contract function.",
+      "fill": [
+        1
+      ],
+      "category": "short"
+    },
+    {
+      "id": 3,
+      "text": "Of course! Could you provide more details about your smart contract and the specific issue you're encountering? For instance, are you using Solidity, and do you have a specific error message or behavior that's unexpected?",
+      "fill": [
+        3,
+        7,
+        9
+      ],
+      "category": "long"
+    },
+    {
+      "id": 4,
+      "text": "I’m trying to send value in a smart contract, but I'm running into some issues. Can you help me figure out what might be going wrong?",
+      "fill": [
+        3,
+        6,
+        8
+      ],
+      "category": "medium"
+    },
+    {
+      "id": 5,
+      "text": "Hi, I need help with this function.",
+      "fill": [
+        1
+      ],
+      "category": "short"
     }
   ]
 }
