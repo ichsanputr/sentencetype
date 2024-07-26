@@ -1,8 +1,7 @@
 import { useState } from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import { Typography, Box, CircularProgress } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { signInWithPopup } from "firebase/auth";
 import { PersonAddAltRounded, Google } from "@mui/icons-material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, firestore, googleAuthProvider } from "../../util/firebase";
@@ -20,6 +19,7 @@ function RegisterForm() {
   const theme = useTheme();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLogging, setIsLogging] = useState(false);
   const [verifyPassword, setVerifyPassword] = useState("");
   const { username, isValid, loading, onChange } = useCheckUsername();
   const [showUsernameModal, setShowUsernameModal] = useState(false);
@@ -30,6 +30,8 @@ function RegisterForm() {
     if (!email || !password || !username || !verifyPassword) {
       return;
     }
+
+    setIsLogging(true)
 
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -50,6 +52,8 @@ function RegisterForm() {
     } catch (e) {
       console.log(e);
     }
+
+    setIsLogging(false)
   }
 
   async function signInWithGoogle() {
@@ -127,9 +131,8 @@ function RegisterForm() {
               : undefined
           }
           message={
-            password.length < 8
-              ? "password must be at least 8 characters"
-              : "password must contain at least 1 number, 1 uppercase, and 1 lowercase letter"
+            password.length < 6
+              ? "password must be at least 6 characters" : ""
           }
         />
         <LoginInput
@@ -147,8 +150,20 @@ function RegisterForm() {
           message="passwords must match"
         />
         <StyledLoginButton type={"submit"}>
-          <PersonAddAltRounded />
-          Sign Up
+          {isLogging ? (
+            <CircularProgress sx={{
+              color: "black"
+            }} size={18} />
+          ) : <Box sx={{
+            display: "flex",
+            alignItems: "center"
+          }}>
+            <PersonAddAltRounded sx={{
+              width: "20px",
+              marginRight: "4px"
+            }} />
+            Sign Up
+          </Box>}
         </StyledLoginButton>
         <span
           style={{
