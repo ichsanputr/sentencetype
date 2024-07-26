@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../store/store";
 import { resetTest } from "../store/testSlice";
 import { UserContext } from "../store/userContext";
+import { signOut } from "firebase/auth";
+import { auth } from "../util/firebase";
 
 function Navbar() {
   const theme = useTheme();
@@ -17,12 +19,17 @@ function Navbar() {
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const navigateLogin = () => {
     navigate("/login")
+  }
+
+  function handleLogout(){
+    signOut(auth)
   }
 
   return (
@@ -126,7 +133,7 @@ function Navbar() {
                 },
               }}
             >
-              <Avatar sx={{ width: 22, height: 22, textTransform: "capitalize", fontSize: "12px", bgcolor: theme.sub.main }}>{username ? username[0] : '-'}</Avatar>
+              <Avatar sx={{ width: 22, height: 22, textTransform: "capitalize", fontSize: "12px", bgcolor: theme.sub.main }}>{username ? username[0] : '?'}</Avatar>
             </IconButton>
           </Tooltip>
         </Box>
@@ -185,7 +192,7 @@ function Navbar() {
           }
           <Divider />
           {username ? (
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleLogout}>
               <ListItemIcon>
                 <Logout fontSize="small" />
               </ListItemIcon>

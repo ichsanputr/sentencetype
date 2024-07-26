@@ -13,6 +13,8 @@ import {
   CategoryType
 } from "../typings";
 import getRandomInt from "../util/randNumber";
+import { collection, doc, writeBatch } from "firebase/firestore";
+import { firestore } from "../util/firebase";
 
 export const wordLengthOptions: wordLengthOptionsType[] = [10, 25, 50, 100];
 export const quoteLengthOptions: quoteLengthOptionsType[] = [
@@ -78,7 +80,7 @@ export interface TestState {
     fill: number[],
     category: string
   };
-  showLoadingSaveResult: boolean,
+  currentWordId: number,
   fillWord: number[],
   isRunning: boolean;
   wordsList: string[];
@@ -119,6 +121,7 @@ const initialState: TestState = {
     category: "",
     id: 0
   },
+  currentWordId: 0,
   wordsList: randomizedWords,
   currentWords: createLetters(news.words[0]),
   fillWord: [],
@@ -135,7 +138,6 @@ const initialState: TestState = {
   numbers: false,
   quoteLength: "all",
   showResult: false,
-  showLoadingSaveResult: false,
   wpmHistory: [],
   rawHistory: [],
   searchQuoteModal: false,
@@ -185,6 +187,8 @@ export const testSlice = createSlice({
         categoryWords = news.words.filter(v => v.category == state.quoteLength)
         state.wordsTemp = categoryWords[getRandomInt(categoryWords.length)]
       }
+
+      state.currentWordId = state.wordsTemp.id
 
       if (state.wordsTemp) {
         state.wordsList = state.wordsTemp.text.split(" ")
@@ -284,7 +288,6 @@ export const testSlice = createSlice({
         ].hidden = false;
 
         if (state.currentWordIndex + 1 === state.wordsList.length && state.currentCharIndex === state.currentWords[state.currentWordIndex].length - 1) {
-          state.showLoadingSaveResult = true
           state.showResult = true
         }
       } else {
@@ -345,9 +348,6 @@ export const testSlice = createSlice({
     closeSearchModal(state) {
       state.searchQuoteModal = false;
     },
-    closeLoadingSaveResult(state) {
-      state.showLoadingSaveResult = false;
-    },
     setCaretPosition(state, action: PayloadAction<caretPosition>) {
       state.caretPosition = action.payload;
     },
@@ -399,7 +399,6 @@ export const {
   setCaretPosition,
   calculateWMP,
   setInputFocus,
-  closeLoadingSaveResult
 } = testSlice.actions;
 
 export default testSlice.reducer;

@@ -1,17 +1,15 @@
-import React, { useContext, useEffect, useMemo } from "react";
+import React, { useContext, useMemo } from "react";
 import "./App.css";
 import { Box, Container } from "@mui/material";
 import { ThemeProvider, useTheme } from "@mui/material/styles";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { getTheme } from "./styles/theme";
-import { useAppDispatch, useAppSelector } from "./store/store";
-import { resetTest } from "./store/testSlice";
+import { useAppSelector } from "./store/store";
 import {
   createBrowserRouter,
   Outlet,
   RouterProvider,
-  useNavigate,
 } from "react-router-dom";
 import Test from "./components/Test/Test";
 import Login from "./components/Login/Login";
@@ -38,26 +36,12 @@ const router = createBrowserRouter([
 
 function App() {
   const theme = useTheme();
-  // const dispatch = useAppDispatch();
   const { user, loading } = useContext(UserContext);
-  // const navigate = useNavigate();
-  // useEffect(() => {
-  //   dispatch(resetTest());
-  // }, [dispatch]);
-
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     if (!loading && user && !username) {
-  //       navigate("/login");
-  //     }
-  //   }, 1000);
-  //   return () => clearTimeout(timer);
-  // }, [loading, user, username, navigate]);
 
   return (
     <Box
       sx={{
-        py: { xs: 2, sm: 3 },
+        py: { xs: 2 },
       }}
       margin={0}
       width={"100%"}

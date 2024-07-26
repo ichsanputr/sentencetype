@@ -1,13 +1,17 @@
-import React from "react";
-import { Box, Grid, Tooltip, Typography, useTheme, Snackbar, Alert, CircularProgress } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Grid, Tooltip, Typography, useTheme, Snackbar, CircularProgress, Alert } from "@mui/material";
 import IconButton from "@mui/material/IconButton/IconButton";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { TurnedInNot, NavigateNext } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from "../../store/store";
+import { collection, doc, writeBatch } from "firebase/firestore";
+import { firestore } from "../../util/firebase";
+import { useUserData } from "../../hooks/useUserData";
+import { arrayUnion } from "firebase/firestore";
+
 import {
   rawWpmSelector,
   resetTest,
   wpmSelector,
-  closeLoadingSaveResult
 } from "../../store/testSlice";
 
 function TestResult() {
@@ -18,11 +22,33 @@ function TestResult() {
   const accuracy = Math.round(wpm / rawWpm * 100);
   const timerCount = useAppSelector((state) => state.test.timerCount);
   const sentence = useAppSelector((state) => state.test.wordsList);
-  const showLoadingSave = useAppSelector((state) => state.test.showLoadingSaveResult);
   const fillWord = useAppSelector((state) => state.test.fillWord);
+  const currentSentenceId = useAppSelector((state) => state.test.currentWordId);
+  const [showLoadingSave, setShowLoadingSave] = useState(false);
+  const [showAlertSaveSuccess, setShowAlertSaveSuccess] = useState(false);
+  const { user } = useUserData();
 
   function handleClose() {
-    dispatch(closeLoadingSaveResult())
+    setShowLoadingSave(false)
+  }
+
+  async function handleSaveResult() {
+    setShowLoadingSave(true)
+    try {
+      const userDoc = doc(collection(firestore, "result"), user!.email as string);
+      const batch = writeBatch(firestore);
+
+      batch.update(userDoc, {
+        id: arrayUnion(currentSentenceId),
+      });
+
+      await batch.commit();
+      setShowAlertSaveSuccess(true)
+    } catch (e) {
+      console.log(e);
+    }
+
+    setShowLoadingSave(false)
   }
 
   return (
@@ -37,7 +63,7 @@ function TestResult() {
         display: "flex"
       }} open={showLoadingSave} anchorOrigin={{ vertical: "bottom", horizontal: "center" }} onClose={handleClose}>
         <Box
-          sx={{bgcolor: "#379777", padding: "4px 1rem", display: "flex", alignItems: "center", margin: "auto 0", borderRadius: "0.75rem" }}
+          sx={{ bgcolor: "#379777", padding: "4px 1rem", display: "flex", alignItems: "center", margin: "auto 0", borderRadius: "0.75rem" }}
         >
           <CircularProgress size={18} />
           <Typography sx={{
@@ -48,6 +74,11 @@ function TestResult() {
             Saving the result...
           </Typography>
         </Box>
+      </Snackbar>
+      <Snackbar sx={{
+        display: "flex"
+      }} open={showAlertSaveSuccess} autoHideDuration={2000} anchorOrigin={{ vertical: "bottom", horizontal: "center" }} onClose={handleClose}>
+        <Alert severity="success">Result success saved</Alert>
       </Snackbar>
       <Grid container spacing={2}>
         <Grid
@@ -217,7 +248,44 @@ function TestResult() {
                   },
                 }}
               >
-                <NavigateNextIcon fontSize="large" />
+                <NavigateNext fontSize="large" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip
+              componentsProps={{
+                tooltip: {
+                  sx: {
+                    backgroundColor: theme.sub.alt,
+                    color: theme.main.main,
+                    fontSize: "1rem",
+                    padding: "4px 1rem",
+                  },
+                },
+                arrow: {
+                  sx: {
+                    color: theme.sub.alt,
+                  },
+                },
+              }}
+              arrow
+              title="Save"
+            >
+              <IconButton
+                tabIndex={1}
+                onClick={handleSaveResult}
+                focusRipple={true}
+                sx={{
+                  margin: "1.5rem auto",
+                  padding: "8px 0.75rem",
+                  borderRadius: "20px",
+                  color: theme.sub.main,
+                  "&:hover": {
+                    backgroundColor: theme.main.main,
+                    color: theme.sub.alt,
+                  },
+                }}
+              >
+                <TurnedInNot fontSize="medium" />
               </IconButton>
             </Tooltip>
           </Box>
