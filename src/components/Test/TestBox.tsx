@@ -45,7 +45,7 @@ function TestBox() {
     const isCharacter = /^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/ ?]$/.test(
       e.key
     );
-    
+
     if (isCharacter && !isRunning) {
       dispatch(startTest());
     }

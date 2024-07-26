@@ -5,7 +5,6 @@ import { Box } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import type { Mode2 } from "../../typings";
 import Search from "@mui/icons-material/Search";
-
 import {
   quoteLengthOptions,
   setMode2,
@@ -41,7 +40,6 @@ const CustomButton = styled(Box, {
 
 const ButtonContainer = styled(Stack)(({ theme }) => ({
   borderRadius: "8px",
-  // give last child a separator
   "&>*": {
     padding: "12px 8px 11px",
   },

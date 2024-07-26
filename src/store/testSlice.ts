@@ -16,7 +16,6 @@ import getRandomInt from "../util/randNumber";
 
 export const wordLengthOptions: wordLengthOptionsType[] = [10, 25, 50, 100];
 export const quoteLengthOptions: quoteLengthOptionsType[] = [
-  "all",
   "short",
   "medium",
   "long",
@@ -73,6 +72,12 @@ interface caretPosition {
 }
 
 export interface TestState {
+  wordsTemp: {
+    id: number,
+    text: string,
+    fill: number[],
+    category: string
+  };
   fillWord: number[],
   isRunning: boolean;
   wordsList: string[];
@@ -107,6 +112,12 @@ export interface TestState {
 const randomizedWords = [...english.words].sort(() => Math.random() - 0.5);
 
 const initialState: TestState = {
+  wordsTemp: {
+    fill: [],
+    text: "",
+    category: "",
+    id: 0
+  },
   wordsList: randomizedWords,
   currentWords: createLetters(news.words[0]),
   fillWord: [],
@@ -159,44 +170,36 @@ export const testSlice = createSlice({
       state.timerCount = 0;
       state.currentWordIndex = 0;
       state.correctWords = [];
-      // state.wordsList =
-      //   state.quoteLength === "search"
-      //     ? state.wordsList
-      //     : getWords(
-      //       state.punctuation,
-      //       state.numbers,
-      //       state.mode2,
-      //       state.time,
-      //       state.wordLength,
-      //       state.quoteLength
-      //     );
 
-      // Fill with new word list
-      let words: any;
+      let categoryWords: any = [];
 
       if (state.mode2 == "conversation") {
-        words = conversation.words[getRandomInt(conversation.words.length)]
+        categoryWords = conversation.words.filter(v => v.category == state.quoteLength)
+        state.wordsTemp = categoryWords[getRandomInt(conversation.words.length)]
       } else if (state.mode2 == "story") {
-        words = story.words[getRandomInt(conversation.words.length)]
+        categoryWords = story.words.filter(v => v.category == state.quoteLength)
+        state.wordsTemp = categoryWords[getRandomInt(conversation.words.length)]
       } else if (state.mode2 == "news") {
-        words = news.words[getRandomInt(conversation.words.length)]
+        categoryWords = news.words.filter(v => v.category == state.quoteLength)
+        state.wordsTemp = categoryWords[getRandomInt(conversation.words.length)]
       }
 
-      state.wordsList = words!.text.split(" ")
-      state.currentWords = createLetters(words!);
-      state.fillWord = words!.fill
+      setTimeout(() => {
+        state.wordsList = state.wordsTemp.text.split(" ")
+        state.currentWords = createLetters(state.wordsTemp);
+        state.fillWord = state.wordsTemp.fill
 
-      state.wpm = 0;
-      state.showResult = false;
-      state.wpmHistory = [];
-      state.rawHistory = [];
-      state.currentCharIndex = 0;
-      state.caretPosition = {
-        top: 5,
-        left: 0,
-      };
-      state.startTime = null;
-      state.isInputFocused = true;
+        state.showResult = false;
+        state.wpmHistory = [];
+        state.rawHistory = [];
+        state.currentCharIndex = 0;
+        state.caretPosition = {
+          top: 5,
+          left: 0,
+        };
+        state.startTime = null;
+        state.isInputFocused = true;
+      }, 500)
     },
 
     stopTest: (state) => {
@@ -218,7 +221,6 @@ export const testSlice = createSlice({
       if (typedLetter === "Backspace") {
         if (state.currentCharIndex === 0) {
           if (state.currentWordIndex === 0) return;
-          console.log(9999)
           state.currentWordIndex -= 1;
           let newCharIndex = state.currentWords[state.currentWordIndex].length;
 

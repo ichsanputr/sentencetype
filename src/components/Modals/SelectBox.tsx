@@ -53,9 +53,12 @@ export default function SelectBox({
         labelId="demo-multiple-name-label"
         id="demo-multiple-name"
         value={selectedItems}
+        sx={{
+          height: "3rem"
+        }}
         onChange={handleChange}
         renderValue={(selected) => (
-          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.25 }}>
             <Chip
               key={selected}
               label={selected}
