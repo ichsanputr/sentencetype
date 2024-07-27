@@ -14,9 +14,17 @@ import {
   setSearchQuote,
   categoryOptions,
   setSelectedSentenceId,
-  resetTest
+  resetTest,
+  setSelectedSentenceCategory,
+  setMode2
 } from "../../store/testSlice";
 import SelectBox from "./SelectBox";
+
+enum Mode2 {
+  conversation = "conversation",
+  story = "story",
+  news = "news",
+}
 
 type searchResultType = {
   id: number,
@@ -186,7 +194,17 @@ function SentenceModal() {
   };
 
   function handleSelectSentence(id: number) {
+    let mode = Mode2.conversation
+
+    if (category == "news"){
+      mode = Mode2.news
+    } else if(category == "story"){
+      mode = Mode2.story
+    }
+
+    dispatch(setMode2(mode))
     dispatch(setSelectedSentenceId(id));
+    dispatch(setSelectedSentenceCategory(lengthFilter));
     dispatch(resetTest())
   }
 

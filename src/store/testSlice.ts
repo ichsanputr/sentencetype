@@ -77,6 +77,7 @@ export interface TestState {
     fill: number[],
     category: string
   };
+  selectedSentenceCategory: string,
   selectedSentenceId: number,
   currentWordId: number,
   fillWord: number[],
@@ -141,6 +142,7 @@ const initialState: TestState = {
   rawHistory: [],
   searchQuoteModal: false,
   searchQuote: null,
+  selectedSentenceCategory: '',
   caretPosition: {
     top: 5,
     left: 0,
@@ -187,14 +189,25 @@ export const testSlice = createSlice({
           categoryWords = news.words.filter(v => v.category == state.quoteLength)
           state.wordsTemp = categoryWords[getRandomInt(categoryWords.length)]
         }
-
-        state.currentWordId = state.wordsTemp.id
-
-        if (state.wordsTemp) {
-          state.wordsList = state.wordsTemp.text.split(" ")
-          state.currentWords = createLetters(state.wordsTemp);
-          state.fillWord = state.wordsTemp.fill
+      } else {
+        if (state.mode2 == "conversation") {
+          categoryWords = conversation.words.filter(v => v.category == state.selectedSentenceCategory && v.id == state.selectedSentenceId)
+          state.wordsTemp = categoryWords[0]
+        } else if (state.mode2 == "story") {
+          categoryWords = story.words.filter(v => v.category == state.selectedSentenceCategory && v.id == state.selectedSentenceId)
+          state.wordsTemp = categoryWords[0]
+        } else if (state.mode2 == "news") {
+          categoryWords = news.words.filter(v => v.category == state.selectedSentenceCategory && v.id == state.selectedSentenceId)
+          state.wordsTemp = categoryWords[0]
         }
+      }
+
+      state.currentWordId = state.wordsTemp.id
+
+      if (state.wordsTemp) {
+        state.wordsList = state.wordsTemp.text.split(" ")
+        state.currentWords = createLetters(state.wordsTemp);
+        state.fillWord = state.wordsTemp.fill
       }
 
       state.showResult = false;
@@ -208,7 +221,6 @@ export const testSlice = createSlice({
       state.startTime = null;
       state.isInputFocused = true;
     },
-
     stopTest: (state) => {
       state.isRunning = false;
       state.showResult = true;
@@ -354,6 +366,9 @@ export const testSlice = createSlice({
     setSelectedSentenceId(state, action: PayloadAction<number>) {
       state.selectedSentenceId = action.payload
     },
+    setSelectedSentenceCategory(state, action: PayloadAction<string>) {
+      state.selectedSentenceCategory = action.payload
+    },
   },
 });
 
@@ -375,6 +390,7 @@ export const {
   openSearchModal,
   setCaretPosition,
   setSelectedSentenceId,
+  setSelectedSentenceCategory,
   setInputFocus,
 } = testSlice.actions;
 

@@ -145,15 +145,7 @@ function ModesStack() {
                 active={w === quoteLength}
                 onClick={() => dispatch(setQuoteLength(w))}
               >
-                {w === "search" ? (
-                  <Search
-                    sx={{
-                      fontSize: "16px",
-                    }}
-                  />
-                ) : (
-                  w
-                )}
+                {w}
               </CustomButton>
             );
           })}
