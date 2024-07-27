@@ -13,15 +13,12 @@ import {
   CategoryType
 } from "../typings";
 import getRandomInt from "../util/randNumber";
-import { collection, doc, writeBatch } from "firebase/firestore";
-import { firestore } from "../util/firebase";
 
 export const wordLengthOptions: wordLengthOptionsType[] = [10, 25, 50, 100];
 export const quoteLengthOptions: quoteLengthOptionsType[] = [
   "short",
   "medium",
   "long",
-  "search",
 ];
 export const categoryOptions: CategoryType[] = [
   "conversation",
@@ -80,6 +77,7 @@ export interface TestState {
     fill: number[],
     category: string
   };
+  selectedSentenceId: number,
   currentWordId: number,
   fillWord: number[],
   isRunning: boolean;
@@ -121,6 +119,7 @@ const initialState: TestState = {
     category: "",
     id: 0
   },
+  selectedSentenceId: 0,
   currentWordId: 0,
   wordsList: randomizedWords,
   currentWords: createLetters(news.words[0]),
@@ -177,23 +176,25 @@ export const testSlice = createSlice({
 
       let categoryWords: any = [];
 
-      if (state.mode2 == "conversation") {
-        categoryWords = conversation.words.filter(v => v.category == state.quoteLength)
-        state.wordsTemp = categoryWords[getRandomInt(categoryWords.length)]
-      } else if (state.mode2 == "story") {
-        categoryWords = story.words.filter(v => v.category == state.quoteLength)
-        state.wordsTemp = categoryWords[getRandomInt(categoryWords.length)]
-      } else if (state.mode2 == "news") {
-        categoryWords = news.words.filter(v => v.category == state.quoteLength)
-        state.wordsTemp = categoryWords[getRandomInt(categoryWords.length)]
-      }
+      if (state.quoteLength != "search") {
+        if (state.mode2 == "conversation") {
+          categoryWords = conversation.words.filter(v => v.category == state.quoteLength)
+          state.wordsTemp = categoryWords[getRandomInt(categoryWords.length)]
+        } else if (state.mode2 == "story") {
+          categoryWords = story.words.filter(v => v.category == state.quoteLength)
+          state.wordsTemp = categoryWords[getRandomInt(categoryWords.length)]
+        } else if (state.mode2 == "news") {
+          categoryWords = news.words.filter(v => v.category == state.quoteLength)
+          state.wordsTemp = categoryWords[getRandomInt(categoryWords.length)]
+        }
 
-      state.currentWordId = state.wordsTemp.id
+        state.currentWordId = state.wordsTemp.id
 
-      if (state.wordsTemp) {
-        state.wordsList = state.wordsTemp.text.split(" ")
-        state.currentWords = createLetters(state.wordsTemp);
-        state.fillWord = state.wordsTemp.fill
+        if (state.wordsTemp) {
+          state.wordsList = state.wordsTemp.text.split(" ")
+          state.currentWords = createLetters(state.wordsTemp);
+          state.fillWord = state.wordsTemp.fill
+        }
       }
 
       state.showResult = false;
@@ -333,10 +334,6 @@ export const testSlice = createSlice({
       testSlice.caseReducers.resetTest(state);
     },
     setQuoteLength(state, action: PayloadAction<quoteLengthOptionsType>) {
-      if (action.payload === "search") {
-        state.searchQuoteModal = true;
-        return;
-      }
       state.quoteLength = action.payload;
       testSlice.caseReducers.resetTest(state);
     },
@@ -348,35 +345,14 @@ export const testSlice = createSlice({
     closeSearchModal(state) {
       state.searchQuoteModal = false;
     },
+    openSearchModal(state) {
+      state.searchQuoteModal = true;
+    },
     setCaretPosition(state, action: PayloadAction<caretPosition>) {
       state.caretPosition = action.payload;
     },
-
-    calculateWMP(state) {
-      if (!state.startTime) return;
-
-      let timeElapsed =
-        (new Date().getTime() - state.startTime.getTime()) / 1000;
-
-      if (timeElapsed < 1) return;
-
-      timeElapsed = Math.floor(timeElapsed);
-
-      const charsTyped = getCharactersTyped(state.currentWords);
-      const wpm = Math.ceil(charsTyped.correct / 4 / (timeElapsed / 60));
-      const rawWpm = Math.ceil(
-        (charsTyped.correct + charsTyped.wrong + charsTyped.extra) /
-        4 /
-        (timeElapsed / 60)
-      );
-      state.wpmHistory.push({
-        time: timeElapsed,
-        wpm,
-      });
-      state.rawHistory.push({
-        time: timeElapsed,
-        wpm: rawWpm,
-      });
+    setSelectedSentenceId(state, action: PayloadAction<number>) {
+      state.selectedSentenceId = action.payload
     },
   },
 });
@@ -396,8 +372,9 @@ export const {
   setQuoteLength,
   setSearchQuote,
   closeSearchModal,
+  openSearchModal,
   setCaretPosition,
-  calculateWMP,
+  setSelectedSentenceId,
   setInputFocus,
 } = testSlice.actions;
 

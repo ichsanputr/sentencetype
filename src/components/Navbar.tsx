@@ -172,14 +172,6 @@ function Navbar() {
           transformOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
-          {username && (
-            <MenuItem onClick={handleClose}>
-              <ListItemIcon>
-                <PersonRounded fontSize="small" />
-              </ListItemIcon>
-              Profile
-            </MenuItem>
-          )}
           {
             username && (
               <MenuItem onClick={handleClose}>

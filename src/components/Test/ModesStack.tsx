@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import type { Mode2 } from "../../typings";
 import Search from "@mui/icons-material/Search";
 import {
+  openSearchModal,
   quoteLengthOptions,
   setMode2,
   setQuoteLength,
@@ -156,6 +157,13 @@ function ModesStack() {
               </CustomButton>
             );
           })}
+        <CustomButton key={3} onClick={() => dispatch(openSearchModal())}>
+          <Search
+            sx={{
+              fontSize: "16px",
+            }}
+          />
+        </CustomButton>
       </ButtonContainer>
     </Stack>
   );

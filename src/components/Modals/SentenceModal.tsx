@@ -12,7 +12,9 @@ import {
   closeSearchModal,
   quoteLengthOptions,
   setSearchQuote,
-  categoryOptions
+  categoryOptions,
+  setSelectedSentenceId,
+  resetTest
 } from "../../store/testSlice";
 import SelectBox from "./SelectBox";
 
@@ -183,6 +185,11 @@ function SentenceModal() {
     dispatch(closeSearchModal());
   };
 
+  function handleSelectSentence(id: number) {
+    dispatch(setSelectedSentenceId(id));
+    dispatch(resetTest())
+  }
+
   return (
     <Modal
       open={open}
@@ -282,7 +289,9 @@ function SentenceModal() {
           }}
         >
           {searchResults.slice(0, 100).map((_sentence) => (
-            <SentenceBox key={_sentence.id} sentence={_sentence} />
+            <div onClick={() => handleSelectSentence(_sentence.id)}>
+              <SentenceBox key={_sentence.id} sentence={_sentence} />
+            </div>
           ))}
         </Box>
       </Box>

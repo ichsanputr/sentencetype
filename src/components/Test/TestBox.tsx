@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import TestWords from "./TestWords";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import {
-  calculateWMP,
   incrementTimer,
   resetTest,
   setInputFocus,
@@ -32,7 +31,6 @@ function TestBox() {
     if (isRunning) {
       id = setInterval(() => {
         dispatch(incrementTimer(id));
-        dispatch(calculateWMP());
       }, 1000);
 
       return () => {
