@@ -19,6 +19,7 @@ import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
 import { auth } from "./util/firebase";
 import GoogleOneTapLogin from "react-google-one-tap-login";
 import { useFavicon } from "react-use";
+import HistoryModal from "./components/Modals/HistoryModal";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,7 @@ function App() {
         <Navbar />
         <Outlet />
         <Footer />
+        <HistoryModal />
       </Container>
       {!user && !loading && (
         <GoogleOneTapLogin

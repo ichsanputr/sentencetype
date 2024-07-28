@@ -4,25 +4,11 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
 import englishQuotes from "../../languages/english_quotes.json";
-import news from "../../languages/news.json";
-import story from "../../languages/story.json";
-import conversation from "../../languages/conversation.json";
 import { Typography } from "@mui/material";
 import {
-  closeSearchModal,
   setSearchQuote,
-  setSelectedSentenceId,
-  resetTest,
-  setSelectedSentenceCategory,
-  setMode2,
   closeHistoryResultModal
 } from "../../store/testSlice";
-
-enum Mode2 {
-  conversation = "conversation",
-  story = "story",
-  news = "news",
-}
 
 type searchResultType = {
   id: number,
@@ -47,7 +33,7 @@ function getSentenceGroup(length: number) {
   return quoteGroup;
 }
 
-function SentenceBox({ sentence }: { sentence: searchResultType }) {
+function HistoryBox({ sentence }: { sentence: searchResultType }) {
   const theme = useTheme();
   const dispatch = useAppDispatch();
   return (
@@ -63,7 +49,7 @@ function SentenceBox({ sentence }: { sentence: searchResultType }) {
         cursor: "pointer",
         borderRadius: "10px",
         padding: "16px 24px",
-        marginBottom: "1.5rem",
+        marginBottom: "1rem",
         backgroundColor: theme.sub.alt,
         transition: "background-color 0.2s ease-in-out",
       }}
@@ -130,80 +116,20 @@ function SentenceBox({ sentence }: { sentence: searchResultType }) {
   );
 }
 
-async function searchSentence(category: string, filterLength: string) {
-  let wordsCategory = null
-
-  if (category == "conversation") {
-    wordsCategory = conversation.words
-  } else if (category == "story") {
-    wordsCategory = story.words
-  } else if (category == "news") {
-    wordsCategory = news.words
-  }
-
-  if (filterLength.length > 0) {
-    wordsCategory = wordsCategory!.filter(v => {
-      return v.category == filterLength
-    })
-  }
-
-  return wordsCategory?.map(v => {
-    let arrText: any = v.text.split(" ")
-
-    arrText = arrText.map((j: string, k: number) => {
-      if (v.fill.includes(k)) {
-        j = "__"
-      }
-
-      return j
-    })
-
-    return {
-      id: v.id,
-      source: v.category,
-      text: arrText.join(" "),
-      length: v.text.split(" ").length
-    }
-  })
-}
-
-function SentenceModal() {
+function HistoryModal() {
   const open = useAppSelector((state) => state.test.historyResultModal);
   const dispatch = useAppDispatch();
   const theme = useTheme();
-  const [lengthFilter, setLengthFilter] = useState<string>('short');
-  const [category, setCategory] = useState<string>('conversation')
-  const [searchResults, setSearchResults] = useState<searchResultType[]>([]);
-
-  useEffect(() => {
-    let isCurrent = true;
-    searchSentence(category, lengthFilter).then((res: any) => {
-      // store array of sentence to state
-      if (isCurrent) setSearchResults(res);
-    });
-    return () => {
-      isCurrent = false;
-    };
-  }, [category, lengthFilter]);
+  const [searchResults, setSearchResults] = useState<searchResultType[]>([{
+    id: 9,
+    text: "kolka",
+    source: "asasa",
+    length: 10
+  }]);
 
   const handleClose = () => {
     dispatch(closeHistoryResultModal());
   };
-
-  function handleSelectSentence(id: number) {
-    let mode = Mode2.conversation
-
-    if (category == "news"){
-      mode = Mode2.news
-    } else if(category == "story"){
-      mode = Mode2.story
-    }
-
-    dispatch(setMode2(mode))
-    dispatch(setSelectedSentenceId(id));
-    dispatch(setSelectedSentenceCategory(lengthFilter));
-    dispatch(resetTest())
-  }
 
   return (
     <Modal
@@ -211,13 +137,6 @@ function SentenceModal() {
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
-      componentsProps={{
-        backdrop: {
-          sx: {
-            // background: "transparent",
-          },
-        },
-      }}
     >
       <Box
         sx={{
@@ -239,7 +158,6 @@ function SentenceModal() {
           },
         }}
       >
-        {/* Head */}
         <Box marginBottom={"1rem"}>
           <Typography variant="h5" color={theme.sub.main}>
             History Result
@@ -276,9 +194,7 @@ function SentenceModal() {
           }}
         >
           {searchResults.slice(0, 100).map((_sentence) => (
-            <div onClick={() => handleSelectSentence(_sentence.id)}>
-              <SentenceBox key={_sentence.id} sentence={_sentence} />
-            </div>
+            <HistoryBox key={_sentence.id} sentence={_sentence} />
           ))}
         </Box>
       </Box>
@@ -286,4 +202,4 @@ function SentenceModal() {
   );
 }
 
-export default SentenceModal;
+export default HistoryModal;

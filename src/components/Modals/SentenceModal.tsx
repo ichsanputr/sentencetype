@@ -65,7 +65,7 @@ function SentenceBox({ sentence }: { sentence: searchResultType }) {
         cursor: "pointer",
         borderRadius: "10px",
         padding: "16px 24px",
-        marginBottom: "1.5rem",
+        marginBottom: "1rem",
         backgroundColor: theme.sub.alt,
         transition: "background-color 0.2s ease-in-out",
       }}
