@@ -11,6 +11,7 @@ import {
 import { firestore } from "../../util/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { useUserData } from "../../hooks/useUserData";
+import findSentence from "../../util/findSentence";
 
 type searchResultType = {
   id: number,
@@ -114,24 +115,26 @@ function HistoryModal() {
   };
 
   useEffect(() => {
-    const fetchResults = async () => {
-      if (user?.email) {
-        const collectionRef = doc(firestore, "result", user.email);
-        const docSnap = await getDoc(collectionRef)
+    if (user?.email) {
+      const collectionRef = doc(firestore, "result", user.email);
+      getDoc(collectionRef).then(v => {
+        if (v.exists()) {
+          let data = v.data()
 
-        if (docSnap.exists()) {
-          let data = docSnap.data()
-          console.log(data)
-          // setSearchResults(data)
+          let result = data.sentences.map((v: any) => {
+            let sentence = findSentence(v.id, v.category)
+            return {
+              id: v.id
+            }
+          })
+
+          setSearchResults(result)
         } else {
-          // docSnap.data() will be undefined in this case
           console.log("No such document!");
         }
-      }
+      })
     }
-
-    fetchResults()
-  })
+  }, [])
 
   return (
     <Modal

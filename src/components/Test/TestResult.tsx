@@ -26,6 +26,7 @@ function TestResult() {
   const currentSentenceId = useAppSelector((state) => state.test.currentWordId);
   const [showLoadingSave, setShowLoadingSave] = useState(false);
   const [showAlertSaveSuccess, setShowAlertSaveSuccess] = useState(false);
+  const mode2 = useAppSelector((state) => state.test.mode2);
   const { user } = useUserData();
 
   function handleClose() {
@@ -41,7 +42,8 @@ function TestResult() {
       batch.update(userDoc, {
         sentences: arrayUnion({
           id: currentSentenceId,
-          time: timerCount
+          time: timerCount,
+          category: mode2
         }),
       });
 

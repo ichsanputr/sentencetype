@@ -38,6 +38,7 @@ const router = createBrowserRouter([
 function App() {
   const theme = useTheme();
   const { user, loading } = useContext(UserContext);
+  const historyResultModal = useAppSelector((state) => state.test.historyResultModal);
 
   return (
     <Box
@@ -65,7 +66,7 @@ function App() {
         <Navbar />
         <Outlet />
         <Footer />
-        <HistoryModal />
+        {historyResultModal && <HistoryModal />}
       </Container>
       {!user && !loading && (
         <GoogleOneTapLogin

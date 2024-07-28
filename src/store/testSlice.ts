@@ -1,9 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import english from "../languages/english.json";
-import news from "../languages/news.json";
-import story from "../languages/story.json";
-import conversation from "../languages/conversation.json";
+import sentences from "../languages/sentences.json";
 import { RootState } from "./store";
 import {
   Letter,
@@ -125,7 +123,7 @@ const initialState: TestState = {
   selectedSentenceId: 0,
   currentWordId: 0,
   wordsList: randomizedWords,
-  currentWords: createLetters(news.words[0]),
+  currentWords: createLetters(sentences.conversation.words[0]),
   fillWord: [],
   isRunning: false,
   time: 30,
@@ -182,24 +180,24 @@ export const testSlice = createSlice({
 
       if (state.quoteLength != "search") {
         if (state.mode2 == "conversation") {
-          categoryWords = conversation.words.filter(v => v.category == state.quoteLength)
+          categoryWords = sentences.conversation.words.filter(v => v.category == state.quoteLength)
           state.wordsTemp = categoryWords[getRandomInt(categoryWords.length)]
         } else if (state.mode2 == "story") {
-          categoryWords = story.words.filter(v => v.category == state.quoteLength)
+          categoryWords = sentences.story.words.filter(v => v.category == state.quoteLength)
           state.wordsTemp = categoryWords[getRandomInt(categoryWords.length)]
         } else if (state.mode2 == "news") {
-          categoryWords = news.words.filter(v => v.category == state.quoteLength)
+          categoryWords = sentences.news.words.filter(v => v.category == state.quoteLength)
           state.wordsTemp = categoryWords[getRandomInt(categoryWords.length)]
         }
       } else {
         if (state.mode2 == "conversation") {
-          categoryWords = conversation.words.filter(v => v.category == state.selectedSentenceCategory && v.id == state.selectedSentenceId)
+          categoryWords = sentences.conversation.words.filter(v => v.category == state.selectedSentenceCategory && v.id == state.selectedSentenceId)
           state.wordsTemp = categoryWords[0]
         } else if (state.mode2 == "story") {
-          categoryWords = story.words.filter(v => v.category == state.selectedSentenceCategory && v.id == state.selectedSentenceId)
+          categoryWords = sentences.story.words.filter(v => v.category == state.selectedSentenceCategory && v.id == state.selectedSentenceId)
           state.wordsTemp = categoryWords[0]
         } else if (state.mode2 == "news") {
-          categoryWords = news.words.filter(v => v.category == state.selectedSentenceCategory && v.id == state.selectedSentenceId)
+          categoryWords = sentences.news.words.filter(v => v.category == state.selectedSentenceCategory && v.id == state.selectedSentenceId)
           state.wordsTemp = categoryWords[0]
         }
       }
