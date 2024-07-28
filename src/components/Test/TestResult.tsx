@@ -30,7 +30,7 @@ function TestResult() {
   const { user } = useUserData();
 
   function handleClose() {
-    setShowLoadingSave(false)
+    setShowAlertSaveSuccess(false)
   }
 
   async function handleSaveResult() {

@@ -18,6 +18,7 @@ type searchResultType = {
   text: string,
   source: string,
   length: number,
+  time: string
 };
 
 function HistoryBox({ sentence }: { sentence: searchResultType }) {
@@ -92,6 +93,17 @@ function HistoryBox({ sentence }: { sentence: searchResultType }) {
             }}
             color={theme.sub.main}
           >
+            time
+          </Typography>
+          <Typography color={theme.sub.main}>{sentence.time}s</Typography>
+        </Box>
+        <Box display="flex" flexDirection={"column"}>
+          <Typography
+            sx={{
+              opacity: 0.5,
+            }}
+            color={theme.sub.main}
+          >
             length
           </Typography>
           <Typography color={theme.sub.main}>
@@ -124,7 +136,10 @@ function HistoryModal() {
           let result = data.sentences.map((v: any) => {
             let sentence = findSentence(v.id, v.category)
             return {
-              id: v.id
+              id: v.id,
+              text: sentence.text,
+              source: v.category,
+              time: v.time,
             }
           })
 
@@ -134,7 +149,7 @@ function HistoryModal() {
         }
       })
     }
-  }, [])
+  }, [user, open])
 
   return (
     <Modal

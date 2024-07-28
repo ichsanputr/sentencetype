@@ -1,7 +1,9 @@
 import sentences from "../languages/sentences.json";
 
 function findSentence(id: number, category: string) {
-    let categoryWords: Array<Object> = [];
+    let categoryWords: Array<{
+        text: string,
+    }> = [];
 
     if (category == "conversation") {
         categoryWords = sentences.conversation.words.filter((v) => v.id == id)
