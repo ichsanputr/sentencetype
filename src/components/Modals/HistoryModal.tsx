@@ -10,15 +10,13 @@ import conversation from "../../languages/conversation.json";
 import { Typography } from "@mui/material";
 import {
   closeSearchModal,
-  quoteLengthOptions,
   setSearchQuote,
-  categoryOptions,
   setSelectedSentenceId,
   resetTest,
   setSelectedSentenceCategory,
-  setMode2
+  setMode2,
+  closeHistoryResultModal
 } from "../../store/testSlice";
-import SelectBox from "./SelectBox";
 
 enum Mode2 {
   conversation = "conversation",
@@ -170,14 +168,13 @@ async function searchSentence(category: string, filterLength: string) {
 }
 
 function SentenceModal() {
-  const open = useAppSelector((state) => state.test.searchQuoteModal);
+  const open = useAppSelector((state) => state.test.historyResultModal);
   const dispatch = useAppDispatch();
   const theme = useTheme();
   const [lengthFilter, setLengthFilter] = useState<string>('short');
   const [category, setCategory] = useState<string>('conversation')
   const [searchResults, setSearchResults] = useState<searchResultType[]>([]);
 
-  // get date when filter changed
   useEffect(() => {
     let isCurrent = true;
     searchSentence(category, lengthFilter).then((res: any) => {
@@ -190,7 +187,7 @@ function SentenceModal() {
   }, [category, lengthFilter]);
 
   const handleClose = () => {
-    dispatch(closeSearchModal());
+    dispatch(closeHistoryResultModal());
   };
 
   function handleSelectSentence(id: number) {
@@ -245,35 +242,8 @@ function SentenceModal() {
         {/* Head */}
         <Box marginBottom={"1rem"}>
           <Typography variant="h5" color={theme.sub.main}>
-            Sentence Search
+            History Result
           </Typography>
-        </Box>
-        {/* search and filter input */}
-        <Box
-          display={"flex"}
-          flexDirection={"row"}
-          gap={"1rem"}
-          sx={{
-            flexDirection: {
-              xs: "column",
-              sm: "row",
-            },
-          }}
-        >
-          <SelectBox
-            selectedItems={category}
-            setSelectedItems={setCategory}
-            inputLabel={"Filter by category"}
-            items={categoryOptions}
-          />
-          <SelectBox
-            selectedItems={lengthFilter}
-            setSelectedItems={setLengthFilter}
-            inputLabel={"Filter by length"}
-            items={quoteLengthOptions.filter(
-              (q) => q !== "search" && q !== "all"
-            )}
-          />
         </Box>
         <Typography
           sx={{
@@ -283,7 +253,6 @@ function SentenceModal() {
             },
           }}
           color={theme.sub.main}
-          textAlign={"center"}
           mt={1}
         >
           {searchResults.length}

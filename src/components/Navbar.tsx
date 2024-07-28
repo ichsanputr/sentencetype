@@ -1,10 +1,10 @@
 import React from "react";
 import MemoMtLogo from "./MtLogo";
 import { Box, IconButton, Stack, Typography, Divider, Tooltip, Avatar, Menu, MenuItem, ListItemIcon, useTheme } from "@mui/material";
-import { PersonRounded, KeyboardRounded, Logout, History, Login } from "@mui/icons-material";
+import { KeyboardRounded, Logout, History, Login } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../store/store";
-import { resetTest } from "../store/testSlice";
+import { resetTest, setHistoryResultModal } from "../store/testSlice";
 import { UserContext } from "../store/userContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../util/firebase";
@@ -24,11 +24,16 @@ function Navbar() {
     setAnchorEl(null);
   };
 
+  function openHistoryResultModal() {
+    dispatch(setHistoryResultModal(true))
+    setAnchorEl(null)
+  }
+
   const navigateLogin = () => {
     navigate("/login")
   }
 
-  function handleLogout(){
+  function handleLogout() {
     signOut(auth)
   }
 
@@ -174,7 +179,7 @@ function Navbar() {
         >
           {
             username && (
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={openHistoryResultModal}>
                 <ListItemIcon>
                   <History fontSize="small" />
                 </ListItemIcon>

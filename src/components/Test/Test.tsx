@@ -5,6 +5,7 @@ import TestResult from "./TestResult";
 import ModesStack from "./ModesStack";
 import TestBox from "./TestBox";
 import SentenceModal from "../Modals/SentenceModal";
+import HistoryModal from "../Modals/HistoryModal";
 
 function Test() {
   const showResult = useAppSelector((state) => state.test.showResult);
@@ -18,6 +19,7 @@ function Test() {
           <ModesStack />
           <TestBox />
           <SentenceModal />
+          <HistoryModal />
         </>
       )}
     </Box>

@@ -77,6 +77,7 @@ export interface TestState {
     fill: number[],
     category: string
   };
+  historyResultModal: boolean,
   selectedSentenceCategory: string,
   selectedSentenceId: number,
   currentWordId: number,
@@ -120,6 +121,7 @@ const initialState: TestState = {
     category: "",
     id: 0
   },
+  historyResultModal: false,
   selectedSentenceId: 0,
   currentWordId: 0,
   wordsList: randomizedWords,
@@ -230,7 +232,6 @@ export const testSlice = createSlice({
       };
       state.startTime = null;
     },
-
     setUserText: (state, action: PayloadAction<string>) => {
       if (!state.isRunning) return;
 
@@ -325,6 +326,12 @@ export const testSlice = createSlice({
     setInputFocus(state, action: PayloadAction<boolean>) {
       state.isInputFocused = action.payload;
     },
+    setHistoryResultModal(state, action: PayloadAction<boolean>) {
+      state.historyResultModal = action.payload;
+    },
+    closeHistoryResultModal(state) {
+      state.historyResultModal = false;
+    },
     updateTime(state, action: PayloadAction<15 | 30 | 60 | 120>) {
       state.time = action.payload;
       testSlice.caseReducers.resetTest(state);
@@ -386,8 +393,10 @@ export const {
   setWordLength,
   setQuoteLength,
   setSearchQuote,
+  closeHistoryResultModal,
   closeSearchModal,
   openSearchModal,
+  setHistoryResultModal,
   setCaretPosition,
   setSelectedSentenceId,
   setSelectedSentenceCategory,
