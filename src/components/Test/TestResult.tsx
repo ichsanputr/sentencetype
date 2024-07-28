@@ -39,7 +39,10 @@ function TestResult() {
       const batch = writeBatch(firestore);
 
       batch.update(userDoc, {
-        id: arrayUnion(currentSentenceId),
+        sentences: arrayUnion({
+          id: currentSentenceId,
+          time: timerCount
+        }),
       });
 
       await batch.commit();

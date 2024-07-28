@@ -3,12 +3,14 @@ import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
-import englishQuotes from "../../languages/english_quotes.json";
 import { Typography } from "@mui/material";
 import {
   setSearchQuote,
   closeHistoryResultModal
 } from "../../store/testSlice";
+import { firestore } from "../../util/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { useUserData } from "../../hooks/useUserData";
 
 type searchResultType = {
   id: number,
@@ -16,22 +18,6 @@ type searchResultType = {
   source: string,
   length: number,
 };
-
-function getSentenceGroup(length: number) {
-  const allGroups = ["short", "medium", "long"];
-  const groupRange = englishQuotes.groups;
-  const quoteRangeMap = {} as Record<string, [number, number]>;
-  allGroups.forEach((group, index) => {
-    quoteRangeMap[group] = [groupRange[index][0], groupRange[index][1]];
-  });
-
-  const quoteGroup = allGroups.find((group) => {
-    const [min, max] = quoteRangeMap[group];
-    return length >= min && length <= max;
-  });
-
-  return quoteGroup;
-}
 
 function HistoryBox({ sentence }: { sentence: searchResultType }) {
   const theme = useTheme();
@@ -108,7 +94,7 @@ function HistoryBox({ sentence }: { sentence: searchResultType }) {
             length
           </Typography>
           <Typography color={theme.sub.main}>
-            {getSentenceGroup(sentence.length)}
+            kolak
           </Typography>
         </Box>
       </Box>
@@ -120,16 +106,32 @@ function HistoryModal() {
   const open = useAppSelector((state) => state.test.historyResultModal);
   const dispatch = useAppDispatch();
   const theme = useTheme();
-  const [searchResults, setSearchResults] = useState<searchResultType[]>([{
-    id: 9,
-    text: "kolka",
-    source: "asasa",
-    length: 10
-  }]);
+  const { user } = useUserData();
+  const [searchResults, setSearchResults] = useState<searchResultType[]>([]);
 
   const handleClose = () => {
     dispatch(closeHistoryResultModal());
   };
+
+  useEffect(() => {
+    const fetchResults = async () => {
+      if (user?.email) {
+        const collectionRef = doc(firestore, "result", user.email);
+        const docSnap = await getDoc(collectionRef)
+
+        if (docSnap.exists()) {
+          let data = docSnap.data()
+          console.log(data)
+          // setSearchResults(data)
+        } else {
+          // docSnap.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      }
+    }
+
+    fetchResults()
+  })
 
   return (
     <Modal
