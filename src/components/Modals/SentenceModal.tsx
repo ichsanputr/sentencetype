@@ -4,9 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
 import englishQuotes from "../../languages/english_quotes.json";
-import news from "../../languages/news.json";
-import story from "../../languages/story.json";
-import conversation from "../../languages/conversation.json";
+import sentences from "../../languages/sentences.json";
 import { Typography } from "@mui/material";
 import {
   closeSearchModal,
@@ -136,11 +134,11 @@ async function searchSentence(category: string, filterLength: string) {
   let wordsCategory = null
 
   if (category == "conversation") {
-    wordsCategory = conversation.words
+    wordsCategory = sentences.conversation.words
   } else if (category == "story") {
-    wordsCategory = story.words
+    wordsCategory = sentences.story.words
   } else if (category == "news") {
-    wordsCategory = news.words
+    wordsCategory = sentences.news.words
   }
 
   if (filterLength.length > 0) {
@@ -271,7 +269,7 @@ function SentenceModal() {
             setSelectedItems={setLengthFilter}
             inputLabel={"Filter by length"}
             items={quoteLengthOptions.filter(
-              (q) => q !== "search" && q !== "all"
+              (q) => q !== "search"
             )}
           />
         </Box>

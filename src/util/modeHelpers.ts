@@ -17,9 +17,6 @@ export function getWords(
 }
 
 function getQuote(length: quoteLengthOptionsType) {
-  if (length === "all")
-    return quotes[Math.floor(Math.random() * quotes.length)].text;
-
   const groupIndex = quoteLengthOptions.findIndex((x) => x === length);
 
   const group = groups[groupIndex - 1];

@@ -138,7 +138,7 @@ const initialState: TestState = {
   mode2: "conversation" as Mode2.conversation,
   punctuation: false,
   numbers: false,
-  quoteLength: "all",
+  quoteLength: "short",
   showResult: false,
   wpmHistory: [],
   rawHistory: [],
@@ -193,6 +193,7 @@ export const testSlice = createSlice({
         }
       } else {
         if (state.mode2 == "conversation") {
+          console.log(999)
           categoryWords = sentences.conversation.words.filter(v => v.category == state.selectedSentenceCategory && v.id == state.selectedSentenceId)
           state.wordsTemp = categoryWords[0]
         } else if (state.mode2 == "story") {

@@ -10,11 +10,10 @@ export enum Mode2 {
 
 export type wordLengthOptionsType = 10 | 25 | 50 | 100;
 export type quoteLengthOptionsType =
-  | "all"
   | "short"
   | "medium"
   | "long"
-  | "search";
+  | "search"
 export type CategoryType =
   | "conversation"
   | "story"

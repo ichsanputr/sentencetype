@@ -83,9 +83,9 @@
         "words": [
             {
                 "id": 1,
-                "text": "Bye friend right now",
+                "text": "Hey, Iam thinking about planning a weekend trip. Do you have any suggestions?",
                 "fill": [
-                    1
+                    2, 10
                 ],
                 "category": "short"
             },
@@ -93,7 +93,7 @@
                 "id": 2,
                 "text": "Hi, I need help with a smart contract function.",
                 "fill": [
-                    1
+                    1, 5
                 ],
                 "category": "short"
             },
@@ -112,18 +112,9 @@
                 "text": "I’m trying to send value in a smart contract, but I'm running into some issues. Can you help me figure out what might be going wrong?",
                 "fill": [
                     3,
-                    6,
                     8
                 ],
                 "category": "medium"
-            },
-            {
-                "id": 5,
-                "text": "Hi, I need help with this function.",
-                "fill": [
-                    1
-                ],
-                "category": "short"
             }
         ]
     }
