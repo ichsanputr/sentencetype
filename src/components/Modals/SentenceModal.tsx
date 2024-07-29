@@ -19,7 +19,7 @@ import {
 import SelectBox from "./SelectBox";
 
 enum Mode2 {
-  conversation = "conversation",
+  common = "common",
   story = "story",
   news = "news",
 }
@@ -133,8 +133,8 @@ function SentenceBox({ sentence }: { sentence: searchResultType }) {
 async function searchSentence(category: string, filterLength: string) {
   let wordsCategory = null
 
-  if (category == "conversation") {
-    wordsCategory = sentences.conversation.words
+  if (category == "common") {
+    wordsCategory = sentences.common.words
   } else if (category == "story") {
     wordsCategory = sentences.story.words
   } else if (category == "news") {
@@ -172,7 +172,7 @@ function SentenceModal() {
   const dispatch = useAppDispatch();
   const theme = useTheme();
   const [lengthFilter, setLengthFilter] = useState<string>('short');
-  const [category, setCategory] = useState<string>('conversation')
+  const [category, setCategory] = useState<string>('common')
   const [searchResults, setSearchResults] = useState<searchResultType[]>([]);
 
   // get date when filter changed
@@ -192,7 +192,7 @@ function SentenceModal() {
   };
 
   function handleSelectSentence(id: number) {
-    let mode = Mode2.conversation
+    let mode = Mode2.common
 
     if (category == "news"){
       mode = Mode2.news

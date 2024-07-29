@@ -20,6 +20,7 @@ import { auth } from "./util/firebase";
 import GoogleOneTapLogin from "react-google-one-tap-login";
 import { useFavicon } from "react-use";
 import HistoryModal from "./components/Modals/HistoryModal";
+import { Helmet } from 'react-helmet';
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,18 @@ function App() {
       flexDirection={"column"}
       overflow={"hidden"}
     >
+      <Helmet>
+        <title>CatSentence - Learn English with Fill The Sentence</title>
+        <meta name="description" content="Learn English writing, composing words and vocabulary by completing sentences at CatSentece.com" />
+        <meta property="og:title" content="CatSentence - Learn English with Fill The Sentence" />
+        <meta property="og:description" content="Learn English writing, composing words and vocabulary by completing sentences at CatSentece.com" />
+        <meta property="og:image" content="https://example.com/image.jpg" />
+        <meta property="og:url" content="https://example.com/page" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="My Page Title" />
+        <meta name="twitter:description" content="This is a description of my page." />
+        <meta name="twitter:image" content="https://example.com/image.jpg" />
+      </Helmet>
       <Container
         disableGutters={false}
         sx={{

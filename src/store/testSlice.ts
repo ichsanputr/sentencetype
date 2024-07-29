@@ -19,7 +19,7 @@ export const quoteLengthOptions: quoteLengthOptionsType[] = [
   "long",
 ];
 export const categoryOptions: CategoryType[] = [
-  "conversation",
+  "common",
   "story",
   "news",
 ];
@@ -124,7 +124,7 @@ const initialState: TestState = {
   selectedSentenceId: 0,
   currentWordId: 0,
   wordsList: randomizedWords,
-  currentWords: createLetters(sentences.conversation.words[0]),
+  currentWords: createLetters(sentences.common.words[0]),
   fillWord: [],
   isRunning: false,
   time: 30,
@@ -135,7 +135,7 @@ const initialState: TestState = {
   correctWords: [],
   currentCharIndex: 0,
   wordLength: 25,
-  mode2: "conversation" as Mode2.conversation,
+  mode2: "common" as Mode2.common,
   punctuation: false,
   numbers: false,
   quoteLength: "short",
@@ -181,8 +181,8 @@ export const testSlice = createSlice({
       let categoryWords: any = [];
 
       if (state.quoteLength != "search") {
-        if (state.mode2 == "conversation") {
-          categoryWords = sentences.conversation.words.filter(v => v.category == state.quoteLength)
+        if (state.mode2 == "common") {
+          categoryWords = sentences.common.words.filter(v => v.category == state.quoteLength)
           state.wordsTemp = categoryWords[getRandomInt(categoryWords.length)]
         } else if (state.mode2 == "story") {
           categoryWords = sentences.story.words.filter(v => v.category == state.quoteLength)
@@ -192,9 +192,8 @@ export const testSlice = createSlice({
           state.wordsTemp = categoryWords[getRandomInt(categoryWords.length)]
         }
       } else {
-        if (state.mode2 == "conversation") {
-          console.log(999)
-          categoryWords = sentences.conversation.words.filter(v => v.category == state.selectedSentenceCategory && v.id == state.selectedSentenceId)
+        if (state.mode2 == "common") {
+          categoryWords = sentences.common.words.filter(v => v.category == state.selectedSentenceCategory && v.id == state.selectedSentenceId)
           state.wordsTemp = categoryWords[0]
         } else if (state.mode2 == "story") {
           categoryWords = sentences.story.words.filter(v => v.category == state.selectedSentenceCategory && v.id == state.selectedSentenceId)

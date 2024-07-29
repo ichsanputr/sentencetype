@@ -3,7 +3,7 @@ export type TimeOptionsType = 15 | 30 | 60 | 120;
 export type Mode = "punctuation" | "numbers";
 
 export enum Mode2 {
-  conversation = "conversation",
+  common = "common",
   story = "story",
   news = "news",
 }
@@ -15,7 +15,7 @@ export type quoteLengthOptionsType =
   | "long"
   | "search"
 export type CategoryType =
-  | "conversation"
+  | "common"
   | "story"
   | "news"
 

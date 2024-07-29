@@ -5,8 +5,8 @@ function findSentence(id: number, category: string) {
         text: string,
     }> = [];
 
-    if (category == "conversation") {
-        categoryWords = sentences.conversation.words.filter((v) => v.id == id)
+    if (category == "common") {
+        categoryWords = sentences.common.words.filter((v) => v.id == id)
     } else if (category == "story") {
         categoryWords = sentences.story.words.filter((v) => v.id == id)
     } else if (category == "news") {

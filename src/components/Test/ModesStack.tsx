@@ -115,11 +115,11 @@ function ModesStack() {
     >
       <ButtonContainer>
         <CustomButton
-          active={mode2 === "conversation"}
-          onClick={() => dispatch(setMode2("conversation" as Mode2.conversation))}
+          active={mode2 === "common"}
+          onClick={() => dispatch(setMode2("common" as Mode2.common))}
         >
           <EmojiPeople fontSize="small" sx={{ padding: 0.2 }} />
-          conversation
+          common
         </CustomButton>
         <CustomButton
           active={mode2 === "story"}

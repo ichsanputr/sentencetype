@@ -76,8 +76,8 @@
             }
         ]
     },
-    "conversation": {
-        "name": "conversation",
+    "common": {
+        "name": "common",
         "leftToRight": true,
         "noLazyMode": true,
         "words": [
