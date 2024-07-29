@@ -3,8 +3,8 @@ import MemoMtLogo from "./MtLogo";
 import { Box, IconButton, Stack, Typography, Divider, Tooltip, Avatar, Menu, MenuItem, ListItemIcon, useTheme } from "@mui/material";
 import { KeyboardRounded, Logout, History, Login } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../store/store";
-import { resetTest, setHistoryResultModal } from "../store/testSlice";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { resetTest, setHistoryResultModal, setShowKeyboard } from "../store/testSlice";
 import { UserContext } from "../store/userContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../util/firebase";
@@ -13,6 +13,7 @@ function Navbar() {
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const showKeyboard = useAppSelector((state) => state.test.showKeyboard);
   const { username } = React.useContext(UserContext);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -35,6 +36,15 @@ function Navbar() {
 
   function handleLogout() {
     signOut(auth)
+  }
+
+  function openKeyboard() {
+    if (window.innerWidth >= 900) {
+      navigate("/");
+      dispatch(resetTest());
+    }
+
+    dispatch(setShowKeyboard(!showKeyboard))
   }
 
   return (
@@ -119,8 +129,7 @@ function Navbar() {
             },
           }}
           onClick={() => {
-            navigate("/");
-            dispatch(resetTest());
+            openKeyboard()
           }}
         >
           <KeyboardRounded fontSize="medium" />

@@ -75,6 +75,7 @@ export interface TestState {
     fill: number[],
     category: string
   };
+  showKeyboard: boolean,
   historyResultModal: boolean,
   selectedSentenceCategory: string,
   selectedSentenceId: number,
@@ -127,6 +128,7 @@ const initialState: TestState = {
   fillWord: [],
   isRunning: false,
   time: 30,
+  showKeyboard: false,
   timerCount: 0,
   wpm: 0,
   currentWordIndex: 0,
@@ -327,6 +329,9 @@ export const testSlice = createSlice({
     setHistoryResultModal(state, action: PayloadAction<boolean>) {
       state.historyResultModal = action.payload;
     },
+    setShowKeyboard(state, action: PayloadAction<boolean>) {
+      state.showKeyboard = action.payload;
+    },
     closeHistoryResultModal(state) {
       state.historyResultModal = false;
     },
@@ -395,6 +400,7 @@ export const {
   closeSearchModal,
   openSearchModal,
   setHistoryResultModal,
+  setShowKeyboard,
   setCaretPosition,
   setSelectedSentenceId,
   setSelectedSentenceCategory,

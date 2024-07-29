@@ -22,6 +22,7 @@ function TestBox() {
   const isRunning = useAppSelector((state) => state.test.isRunning);
   const currentWordIndex = useAppSelector((state) => state.test.currentWordIndex);
   const wordsList = useAppSelector((state) => state.test.wordsList);
+  const showKeyboard = useAppSelector((state) => state.test.showKeyboard);
   const timerCount = useAppSelector((state) => state.test.timerCount);
   const theme = useTheme();
   const time = useAppSelector((state) => state.test.time);
@@ -43,7 +44,7 @@ function TestBox() {
   }, [isRunning, dispatch, mode2]);
 
   const processInput = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    const isCharacter = /^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/ ?]$/.test(
+    const isCharacter = /^[a-zA-Z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/ ?]$/.test(
       e.key
     );
 
@@ -64,19 +65,16 @@ function TestBox() {
   }, [isInputFocused]);
 
   const onKeyPress = (e: any) => {
-    console.log(e)
-    if (e == "{bksp}"){
+    if (e == "{bksp}") {
       e = "Backspace"
-    } else if(e == "{space}"){
-      e = "Space"
+    } else if (e == "{space}") {
+      e = " "
     } else if (e == "{lock}") {
       e = "CapsLock"
       setLayout(!layout)
-    } else if (e == "{space}") {
-      e = " "
     }
 
-    const isCharacter = /^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/ ?]$/.test(
+    const isCharacter = /^[a-zA-Z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/ ?]$/.test(
       e
     );
 
@@ -92,18 +90,16 @@ function TestBox() {
 
   const keyboardLayout = {
     'default': [
-      '1 2 3 4 5 6 7 8 9 0 {bksp}',
       'q w e r t y u i o p',
-      '{lock} a s d f g h j k l {enter}',
-      'z x c v b n m , .',
-      '{space}'
+      'a s d f g h j k l',
+      '{lock} z x c v b n m {bksp}',
+      ', {space} .'
     ],
     'lock': [
-      '1 2 3 4 5 6 7 8 9 0 {bksp}',
       'Q W E R T Y U I O P',
-      '{lock} A S D F G H J K L {enter}',
-      'Z X C V B N M',
-      '{space}'
+      'A S D F G H J K L',
+      '{lock} Z X C V B N M {bksp}',
+      ', {space} .'
     ],
   }
 
@@ -140,8 +136,8 @@ function TestBox() {
       </Stack>
 
       <TestWords />
-
-      <Keyboard
+      {showKeyboard && <Keyboard
+        className={`${showKeyboard ? 'show-keyboard' : 'hide-keyboard'}`}
         display={{
           '{enter}': 'enter',
           '{bksp}': 'bksp',
@@ -151,7 +147,7 @@ function TestBox() {
         layout={keyboardLayout}
         layoutName={!layout ? 'default' : 'lock'}
         onKeyPress={onKeyPress}
-      />
+      />}
       {/* Input to handle what user type */}
       <input
         ref={inputRef}
