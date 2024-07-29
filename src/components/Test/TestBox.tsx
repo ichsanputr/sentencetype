@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import TestWords from "./TestWords";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import {
@@ -27,6 +27,7 @@ function TestBox() {
   const time = useAppSelector((state) => state.test.time);
   const mode2 = useAppSelector((state) => state.test.mode2);
   const isInputFocused = useAppSelector((state) => state.test.isInputFocused);
+  const [layout, setLayout] = useState(false);
 
   useEffect(() => {
     let id: NodeJS.Timer;
@@ -62,12 +63,48 @@ function TestBox() {
     }
   }, [isInputFocused]);
 
-  const onChange = (v: any) => {
-    console.log("Input changed", v);
+  const onKeyPress = (e: any) => {
+    console.log(e)
+    if (e == "{bksp}"){
+      e = "Backspace"
+    } else if(e == "{space}"){
+      e = "Space"
+    } else if (e == "{lock}") {
+      e = "CapsLock"
+      setLayout(!layout)
+    } else if (e == "{space}") {
+      e = " "
+    }
+
+    const isCharacter = /^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/ ?]$/.test(
+      e
+    );
+
+    if (isCharacter && !isRunning) {
+      dispatch(startTest());
+    }
+
+    if (isCharacter || e === "Backspace") {
+      // Set user text
+      dispatch(setUserText(e));
+    }
   }
 
-  const onKeyPress = (v: any) => {
-    console.log("Button pressed", v);
+  const keyboardLayout = {
+    'default': [
+      '1 2 3 4 5 6 7 8 9 0 {bksp}',
+      'q w e r t y u i o p',
+      '{lock} a s d f g h j k l {enter}',
+      'z x c v b n m , .',
+      '{space}'
+    ],
+    'lock': [
+      '1 2 3 4 5 6 7 8 9 0 {bksp}',
+      'Q W E R T Y U I O P',
+      '{lock} A S D F G H J K L {enter}',
+      'Z X C V B N M',
+      '{space}'
+    ],
   }
 
   return (
@@ -105,7 +142,14 @@ function TestBox() {
       <TestWords />
 
       <Keyboard
-        onChange={onChange}
+        display={{
+          '{enter}': 'enter',
+          '{bksp}': 'bksp',
+          '{lock}': 'caps',
+          '{space}': 'space',
+        }}
+        layout={keyboardLayout}
+        layoutName={!layout ? 'default' : 'lock'}
         onKeyPress={onKeyPress}
       />
       {/* Input to handle what user type */}
@@ -114,6 +158,7 @@ function TestBox() {
         autoCapitalize="off"
         autoCorrect="off"
         autoComplete="off"
+        className="hide-mobile"
         style={{
           width: "5%",
           opacity: 0,

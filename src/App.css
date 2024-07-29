@@ -32,13 +32,14 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
 .second {
-  font-size:30px;
+  font-size: 30px;
 }
 
 .result-word {
@@ -53,4 +54,25 @@
 
 p {
   line-height: 2.5rem !important;
+}
+
+.hide-mobile {
+  display: none;
+}
+
+.react-simple-keyboard {
+  display: block;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+@media only screen and (min-width: 900px) {
+  .react-simple-keyboard {
+    display: none;
+  }
+
+  .hide-mobile {
+    display: flex;
+  }
 }
