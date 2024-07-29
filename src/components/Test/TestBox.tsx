@@ -13,6 +13,8 @@ import { Stack, Typography, Tooltip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton/IconButton";
 import { Refresh } from "@mui/icons-material";
+import Keyboard from 'react-simple-keyboard';
+import 'react-simple-keyboard/build/css/index.css';
 
 function TestBox() {
   const dispatch = useAppDispatch();
@@ -60,6 +62,14 @@ function TestBox() {
     }
   }, [isInputFocused]);
 
+  const onChange = (v: any) => {
+    console.log("Input changed", v);
+  }
+
+  const onKeyPress = (v: any) => {
+    console.log("Button pressed", v);
+  }
+
   return (
     <Box
       sx={{
@@ -94,6 +104,10 @@ function TestBox() {
 
       <TestWords />
 
+      <Keyboard
+        onChange={onChange}
+        onKeyPress={onKeyPress}
+      />
       {/* Input to handle what user type */}
       <input
         ref={inputRef}
