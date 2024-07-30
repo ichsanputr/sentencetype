@@ -111,8 +111,6 @@ export interface TestState {
   isInputFocused: boolean;
 }
 
-const randomizedWords = [...english.words].sort(() => Math.random() - 0.5);
-
 const initialState: TestState = {
   wordsTemp: {
     fill: [],
@@ -123,7 +121,7 @@ const initialState: TestState = {
   historyResultModal: false,
   selectedSentenceId: 0,
   currentWordId: 0,
-  wordsList: randomizedWords,
+  wordsList: sentences.common.words[0].text.split(" "),
   currentWords: createLetters(sentences.common.words[0]),
   fillWord: [],
   isRunning: false,
