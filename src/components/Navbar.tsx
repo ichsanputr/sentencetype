@@ -48,8 +48,8 @@ function Navbar() {
 
     dispatch(setShowKeyboard(!showKeyboard))
   }
-  
-  function handleCloseToastLogout(){
+
+  function handleCloseToastLogout() {
     setShowToastLogout(false)
   }
 
@@ -186,8 +186,8 @@ function Navbar() {
                 position: 'absolute',
                 top: 0,
                 right: 14,
-                width: 10,
-                height: 10,
+                width: 6,
+                height: 6,
                 bgcolor: 'background.paper',
                 transform: 'translateY(-50%) rotate(45deg)',
                 zIndex: 0,
@@ -199,24 +199,31 @@ function Navbar() {
         >
           {
             username && (
-              <MenuItem onClick={openHistoryResultModal}>
-                <ListItemIcon>
-                  <History fontSize="small" />
-                </ListItemIcon>
-                History
+              <MenuItem dense sx={{
+                alignItems: "center"
+              }} onClick={openHistoryResultModal}>
+                <History fontSize="small" />
+                <Typography sx={{
+                  fontSize: 14,
+                  marginLeft: 1
+                }}>History</Typography>
               </MenuItem>
             )
           }
-          <Divider />
           {username ? (
-            <MenuItem onClick={handleLogout}>
-              <ListItemIcon>
-                <Logout fontSize="small" />
-              </ListItemIcon>
-              Logout
+            <MenuItem dense sx={{
+              alignItems: "center"
+            }} onClick={handleLogout}>
+              <Logout fontSize="small" />
+              <Typography sx={{
+                fontSize: 14,
+                marginLeft: 1
+              }}>Logout</Typography>
             </MenuItem>
           ) : (
-            <MenuItem onClick={navigateLogin}>
+            <MenuItem dense sx={{
+              alignItems: "center"
+            }} onClick={navigateLogin}>
               <ListItemIcon>
                 <Login fontSize="small" />
               </ListItemIcon>
