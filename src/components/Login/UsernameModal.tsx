@@ -3,7 +3,7 @@ import { Modal, Box, useTheme, Typography } from "@mui/material";
 import { LoginInput, StyledLoginButton } from "./Login";
 import useCheckUsername from "../../hooks/useCheckUsername";
 import { UserContext } from "../../store/userContext";
-import { collection, doc, writeBatch } from "firebase/firestore";
+import { collection, doc, writeBatch, arrayUnion } from "firebase/firestore";
 import { firestore } from "../../util/firebase";
 
 const UsernameModal: React.FunctionComponent<{
@@ -19,11 +19,13 @@ const UsernameModal: React.FunctionComponent<{
     if (!user) return;
     try {
       const userDoc = doc(collection(firestore, "users"), user.uid);
+      const resultDoc = doc(collection(firestore, "result"), user!.email as string);
       const usernameDoc = doc(collection(firestore, "usernames"), username);
       const batch = writeBatch(firestore);
       batch.set(userDoc, {
         username: username,
       });
+      batch.set(resultDoc, {});
       batch.set(usernameDoc, { uid: user.uid });
 
       await batch.commit();
@@ -78,8 +80,8 @@ const UsernameModal: React.FunctionComponent<{
               ? loading
                 ? "loading"
                 : isValid
-                ? "correct"
-                : "wrong"
+                  ? "correct"
+                  : "wrong"
               : undefined
           }
         />

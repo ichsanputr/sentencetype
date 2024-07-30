@@ -3,10 +3,9 @@ import { Box, Grid, Tooltip, Typography, useTheme, Snackbar, CircularProgress, A
 import IconButton from "@mui/material/IconButton/IconButton";
 import { TurnedInNot, NavigateNext } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { collection, doc, writeBatch } from "firebase/firestore";
+import { collection, doc, writeBatch, arrayUnion } from "firebase/firestore";
 import { firestore } from "../../util/firebase";
 import { useUserData } from "../../hooks/useUserData";
-import { arrayUnion } from "firebase/firestore";
 
 import {
   rawWpmSelector,

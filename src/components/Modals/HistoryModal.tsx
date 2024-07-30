@@ -34,7 +34,6 @@ function HistoryBox({ sentence }: { sentence: searchResultType }) {
       flexDirection={"column"}
       p={1}
       sx={{
-        cursor: "pointer",
         borderRadius: "10px",
         padding: "16px 24px",
         marginBottom: "1rem",
@@ -127,6 +126,7 @@ function HistoryModal() {
   };
 
   useEffect(() => {
+    console.log("makan")
     if (user?.email) {
       const collectionRef = doc(firestore, "result", user.email);
       getDoc(collectionRef).then(v => {
