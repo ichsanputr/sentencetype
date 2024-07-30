@@ -14,9 +14,11 @@ import {
   setSelectedSentenceId,
   resetTest,
   setSelectedSentenceCategory,
-  setMode2
+  setMode2,
+  setQuoteLength
 } from "../../store/testSlice";
 import SelectBox from "./SelectBox";
+import { quoteLengthOptionsType } from "../../typings";
 
 enum Mode2 {
   common = "common",
@@ -27,7 +29,7 @@ enum Mode2 {
 type searchResultType = {
   id: number,
   text: string,
-  source: string,
+  source: quoteLengthOptionsType,
   length: number,
 };
 
@@ -191,7 +193,8 @@ function SentenceModal() {
     dispatch(closeSearchModal());
   };
 
-  function handleSelectSentence(id: number) {
+  function handleSelectSentence(id: number, length: quoteLengthOptionsType) {
+    dispatch(setQuoteLength(length))
     let mode = Mode2.common
 
     if (category == "news"){
@@ -305,7 +308,7 @@ function SentenceModal() {
           }}
         >
           {searchResults.slice(0, 100).map((_sentence) => (
-            <div onClick={() => handleSelectSentence(_sentence.id)}>
+            <div onClick={() => handleSelectSentence(_sentence.id, _sentence.source)}>
               <SentenceBox key={_sentence.id} sentence={_sentence} />
             </div>
           ))}

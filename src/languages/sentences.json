@@ -6,39 +6,112 @@
         "words": [
             {
                 "id": 1,
-                "text": "English Once upon a time, in a small town called Willowbrook, there lived a curious young boy named Timmy",
+                "text": "They explored the town, visited their favorite places, and met some of the people who played important roles in Mr. Thompson’s life. Through their adventures, Timmy began to understand his father in a whole new way.",
                 "fill": [
-                    0,
-                    6
+                    1,
+                    5,
+                    9
                 ],
-                "category": "medium"
+                "category": "long"
             },
             {
                 "id": 2,
-                "text": "As they began to bond, Timmy and his dad embarked on an incredible adventure together.",
+                "text": "Tell me, Dad, what was it like growing up",
                 "fill": [
-                    1,
-                    7
+                    2,
+                    5
                 ],
                 "category": "short"
             },
             {
                 "id": 3,
-                "text": "They explored the town, visited their favorite places, and met some of the people who played important roles in Mr. Thompson’s life.",
+                "text": "Timmy asked, eager to learn more about his father's past",
                 "fill": [
-                    2,
-                    6
+                    3,
+                    7
+                ],
+                "category": "short"
+            },
+            {
+                "id": 4,
+                "text": "We have a very nice furnace to sit by, said my father",
+                "fill": [
+                    6,
+                    9
+                ],
+                "category": "medium"
+            },
+            {
+                "id": 5,
+                "text": "My father and the cat became good friends but my father’s mother was very upset about the cat",
+                "fill": [
+                    4,
+                    6,
+                    16
+                ],
+                "category": "medium"
+            },
+            {
+                "id": 6,
+                "text": "This made my father very sad, and he apologized to the cat because his mother had been so rude",
+                "fill": [
+                    9,
+                    11,
+                    17
+                ],
+                "category": "medium"
+            },
+            {
+                "id": 7,
+                "text": "You mean you know where I could get an airplane",
+                "fill": [
+                    7
+                ],
+                "category": "short"
+            },
+            {
+                "id": 8,
+                "text": "So, I decided to go across the rocks and explore it for myself",
+                "fill": [
+                    3,
+                    11,
+                    13
+                ],
+                "category": "short"
+            },
+            {
+                "id": 9,
+                "text": "It certainly is an interesting place, but I saw something there that made me want to weep",
+                "fill": [
+                    4,
+                    9,
+                    11,
+                    13
                 ],
                 "category": "long"
             },
             {
-                "id": 4,
-                "text": "Through their adventures, Timmy began to understand his father in a whole new way.",
+                "id": 10,
+                "text": "Once upon a time there was a husband and wife who had a lovely daughter. Her name was Natasha. Not long after Natasha’s mother passed away, her father remarried.",
                 "fill": [
-                    3,
-                    8
+                    1,
+                    5,
+                    11,
+                    17,
+                    25
                 ],
-                "category": "short"
+                "category": "long"
+            },
+            {
+                "id": 11,
+                "text": "Natasha was getting colder and colder while she sat in the outstretched winter forest by herself. Suddenly she heard a noise, it was getting closer and closer.",
+                "fill": [
+                    2,
+                    6,
+                    18,
+                    22
+                ],
+                "category": "long"
             }
         ]
     },
@@ -49,30 +122,70 @@
         "words": [
             {
                 "id": 1,
-                "text": "There is some positive news in the fight against several notable.",
+                "text": "Two children have died and nine have been injured, six critically, after a series of stabbings at a children’s dance class in Southport on Monday.",
                 "fill": [
-                    1,
-                    4
+                    3,
+                    6,
+                    7,
+                    16,
+                    23
                 ],
-                "category": "short"
+                "category": "medium"
             },
             {
                 "id": 2,
-                "text": "On Tuesday, the B.C. Wildfire Service posted an update on the Shetland Creek wildfire, which has been holding in size at just under 200 square kilometres, with no new growth in the past day.",
+                "text": "Kennedy said families of the deceased children, and the children who were injured, were being supported by specialist officers, and wider trauma support for all those affected would be provided.",
                 "fill": [
-                    4,
-                    6
+                    3,
+                    5,
+                    11,
+                    14,
+                    25
                 ],
                 "category": "long"
             },
             {
                 "id": 3,
-                "text": "It has also placed the community of Ashcroft and a portion of Cache Creek on evacuation alert as hot and dry conditions coupled with gusty winds have driven the blaze northward.",
+                "text": "He also confirmed 11 casualties were treated at what he described as a devastating scene",
+                "fill": [
+                    5,
+                    11
+                ],
+                "category": "short"
+            },
+            {
+                "id": 4,
+                "text": "He also thanked the emergency services for their response, saying, They have responded to an awful incident today. I want to thank them for the professionalism they have shown in doing so.",
                 "fill": [
                     2,
-                    5
+                    7,
+                    14,
+                    19,
+                    22,
+                    28,
+                    31
+                ],
+                "category": "long"
+            },
+            {
+                "id": 5,
+                "text": "In a statement, the family of Mr Bird said, Yesterday we lost our son, a brother, grandson, nephew, cousin and friend",
+                "fill": [
+                    1,
+                    5,
+                    11,
+                    19
                 ],
                 "category": "medium"
+            },
+            {
+                "id": 6,
+                "text": "A light aircraft pilot died after striking trees while flying in foggy conditions, investigators found.",
+                "fill": [
+                    6,
+                    8
+                ],
+                "category": "short"
             }
         ]
     },
@@ -83,36 +196,121 @@
         "words": [
             {
                 "id": 1,
-                "text": "Hey, Iam thinking about planning a weekend trip. Do you have any suggestions?",
+                "text": "She put the book on the table",
                 "fill": [
-                    2, 10
+                    1,
+                    4
                 ],
                 "category": "short"
             },
             {
                 "id": 2,
-                "text": "Hi, I need help with a smart contract function.",
+                "text": "They are playing soccer in the park",
                 "fill": [
-                    1, 5
+                    1,
+                    4
                 ],
                 "category": "short"
             },
             {
                 "id": 3,
-                "text": "Of course! Could you provide more details about your smart contract and the specific issue you're encountering? For instance, are you using Solidity, and do you have a specific error message or behavior that's unexpected?",
+                "text": "Do you have money to buy my strawberries, asked the boy",
+                "fill": [
+                    1,
+                    4
+                ],
+                "category": "short"
+            },
+            {
+                "id": 4,
+                "text": "If you do what you always did, you will get what you always got",
+                "fill": [
+                    2,
+                    6,
+                    9
+                ],
+                "category": "medium"
+            },
+            {
+                "id": 5,
+                "text": "Try not to become a person of success, but rather try to become a person of value",
                 "fill": [
                     3,
-                    7,
+                    6,
                     9
+                ],
+                "category": "medium"
+            },
+            {
+                "id": 6,
+                "text": "No one can make you feel inferior without your consent",
+                "fill": [
+                    3,
+                    5
+                ],
+                "category": "medium"
+            },
+            {
+                "id": 7,
+                "text": "You can do anything, but not everything",
+                "fill": [
+                    5
+                ],
+                "category": "short"
+            },
+            {
+                "id": 8,
+                "text": "Thinking should become your capital asset, no matter whatever ups and downs you come across in your life",
+                "fill": [
+                    2,
+                    8,
+                    14
                 ],
                 "category": "long"
             },
             {
-                "id": 4,
-                "text": "I’m trying to send value in a smart contract, but I'm running into some issues. Can you help me figure out what might be going wrong?",
+                "id": 9,
+                "text": "Success is the sum of small efforts, repeated day in and day out",
                 "fill": [
                     3,
-                    8
+                    7
+                ],
+                "category": "medium"
+            },
+            {
+                "id": 10,
+                "text": "If you want to achieve excellence, you can get there today. As of this second, quit doing less than excellent work",
+                "fill": [
+                    2,
+                    9,
+                    11
+                ],
+                "category": "long"
+            },
+            {
+                "id": 11,
+                "text": "The only place where success comes before work is in the dictionary",
+                "fill": [
+                    1,
+                    5
+                ],
+                "category": "medium"
+            },
+            {
+                "id": 12,
+                "text": "Its a pleasure to meet you, professor. Thank you so much for helping us",
+                "fill": [
+                    2,
+                    12
+                ],
+                "category": "medium"
+            },
+            {
+                "id": 13,
+                "text": "I was thinking about that new comedy Lights Out. What do you think",
+                "fill": [
+                    1,
+                    2
                 ],
                 "category": "medium"
             }
