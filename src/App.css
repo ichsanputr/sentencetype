@@ -60,6 +60,11 @@ p {
   display: none;
 }
 
+.hg-theme-default .hg-button {
+  height: 45px !important;
+}
+
+
 .react-simple-keyboard {
   display: block;
   position: fixed;

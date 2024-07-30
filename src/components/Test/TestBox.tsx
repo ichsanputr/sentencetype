@@ -72,6 +72,10 @@ function TestBox() {
     } else if (e == "{lock}") {
       e = "CapsLock"
       setLayout(!layout)
+    } else {
+      if (layout) {
+        setLayout(!layout)
+      }
     }
 
     const isCharacter = /^[a-zA-Z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/ ?]$/.test(
@@ -107,7 +111,7 @@ function TestBox() {
     <Box
       sx={{
         justifySelf: "center",
-        margin: "auto 0",
+        margin: { sm: "auto 0" },
         display: "flex",
         flexDirection: "column",
         position: "relative",
