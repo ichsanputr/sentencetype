@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import MemoMtLogo from "./MtLogo";
-import { Box, IconButton, Stack, Typography, Divider, Tooltip, Avatar, Menu, MenuItem, ListItemIcon, useTheme } from "@mui/material";
+import { Box, IconButton, Stack, Typography, Snackbar, Divider, Alert, Tooltip, Avatar, Menu, MenuItem, ListItemIcon, useTheme } from "@mui/material";
 import { KeyboardRounded, Logout, History, Login } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/store";
@@ -17,6 +17,7 @@ function Navbar() {
   const { username } = React.useContext(UserContext);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const [showToastLogout, setShowToastLogout] = useState(false)
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -36,6 +37,7 @@ function Navbar() {
 
   function handleLogout() {
     signOut(auth)
+    setShowToastLogout(true)
   }
 
   function openKeyboard() {
@@ -46,6 +48,10 @@ function Navbar() {
 
     dispatch(setShowKeyboard(!showKeyboard))
   }
+  
+  function handleCloseToastLogout(){
+    setShowToastLogout(false)
+  }
 
   return (
     <Stack
@@ -54,6 +60,11 @@ function Navbar() {
       justifyContent={"space-between"}
       alignItems={"center"}
     >
+      <Snackbar sx={{
+        display: "flex"
+      }} open={showToastLogout} autoHideDuration={2000} anchorOrigin={{ vertical: "bottom", horizontal: "center" }} onClose={handleCloseToastLogout}>
+        <Alert severity="success">Success to logout!</Alert>
+      </Snackbar>
       <Box
         padding={0}
         display={"flex"}

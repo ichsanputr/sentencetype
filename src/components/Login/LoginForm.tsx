@@ -132,11 +132,11 @@ function LoginForm() {
         >
           or
         </span>
-        <StyledLoginButton onClick={signInWithGoogle}>
-          <Google />
-          Google Sign In
-        </StyledLoginButton>
       </form>
+      <StyledLoginButton onClick={signInWithGoogle}>
+        <Google />
+        Google Sign In
+      </StyledLoginButton>
       <UsernameModal
         open={showUsernameModal}
         handleClose={() => setShowUsernameModal(false)}

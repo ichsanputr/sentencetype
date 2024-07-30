@@ -8,6 +8,7 @@ import { auth, firestore, googleAuthProvider } from "../../util/firebase";
 import { collection, doc, writeBatch } from "firebase/firestore";
 import useCheckUsername from "../../hooks/useCheckUsername";
 import { useNavigate } from "react-router-dom";
+import UsernameModal from "./UsernameModal";
 import {
   LoginInput,
   StyledLoginButton,
@@ -189,11 +190,15 @@ function RegisterForm() {
         >
           or
         </span>
-        <StyledLoginButton onClick={signInWithGoogle}>
-          <Google />
-          Google Sign Up
-        </StyledLoginButton>
       </form>
+      <StyledLoginButton onClick={signInWithGoogle}>
+        <Google />
+        Google Sign Up
+      </StyledLoginButton>
+      <UsernameModal
+        open={showUsernameModal}
+        handleClose={() => setShowUsernameModal(false)}
+      />
     </Box>
   );
 }
