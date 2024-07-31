@@ -29,8 +29,8 @@ function PackagesCard({ sentence, active }: { sentence: packagesType, active: bo
         padding: "16px 24px",
         marginBottom: "1rem",
         width: "100%",
-        border: active ? '5px solid' : '',
-        borderColor: theme.sub.main,
+        border: '6px solid',
+        borderColor: active ? theme.sub.main : 'transparent',
         backgroundColor: theme.sub.alt,
         transition: "background-color 0.2s ease-in-out",
         cursor: "pointer"

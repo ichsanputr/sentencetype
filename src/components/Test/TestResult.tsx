@@ -8,17 +8,13 @@ import { firestore } from "../../util/firebase";
 import { useUserData } from "../../hooks/useUserData";
 
 import {
-  rawWpmSelector,
   resetTest,
-  wpmSelector,
 } from "../../store/testSlice";
 
 function TestResult() {
   const theme = useTheme();
   const dispatch = useAppDispatch();
-  const wpm = useAppSelector(wpmSelector);
-  const rawWpm = useAppSelector(rawWpmSelector);
-  const accuracy = Math.round(wpm / rawWpm * 100);
+  const accuracy = useAppSelector((state) => state.test.accuracy);
   const timerCount = useAppSelector((state) => state.test.timerCount);
   const sentence = useAppSelector((state) => state.test.wordsList);
   const fillWord = useAppSelector((state) => state.test.fillWord);
@@ -183,7 +179,7 @@ function TestResult() {
               variant="h2"
               color={theme.main.main}
             >
-              {accuracy}%
+              {100 - accuracy}%
             </Typography>
           </Box>
         </Grid>

@@ -52,14 +52,14 @@ export interface TestState {
     fill: number[],
     category: string
   };
-  showNotLoggedSnackbar: boolean,
-  showKeyboard: boolean,
-  historyResultModal: boolean,
-  selectedSentenceCategory: string,
-  selectedSentenceId: number,
-  currentWordId: number,
-  fillWord: number[],
-  userEmail: string | null | undefined,
+  showNotLoggedSnackbar: boolean;
+  showKeyboard: boolean;
+  historyResultModal: boolean;
+  selectedSentenceCategory: string;
+  selectedSentenceId: number;
+  currentWordId: number;
+  fillWord: number[];
+  userEmail: string | null | undefined;
   isRunning: boolean;
   showSubscriptionModal: boolean;
   wordsList: string[];
@@ -73,6 +73,7 @@ export interface TestState {
   currentCharIndex: number;
   punctuation: boolean;
   numbers: boolean;
+  accuracy: number;
   mode2: Mode2;
   wordLength: 10 | 25 | 50 | 100;
   quoteLength: quoteLengthOptionsType;
@@ -111,6 +112,7 @@ const initialState: TestState = {
   showKeyboard: false,
   timerCount: 0,
   wpm: 0,
+  accuracy: 0,
   currentWordIndex: 0,
   correctWords: [],
   currentCharIndex: 0,
@@ -148,6 +150,7 @@ export const testSlice = createSlice({
       state.currentWordIndex = 0;
       state.correctWords = [];
       state.showResult = false;
+      state.accuracy = 0;
       state.wpmHistory = [];
       state.rawHistory = [];
       state.currentCharIndex = 0;
@@ -293,6 +296,8 @@ export const testSlice = createSlice({
         state.currentWords[state.currentWordIndex][
           state.currentCharIndex
         ].status = "wrong";
+
+        state.accuracy += 1
       }
 
       state.currentCharIndex += 1;
@@ -408,23 +413,8 @@ export default testSlice.reducer;
 
 export const selectWordsList = (state: RootState) => state.test.wordsList;
 
-export const accuracySelector = (state: RootState) => {
-  const { correctWords } = state.test;
-  const totalWords = correctWords.length;
-  const correctWordsCount = correctWords.filter(Boolean).length;
-  return Math.ceil((correctWordsCount / totalWords)) * 100;
-};
-
 export const rawSpeedSelector = (state: RootState) => {
   return Math.ceil(
     state.test.correctWords.length / (state.test.timerCount / 60)
   );
-};
-
-export const wpmSelector = (state: RootState) => {
-  return state.test.wpmHistory[state.test.wpmHistory.length - 1]?.wpm || 0;
-};
-
-export const rawWpmSelector = (state: RootState) => {
-  return state.test.rawHistory[state.test.rawHistory.length - 1]?.wpm || 1;
 };
