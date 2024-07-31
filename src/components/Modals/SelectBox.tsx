@@ -63,7 +63,7 @@ export default function SelectBox({
               key={selected}
               label={selected}
               sx={{
-                color: theme.text.main,
+                color: theme.main.main,
               }}
             />
           </Box>
@@ -73,9 +73,9 @@ export default function SelectBox({
             color={"secondary"}
             sx={{
               backgroundColor: theme.sub.alt,
-              color: theme.sub.main,
+              color: theme.main.main,
               "&:placeholder": {
-                color: theme.sub.main,
+                color: theme.main.main,
               },
             }}
             label={inputLabel}

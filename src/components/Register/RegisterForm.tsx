@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Typography, Box, CircularProgress } from "@mui/material";
+import { Typography, Box, CircularProgress, Snackbar, Alert } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { signInWithPopup } from "firebase/auth";
 import { PersonAddAltRounded, Google } from "@mui/icons-material";
@@ -9,6 +9,7 @@ import { collection, doc, writeBatch } from "firebase/firestore";
 import useCheckUsername from "../../hooks/useCheckUsername";
 import { useNavigate } from "react-router-dom";
 import UsernameModal from "./UsernameModal";
+import { AuthError } from "firebase/auth";
 import {
   LoginInput,
   StyledLoginButton,
@@ -22,6 +23,9 @@ function RegisterForm() {
   const [password, setPassword] = useState("");
   const [isLogging, setIsLogging] = useState(false);
   const [verifyPassword, setVerifyPassword] = useState("");
+  const [msg, setMsg] = useState("");
+  const [isError, setIsError] = useState(false);
+  const [showToast, setshowToast] = useState(false);
   const { username, isValid, loading, onChange } = useCheckUsername();
   const [showUsernameModal, setShowUsernameModal] = useState(false);
   const navigate = useNavigate()
@@ -51,7 +55,13 @@ function RegisterForm() {
 
       await batch.commit();
     } catch (e) {
-      console.log(e);
+      const errorCode = (e as AuthError).code;
+
+      if (errorCode == "auth/email-already-in-use") {
+        setMsg("Email already used!")
+        setshowToast(true)
+        setIsError(true)
+      }
     }
 
     setIsLogging(false)
@@ -66,6 +76,10 @@ function RegisterForm() {
     }
   }
 
+  function handleCloseToast() {
+    setshowToast(false)
+  }
+
   return (
     <Box
       bgcolor={"transparent"}
@@ -73,6 +87,11 @@ function RegisterForm() {
       flexDirection={"column"}
       width={"340px"}
     >
+      <Snackbar sx={{
+        display: "flex"
+      }} open={showToast} autoHideDuration={2000} anchorOrigin={{ vertical: "bottom", horizontal: "center" }} onClose={handleCloseToast}>
+        <Alert severity={isError ? "error" : "success"}>{msg}</Alert>
+      </Snackbar>
       <Typography color={theme.text.main} variant="h6" sx={{
         marginBottom: "1rem",
         fontSize: "1.5rem"
@@ -176,7 +195,8 @@ function RegisterForm() {
           Already have account? <span onClick={() => { navigate('/login') }} style={{
             margin: "4px 0",
             color: theme.text.main,
-            fontSize: "0.75rem",
+            fontSize: "0.8rem",
+            fontWeight: 700,
             textDecoration: "underline",
             cursor: "pointer"
           }}>Login</span>

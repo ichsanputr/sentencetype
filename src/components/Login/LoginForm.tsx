@@ -118,7 +118,8 @@ function LoginForm() {
           Does'nt have account? <span onClick={() => { navigate('/register') }} style={{
             margin: "4px 0",
             color: theme.text.main,
-            fontSize: "0.75rem",
+            fontSize: "0.8rem",
+            fontWeight: 700,
             textDecoration: "underline",
             cursor: "pointer"
           }}>Register</span>
