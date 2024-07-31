@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import MemoMtLogo from "./MtLogo";
 import { Box, IconButton, Stack, Typography, Snackbar, Divider, Alert, Tooltip, Avatar, Menu, MenuItem, ListItemIcon, useTheme } from "@mui/material";
-import { KeyboardRounded, Logout, History, Login } from "@mui/icons-material";
+import { KeyboardRounded, Logout, History, Login, RedeemRounded } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/store";
-import { resetTest, setHistoryResultModal, setShowKeyboard } from "../store/testSlice";
+import { resetTest, setHistoryResultModal, setShowKeyboard, setShowSubscriptionModal } from "../store/testSlice";
 import { UserContext } from "../store/userContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../util/firebase";
@@ -16,8 +16,8 @@ function Navbar() {
   const showKeyboard = useAppSelector((state) => state.test.showKeyboard);
   const { username } = React.useContext(UserContext);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
   const [showToastLogout, setShowToastLogout] = useState(false)
+  const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -28,6 +28,11 @@ function Navbar() {
 
   function openHistoryResultModal() {
     dispatch(setHistoryResultModal(true))
+    setAnchorEl(null)
+  }
+
+  function openSubscriptionModal() {
+    dispatch(setShowSubscriptionModal(true))
     setAnchorEl(null)
   }
 
@@ -146,7 +151,7 @@ function Navbar() {
           <KeyboardRounded fontSize="medium" />
         </IconButton>
         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-          <Tooltip title="Settings & Other">
+          <Tooltip title="Account & Other">
             <IconButton
               onClick={handleClick}
               tabIndex={-1}
@@ -207,6 +212,19 @@ function Navbar() {
                   fontSize: 14,
                   marginLeft: 1
                 }}>History</Typography>
+              </MenuItem>
+            )
+          }
+          {
+            username && (
+              <MenuItem dense sx={{
+                alignItems: "center"
+              }} onClick={openSubscriptionModal}>
+                <RedeemRounded fontSize="small" />
+                <Typography sx={{
+                  fontSize: 14,
+                  marginLeft: 1
+                }}>Subscription</Typography>
               </MenuItem>
             )
           }

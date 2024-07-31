@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import english from "../languages/english.json";
 import sentences from "../languages/sentences.json";
 import { RootState } from "./store";
 import {
@@ -41,28 +40,6 @@ function createLetters(words: { text: string, fill: number[] }): Letter[][] {
   });
 }
 
-function getCharactersTyped(words: Letter[][]) {
-  const chars = {
-    correct: 0,
-    wrong: 0,
-    extra: 0,
-  };
-
-  words.forEach((word) => {
-    word.forEach((letter) => {
-      if (letter.status === "correct") {
-        chars.correct += 1;
-      } else if (letter.status === "wrong") {
-        chars.wrong += 1;
-      } else if (letter.status === "extra") {
-        chars.extra += 1;
-      }
-    });
-  });
-
-  return chars;
-}
-
 interface caretPosition {
   top: number;
   left: number;
@@ -75,13 +52,16 @@ export interface TestState {
     fill: number[],
     category: string
   };
+  showNotLoggedSnackbar: boolean,
   showKeyboard: boolean,
   historyResultModal: boolean,
   selectedSentenceCategory: string,
   selectedSentenceId: number,
   currentWordId: number,
   fillWord: number[],
+  userEmail: string | null | undefined,
   isRunning: boolean;
+  showSubscriptionModal: boolean;
   wordsList: string[];
   currentWords: Letter[][];
   time: 15 | 30 | 60 | 120;
@@ -118,6 +98,8 @@ const initialState: TestState = {
     category: "",
     id: 0
   },
+  userEmail: null,
+  showNotLoggedSnackbar: false,
   historyResultModal: false,
   selectedSentenceId: 0,
   currentWordId: 0,
@@ -138,6 +120,7 @@ const initialState: TestState = {
   numbers: false,
   quoteLength: "short",
   showResult: false,
+  showSubscriptionModal: false,
   wpmHistory: [],
   rawHistory: [],
   searchQuoteModal: false,
@@ -156,6 +139,10 @@ export const testSlice = createSlice({
   initialState,
   reducers: {
     startTest: (state) => {
+      if (!state.userEmail){
+        state.showNotLoggedSnackbar = true
+        return
+      }
       state.isRunning = true;
       state.timerCount = 0;
       state.currentWordIndex = 0;
@@ -321,6 +308,12 @@ export const testSlice = createSlice({
           state.correctWords.filter(Boolean).length / (state.timerCount / 60);
       }
     },
+    setShowNotLoggedSnackbar(state, action: PayloadAction<boolean>) {
+      state.showNotLoggedSnackbar = action.payload;
+    },
+    setShowSubscriptionModal(state, action: PayloadAction<boolean>) {
+      state.showSubscriptionModal = action.payload;
+    },
     setInputFocus(state, action: PayloadAction<boolean>) {
       state.isInputFocused = action.payload;
     },
@@ -348,6 +341,9 @@ export const testSlice = createSlice({
     toggleNumbers(state) {
       state.numbers = !state.numbers;
       testSlice.caseReducers.resetTest(state);
+    },
+    setUserEmail(state, action: PayloadAction<string | null | undefined>) {
+      state.userEmail = action.payload;
     },
     setWordLength(state, action: PayloadAction<wordLengthOptionsType>) {
       state.wordLength = action.payload;
@@ -385,12 +381,15 @@ export const {
   startTest,
   stopTest,
   setUserText,
+  setUserEmail,
   incrementTimer,
   resetTest,
   setMode2,
   updateTime,
   togglePunctuation,
   toggleNumbers,
+  setShowNotLoggedSnackbar,
+  setShowSubscriptionModal,
   setWordLength,
   setQuoteLength,
   setSearchQuote,

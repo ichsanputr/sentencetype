@@ -1,11 +1,11 @@
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import "./App.css";
 import { Box, Container } from "@mui/material";
 import { ThemeProvider, useTheme } from "@mui/material/styles";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { getTheme } from "./styles/theme";
-import { useAppSelector } from "./store/store";
+import { useAppSelector, useAppDispatch } from "./store/store";
 import {
   createBrowserRouter,
   Outlet,
@@ -20,6 +20,9 @@ import { auth } from "./util/firebase";
 import GoogleOneTapLogin from "react-google-one-tap-login";
 import { useFavicon } from "react-use";
 import HistoryModal from "./components/Modals/HistoryModal";
+import SubscriptionModal from "./components/Modals/SubscriptionModal";
+import { Snackbar, Alert } from "@mui/material";
+import { setShowNotLoggedSnackbar } from "./store/testSlice";
 
 const router = createBrowserRouter([
   {
@@ -38,7 +41,13 @@ const router = createBrowserRouter([
 function App() {
   const theme = useTheme();
   const { user, loading } = useContext(UserContext);
+  const dispatch = useAppDispatch();
   const historyResultModal = useAppSelector((state) => state.test.historyResultModal);
+  const showNotLoggedSnackbar = useAppSelector((state) => state.test.showNotLoggedSnackbar);
+
+  function handleShowNotLoggedSnackbar(){
+    dispatch(setShowNotLoggedSnackbar(false))
+  }
 
   return (
     <Box
@@ -67,6 +76,12 @@ function App() {
         <Outlet />
         <Footer />
         {historyResultModal && <HistoryModal />}
+        <SubscriptionModal />
+        <Snackbar sx={{
+          display: "flex"
+        }} open={showNotLoggedSnackbar} autoHideDuration={2000} anchorOrigin={{ vertical: "bottom", horizontal: "center" }} onClose={handleShowNotLoggedSnackbar}>
+          <Alert severity="warning">You need to login to start the test!</Alert>
+        </Snackbar>
       </Container>
       {!user && !loading && (
         <GoogleOneTapLogin
