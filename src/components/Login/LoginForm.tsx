@@ -16,14 +16,7 @@ function LoginForm() {
   const [isLogging, setIsLogging] = useState(false);
   const [showToastError, setShowToastError] = useState(false);
   const [showUsernameModal, setShowUsernameModal] = useState(false);
-  const { user, username, loading } = useContext(UserContext);
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   if (!loading && user && !username) {
-  //     setShowUsernameModal(true);
-  //   }
-  // }, [user, username, loading]);
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

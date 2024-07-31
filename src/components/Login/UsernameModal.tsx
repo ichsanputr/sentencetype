@@ -65,10 +65,10 @@ const UsernameModal: React.FunctionComponent<{
           padding: "2rem",
         }}
       >
-        <Typography variant="h5" color={theme.sub.main}>
+        <Typography variant="h5" fontWeight={700} color={theme.sub.main}>
           Account Name
         </Typography>
-        <Typography py={1} color={theme.main.main}>
+        <Typography py={1} color={theme.main.main} marginBottom={2} lineHeight='1.5rem !important'>
           You need to choose a username before continuing
         </Typography>
         <LoginInput
