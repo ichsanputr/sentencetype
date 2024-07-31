@@ -19,12 +19,8 @@ type packagesType = {
 
 function PackagesCard({ sentence, active }: { sentence: packagesType, active: boolean }) {
   const theme = useTheme();
-  const dispatch = useAppDispatch();
   return (
     <Box
-      onClick={() => {
-        dispatch(setSearchQuote(sentence.text.split(" ")));
-      }}
       boxSizing={"border-box"}
       display="grid"
       p={1}
