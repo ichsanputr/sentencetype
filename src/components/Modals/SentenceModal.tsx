@@ -245,7 +245,7 @@ function SentenceModal() {
       >
         {/* Head */}
         <Box marginBottom={"1rem"}>
-          <Typography variant="h5" color={theme.sub.main}>
+          <Typography variant="h5" fontWeight={600} color={theme.sub.main}>
             Sentence Search
           </Typography>
         </Box>

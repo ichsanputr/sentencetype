@@ -1,28 +1,23 @@
 import Modal from "@mui/material/Modal";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
-import { Typography } from "@mui/material";
+import { Typography, Box, Button } from "@mui/material";
+import { QrCodeScanner } from '@mui/icons-material';
 import {
   setSearchQuote,
-  closeHistoryResultModal,
   setShowSubscriptionModal
 } from "../../store/testSlice";
-import { firestore } from "../../util/firebase";
-import { doc, getDoc } from "firebase/firestore";
-import { useUserData } from "../../hooks/useUserData";
-import findSentence from "../../util/findSentence";
 
-type searchResultType = {
+type packagesType = {
   id: number,
   text: string,
-  source: string,
-  length: number,
+  source: string | number,
+  length: string,
   time: string
 };
 
-function SubscriptionModal({ sentence }: { sentence: searchResultType }) {
+function PackagesCard({ sentence, active }: { sentence: packagesType, active: boolean }) {
   const theme = useTheme();
   const dispatch = useAppDispatch();
   return (
@@ -31,15 +26,18 @@ function SubscriptionModal({ sentence }: { sentence: searchResultType }) {
         dispatch(setSearchQuote(sentence.text.split(" ")));
       }}
       boxSizing={"border-box"}
-      display="flex"
-      flexDirection={"column"}
+      display="grid"
       p={1}
       sx={{
         borderRadius: "10px",
         padding: "16px 24px",
         marginBottom: "1rem",
+        width: "100%",
+        border: active ? '5px solid' : '',
+        borderColor: theme.sub.main,
         backgroundColor: theme.sub.alt,
         transition: "background-color 0.2s ease-in-out",
+        cursor: "pointer"
       }}
     >
       <Typography
@@ -57,60 +55,28 @@ function SubscriptionModal({ sentence }: { sentence: searchResultType }) {
       >
         {sentence.text}
       </Typography>
-      <Box
-        display="flex"
-        flexDirection={"row"}
-        justifyContent={"space-between"}
+      <Typography
+        sx={{
+          opacity: 0.9,
+          lineHeight: "1.5 !important"
+        }}
+        variant="subtitle2"
+        color={theme.sub.main}
       >
-        <Box
-          flexDirection={"column"}
-        >
-          <Typography
-            sx={{
-              opacity: 0.5,
-            }}
-            color={theme.sub.main}
-          >
-            id
-          </Typography>
-          <Typography color={theme.sub.main}>{sentence.id}</Typography>
-        </Box>
-        <Box display="flex" flexDirection={"column"}>
-          <Typography
-            sx={{
-              opacity: 0.5,
-            }}
-            color={theme.sub.main}
-          >
-            category
-          </Typography>
-          <Typography color={theme.sub.main}>{sentence.source}</Typography>
-        </Box>
-        <Box display="flex" flexDirection={"column"}>
-          <Typography
-            sx={{
-              opacity: 0.5,
-            }}
-            color={theme.sub.main}
-          >
-            time
-          </Typography>
-          <Typography color={theme.sub.main}>{sentence.time}s</Typography>
-        </Box>
-        <Box display="flex" flexDirection={"column"}>
-          <Typography
-            sx={{
-              opacity: 0.5,
-            }}
-            color={theme.sub.main}
-          >
-            length
-          </Typography>
-          <Typography color={theme.sub.main}>
-            kolak
-          </Typography>
-        </Box>
-      </Box>
+        You can undertake all test and use all feature in this app with {sentence.source} month
+      </Typography>
+      <Typography
+        sx={{
+          display: "-webkit-box",
+          WebkitBoxOrient: "vertical",
+          overflow: "hidden",
+        }}
+        variant="subtitle1"
+        marginTop={1}
+        color={theme.text.main}
+      >
+        {sentence.length}
+      </Typography>
     </Box>
   );
 }
@@ -119,37 +85,38 @@ function SubscriptionBoxModal() {
   const open = useAppSelector((state) => state.test.showSubscriptionModal);
   const dispatch = useAppDispatch();
   const theme = useTheme();
-  const { user } = useUserData();
-  const [searchResults, setSearchResults] = useState<searchResultType[]>([]);
+  const [selectedPackage, setSelectedPackage] = useState(0)
+  const [packages, setPackages] = useState<packagesType[]>([
+    {
+      id: 0,
+      text: "1 Month",
+      source: 1,
+      length: "1$ / 10.000 Rp",
+      time: "1$ / 10.000 Rp",
+    },
+    {
+      id: 1,
+      text: "3 Months",
+      source: 3,
+      length: "2.5$ / 25.000 Rp",
+      time: "90",
+    },
+    {
+      id: 2,
+      text: "Lifetime",
+      source: "~",
+      length: "5$ / 80.000 Rp",
+      time: "90",
+    }
+  ]);
 
   const handleClose = () => {
     dispatch(setShowSubscriptionModal(false));
   };
 
-  useEffect(() => {
-    if (user?.email) {
-      const collectionRef = doc(firestore, "result", user.email);
-      getDoc(collectionRef).then(v => {
-        if (v.exists()) {
-          let data = v.data()
-
-          let result = data.sentences.map((v: any) => {
-            let sentence = findSentence(v.id, v.category)
-            return {
-              id: v.id,
-              text: sentence.text,
-              source: v.category,
-              time: v.time,
-            }
-          })
-
-          setSearchResults(result)
-        } else {
-          console.log("No such document!");
-        }
-      })
-    }
-  }, [user, open])
+  function selectPackage(id: number) {
+    setSelectedPackage(id)
+  }
 
   return (
     <Modal
@@ -166,10 +133,10 @@ function SubscriptionBoxModal() {
           transform: "translate(-50%, -50%)",
           width: "80vw",
           maxWidth: "1000px",
-          display: "flex",
-          flexDirection: "column",
+          display: "block",
           backgroundColor: theme.background.main,
-          height: "80vh",
+          height: "fit-content",
+          gridAutoColumns: "1fr",
           borderRadius: "10px",
           outline: `0.25rem solid ${theme.sub.alt}`,
           padding: {
@@ -179,23 +146,15 @@ function SubscriptionBoxModal() {
         }}
       >
         <Box marginBottom={"1rem"}>
-          <Typography variant="h5" color={theme.sub.main}>
+          <Typography variant="h5" fontWeight={600} color={theme.sub.main}>
             Subscription
           </Typography>
+          <Typography variant="subtitle1" sx={{
+            marginTop: 1
+          }} color={theme.sub.main}>
+            You can buy 1 month, 3 months, and lifetime packages on the below.
+          </Typography>
         </Box>
-        <Typography
-          sx={{
-            display: {
-              xs: "none",
-              sm: "block",
-            },
-          }}
-          color={theme.sub.main}
-          mt={1}
-        >
-          {searchResults.length}
-          {` results`}
-        </Typography>
         <Box
           overflow={"auto"}
           mt={1}
@@ -211,11 +170,38 @@ function SubscriptionBoxModal() {
               backgroundColor: theme.sub.main,
               borderRadius: "10px",
             },
+            display: {
+              sm: "flex"
+            },
+            gap: 3,
+            marginTop: 3
           }}
         >
-          {searchResults.slice(0, 100).map((_sentence) => (
-            <SubscriptionModal key={_sentence.id} sentence={_sentence} />
+          {packages.map((_sentence) => (
+            <div onClick={() => selectPackage(_sentence.id)}>
+              <PackagesCard key={_sentence.id} sentence={_sentence} active={selectedPackage == _sentence.id} />
+            </div>
           ))}
+        </Box>
+        <Box marginTop={3} display={{sm: "flex"}} alignItems={"center"} justifyContent="space-between">
+          <Typography variant="subtitle2" fontWeight={600} color={theme.sub.main}>
+            Pay with Paypal or Qris (Indonesia)
+          </Typography>
+          <Box display="flex" marginTop={{xs:3,sm: 0}} sx={{
+            float: "right"
+          }} gap={2}>
+            <Button variant="contained">
+              Paypal
+            </Button>
+            <Button variant="contained" sx={{
+              alignItems: "center"
+            }}>
+              <QrCodeScanner fontSize="small" />
+              <div style={{ paddingTop: 2, paddingLeft: 4 }}>
+                Qris
+              </div>
+            </Button>
+          </Box>
         </Box>
       </Box>
     </Modal>
