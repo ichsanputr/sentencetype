@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { useTheme } from "@mui/material/styles";
 import { setLoadingQris } from "../../store/testSlice";
 import { Typography, Box, Button } from "@mui/material";
-import { Email, QrCodeScanner } from '@mui/icons-material';
+import { Email, QrCodeScanner, CardMembership, History } from '@mui/icons-material';
 import { UserContext } from "../../store/userContext";
 import axios from "axios";
 import {
@@ -85,6 +85,7 @@ function SubscriptionBoxModal() {
   const dispatch = useAppDispatch();
   const theme = useTheme();
   const [selectedPackage, setSelectedPackage] = useState<number>(0)
+  const [selectedTab, setSelectedTab] = useState<string>("packages")
   const { username, user } = React.useContext(UserContext);
   const [packages, setPackages] = useState<packagesType[]>([
     {
@@ -179,24 +180,30 @@ function SubscriptionBoxModal() {
           </Typography>
         </Box>
         <Box display={"flex"} marginBottom={"0.5rem"}>
-          <Box sx={{
+          <Box onClick={() => setSelectedTab("packages")} sx={{
             marginTop: 1,
             borderRadius: 2,
-            padding: "2px 6px",
+            padding: "0 6px",
             cursor: "pointer",
-            backgroundColor: theme.main.main
-          }} color={"white"}>
-            Packages
+            display: "flex",
+            alignItems: "center",
+            backgroundColor: selectedTab == "packages" ? theme.main.main : ''
+          }} color={selectedTab == "packages" ? "white" : theme.sub.main}>
+            <CardMembership sx={{ fontSize: 16, marginRight: "3px" }} />
+            <p>Packages</p>
           </Box>
-          <Box sx={{
+          <Box onClick={() => setSelectedTab("payment")} sx={{
             marginTop: 1,
-            marginLeft: 2,
             borderRadius: 2,
-            padding: "2px 6px",
+            padding: "0 6px",
             cursor: "pointer",
-            backgroundColor: theme.main.main
-          }} color={"white"}>
-            Payment
+            display: "flex",
+            alignItems: "center",
+            marginLeft: 2,
+            backgroundColor: selectedTab == "payment" ? theme.main.main : ''
+          }} color={selectedTab == "payment" ? "white" : theme.sub.main}>
+            <History sx={{ fontSize: 18, marginRight: "3px" }} />
+            <p>Payment</p>
           </Box>
         </Box>
         <Box>
