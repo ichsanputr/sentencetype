@@ -146,10 +146,6 @@ function SubscriptionBoxModal() {
     }, 3000)
   }
 
-  function handleCloseLoadingQris() {
-    setLoadingQris(false)
-  }
-
   return (
     <Modal
       open={open}
@@ -177,66 +173,89 @@ function SubscriptionBoxModal() {
           },
         }}
       >
-        <Box marginBottom={"1rem"}>
+        <Box marginBottom={"0.5rem"}>
           <Typography variant="h5" fontWeight={600} color={theme.sub.main}>
             Subscription
           </Typography>
+        </Box>
+        <Box display={"flex"} marginBottom={"0.5rem"}>
+          <Box sx={{
+            marginTop: 1,
+            borderRadius: 2,
+            padding: "2px 6px",
+            cursor: "pointer",
+            backgroundColor: theme.main.main
+          }} color={"white"}>
+            Packages
+          </Box>
+          <Box sx={{
+            marginTop: 1,
+            marginLeft: 2,
+            borderRadius: 2,
+            padding: "2px 6px",
+            cursor: "pointer",
+            backgroundColor: theme.main.main
+          }} color={"white"}>
+            Payment
+          </Box>
+        </Box>
+        <Box>
           <Typography variant="subtitle1" sx={{
             marginTop: 1
           }} color={theme.sub.main}>
             You can buy 1 month, 3 months, and lifetime packages on the below.
           </Typography>
-        </Box>
-        <Box
-          overflow={"auto"}
-          mt={1}
-          sx={{
-            "&::-webkit-scrollbar": {
-              width: "0.5em",
-            },
-            "&::-webkit-scrollbar-track": {
-              boxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
-              webkitBoxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
-            },
-            "&::-webkit-scrollbar-thumb": {
-              backgroundColor: theme.sub.main,
-              borderRadius: "10px",
-            },
-            display: {
-              sm: "flex"
-            },
-            gap: 3,
-            marginTop: 3,
-            height: {
-              xs: "50vh",
-              sm: "fit-content"
-            }
-          }}
-        >
-          {packages.map((_sentence) => (
-            <div onClick={() => selectPackage(_sentence.id)}>
-              <PackagesCard key={_sentence.id} sentence={_sentence} active={selectedPackage == _sentence.id} />
-            </div>
-          ))}
-        </Box>
-        <Box marginTop={3} display={{ sm: "flex" }} alignItems={"center"} justifyContent="space-between">
-          <Typography variant="subtitle2" fontWeight={600} color={theme.sub.main}>
-            Pay with Paypal or Qris (Indonesia)
-          </Typography>
-          <Box display="flex" marginTop={{ xs: 3, sm: 0 }} sx={{
-            float: "right"
-          }} gap={2}>
-            <Button variant="contained">
-              Paypal
-            </Button>
-            <Button variant="contained" onClick={createPaymentQris} sx={{
-              alignItems: "center"
-            }}>
-              <QrCodeScanner fontSize="small" />
-              <div style={{ paddingTop: 2, paddingLeft: 4 }}>
-                Qris
+          <Box
+            overflow={"auto"}
+            mt={1}
+            sx={{
+              "&::-webkit-scrollbar": {
+                width: "0.5em",
+              },
+              "&::-webkit-scrollbar-track": {
+                boxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
+                webkitBoxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                backgroundColor: theme.sub.main,
+                borderRadius: "10px",
+              },
+              display: {
+                sm: "flex"
+              },
+              gap: 3,
+              marginTop: 3,
+              height: {
+                xs: "50vh",
+                sm: "fit-content"
+              }
+            }}
+          >
+            {packages.map((_sentence) => (
+              <div onClick={() => selectPackage(_sentence.id)}>
+                <PackagesCard key={_sentence.id} sentence={_sentence} active={selectedPackage == _sentence.id} />
               </div>
-            </Button>
+            ))}
+          </Box>
+          <Box marginTop={3} display={{ sm: "flex" }} alignItems={"center"} justifyContent="space-between">
+            <Typography variant="subtitle2" fontWeight={600} color={theme.sub.main}>
+              Pay with Paypal or Qris (Indonesia)
+            </Typography>
+            <Box display="flex" marginTop={{ xs: 3, sm: 0 }} sx={{
+              float: "right"
+            }} gap={2}>
+              <Button variant="contained">
+                Paypal
+              </Button>
+              <Button variant="contained" onClick={createPaymentQris} sx={{
+                alignItems: "center"
+              }}>
+                <QrCodeScanner fontSize="small" />
+                <div style={{ paddingTop: 2, paddingLeft: 4 }}>
+                  Qris
+                </div>
+              </Button>
+            </Box>
           </Box>
         </Box>
       </Box>
