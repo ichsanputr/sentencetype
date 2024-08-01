@@ -52,6 +52,7 @@ export interface TestState {
     fill: number[],
     category: string
   };
+  loadingQris: boolean,
   showNotLoggedSnackbar: boolean;
   showKeyboard: boolean;
   historyResultModal: boolean;
@@ -100,6 +101,7 @@ const initialState: TestState = {
     id: 0
   },
   userEmail: null,
+  loadingQris: false,
   showNotLoggedSnackbar: false,
   historyResultModal: false,
   selectedSentenceId: 0,
@@ -316,6 +318,9 @@ export const testSlice = createSlice({
     setShowNotLoggedSnackbar(state, action: PayloadAction<boolean>) {
       state.showNotLoggedSnackbar = action.payload;
     },
+    setLoadingQris(state, action: PayloadAction<boolean>) {
+      state.loadingQris = action.payload;
+    },
     setShowSubscriptionModal(state, action: PayloadAction<boolean>) {
       state.showSubscriptionModal = action.payload;
     },
@@ -393,6 +398,7 @@ export const {
   updateTime,
   togglePunctuation,
   toggleNumbers,
+  setLoadingQris,
   setShowNotLoggedSnackbar,
   setShowSubscriptionModal,
   setWordLength,

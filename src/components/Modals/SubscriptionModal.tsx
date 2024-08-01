@@ -2,10 +2,12 @@ import Modal from "@mui/material/Modal";
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { useTheme } from "@mui/material/styles";
+import { setLoadingQris } from "../../store/testSlice";
 import { Typography, Box, Button } from "@mui/material";
-import { QrCodeScanner } from '@mui/icons-material';
+import { Email, QrCodeScanner } from '@mui/icons-material';
+import { UserContext } from "../../store/userContext";
+import axios from "axios";
 import {
-  setSearchQuote,
   setShowSubscriptionModal
 } from "../../store/testSlice";
 
@@ -14,6 +16,7 @@ type packagesType = {
   text: string,
   source: string | number,
   length: string,
+  priceIdr: number,
   time: string
 };
 
@@ -59,7 +62,7 @@ function PackagesCard({ sentence, active }: { sentence: packagesType, active: bo
         variant="subtitle2"
         color={theme.sub.main}
       >
-        You can undertake all test and use all feature in this app with {sentence.source} month
+        {sentence.source}
       </Typography>
       <Typography
         sx={{
@@ -81,27 +84,31 @@ function SubscriptionBoxModal() {
   const open = useAppSelector((state) => state.test.showSubscriptionModal);
   const dispatch = useAppDispatch();
   const theme = useTheme();
-  const [selectedPackage, setSelectedPackage] = useState(0)
+  const [selectedPackage, setSelectedPackage] = useState<number>(0)
+  const { username, user } = React.useContext(UserContext);
   const [packages, setPackages] = useState<packagesType[]>([
     {
       id: 0,
       text: "1 Month",
-      source: 1,
+      source: "You can undertake all test and use all feature in this app for 1 month",
       length: "1$ / 10.000 Rp",
+      priceIdr: 10000,
       time: "1$ / 10.000 Rp",
     },
     {
       id: 1,
       text: "3 Months",
-      source: 3,
+      source: "You can undertake all test and use all feature in this app for 3 months",
       length: "2.5$ / 25.000 Rp",
+      priceIdr: 25000,
       time: "90",
     },
     {
       id: 2,
       text: "Lifetime",
-      source: "~",
+      source: "You can undertake all test and use all feature in this app for lifetime",
       length: "5$ / 80.000 Rp",
+      priceIdr: 80000,
       time: "90",
     }
   ]);
@@ -112,6 +119,35 @@ function SubscriptionBoxModal() {
 
   function selectPackage(id: number) {
     setSelectedPackage(id)
+  }
+
+  async function createPaymentQris() {
+    dispatch(setLoadingQris(true))
+
+    const _selectedPackage: any = packages.filter(v => {
+      return v.id == selectedPackage
+    })[0]
+
+    try {
+      const { data: { data } } = await axios.post('http://127.0.0.1:8000/api/payment/create', {
+        price: _selectedPackage.priceIdr,
+        name: username,
+        email: user?.email,
+        package_name: _selectedPackage.text
+      });
+
+      window.open(data.checkout_url, '_blank')
+    } catch (err) {
+      console.log(err)
+    }
+
+    setTimeout(() => {
+      dispatch(setLoadingQris(false))
+    }, 3000)
+  }
+
+  function handleCloseLoadingQris() {
+    setLoadingQris(false)
   }
 
   return (
@@ -170,7 +206,11 @@ function SubscriptionBoxModal() {
               sm: "flex"
             },
             gap: 3,
-            marginTop: 3
+            marginTop: 3,
+            height: {
+              xs: "50vh",
+              sm: "fit-content"
+            }
           }}
         >
           {packages.map((_sentence) => (
@@ -179,17 +219,17 @@ function SubscriptionBoxModal() {
             </div>
           ))}
         </Box>
-        <Box marginTop={3} display={{sm: "flex"}} alignItems={"center"} justifyContent="space-between">
+        <Box marginTop={3} display={{ sm: "flex" }} alignItems={"center"} justifyContent="space-between">
           <Typography variant="subtitle2" fontWeight={600} color={theme.sub.main}>
             Pay with Paypal or Qris (Indonesia)
           </Typography>
-          <Box display="flex" marginTop={{xs:3,sm: 0}} sx={{
+          <Box display="flex" marginTop={{ xs: 3, sm: 0 }} sx={{
             float: "right"
           }} gap={2}>
             <Button variant="contained">
               Paypal
             </Button>
-            <Button variant="contained" sx={{
+            <Button variant="contained" onClick={createPaymentQris} sx={{
               alignItems: "center"
             }}>
               <QrCodeScanner fontSize="small" />

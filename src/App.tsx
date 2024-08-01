@@ -1,6 +1,6 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useMemo } from "react";
 import "./App.css";
-import { Box, Container } from "@mui/material";
+import { Box, Container, CircularProgress, Alert, Snackbar } from "@mui/material";
 import { ThemeProvider, useTheme } from "@mui/material/styles";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -21,7 +21,6 @@ import GoogleOneTapLogin from "react-google-one-tap-login";
 import { useFavicon } from "react-use";
 import HistoryModal from "./components/Modals/HistoryModal";
 import SubscriptionModal from "./components/Modals/SubscriptionModal";
-import { Snackbar, Alert } from "@mui/material";
 import { setShowNotLoggedSnackbar } from "./store/testSlice";
 
 const router = createBrowserRouter([
@@ -44,8 +43,13 @@ function App() {
   const dispatch = useAppDispatch();
   const historyResultModal = useAppSelector((state) => state.test.historyResultModal);
   const showNotLoggedSnackbar = useAppSelector((state) => state.test.showNotLoggedSnackbar);
+  const loadingQris = useAppSelector((state) => state.test.loadingQris);
 
   function handleShowNotLoggedSnackbar(){
+    dispatch(setShowNotLoggedSnackbar(false))
+  }
+
+  function handleCloseLoadingQris(){
     dispatch(setShowNotLoggedSnackbar(false))
   }
 
@@ -81,6 +85,19 @@ function App() {
           display: "flex"
         }} open={showNotLoggedSnackbar} autoHideDuration={2000} anchorOrigin={{ vertical: "bottom", horizontal: "center" }} onClose={handleShowNotLoggedSnackbar}>
           <Alert severity="warning">You need to login to start the test!</Alert>
+        </Snackbar>
+        <Snackbar sx={{
+          display: "flex",
+          bottom:0
+        }} open={loadingQris} anchorOrigin={{ vertical: "bottom", horizontal: "center" }} onClose={handleCloseLoadingQris}>
+          <Alert severity="success" icon={false} sx={{
+            display: "flex"
+          }}>
+            <CircularProgress size={14} sx={{
+              marginRight: 1 
+            }} color="secondary" />
+            Creating your payment..
+          </Alert>
         </Snackbar>
       </Container>
       {!user && !loading && (
