@@ -94,7 +94,7 @@ function PaymentCard({ payment }: { payment: paymentType }) {
   return (
     <Box
       boxSizing={"border-box"}
-      display="grid"
+      display="block"
       p={1}
       sx={{
         borderRadius: "10px",
@@ -103,6 +103,7 @@ function PaymentCard({ payment }: { payment: paymentType }) {
           xs: "100%",
           sm: "fit-content"
         },
+        height: "fit-content",
         border: '6px solid',
         borderColor: 'transparent',
         backgroundColor: theme.sub.alt,
@@ -110,25 +111,12 @@ function PaymentCard({ payment }: { payment: paymentType }) {
       }}
     >
       <Typography
-        sx={{
-          display: "-webkit-box",
-          WebkitBoxOrient: "vertical",
-          overflow: "hidden",
-          WebkitLineClamp: {
-            xs: 2,
-            sm: 3,
-          },
-        }}
         variant="body1"
         color={theme.text.main}
       >
         Package {payment.package}
       </Typography>
       <Typography
-        sx={{
-          opacity: 0.9,
-          lineHeight: "1.5 !important"
-        }}
         variant="subtitle2"
         color={theme.sub.main}
       >
@@ -137,23 +125,15 @@ function PaymentCard({ payment }: { payment: paymentType }) {
       <Typography
         sx={{
           opacity: 0.9,
-          lineHeight: "1.5 !important"
         }}
         variant="subtitle2"
         color={theme.sub.main}
       >
-        Payment Expired: {payment.expired}
+        Expired At: {payment.expired}
       </Typography>
       {payment.status == 'UNPAID' && <Typography
         sx={{
-          display: "-webkit-box",
-          WebkitBoxOrient: "vertical",
-          overflow: "hidden",
           cursor: "pointer",
-          WebkitLineClamp: {
-            xs: 2,
-            sm: 3,
-          },
         }}
         variant="body1"
         color={theme.text.main}
@@ -335,7 +315,7 @@ function SubscriptionBoxModal() {
               gap: 2,
               marginTop: 3,
               height: {
-                xs: "50vh",
+                xs: "280px",
                 sm: "fit-content"
               }
             }}
@@ -396,7 +376,7 @@ function SubscriptionBoxModal() {
               marginTop: 3,
               gap: 2,            
               height: {
-                xs: "50vh",
+                xs: "280px",
                 sm: "fit-content"
               }
             }}
