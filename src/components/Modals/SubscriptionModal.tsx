@@ -206,7 +206,7 @@ function SubscriptionBoxModal() {
 
     const fetchData = async () => {
       try {
-        const { data } = await axios.get('http://127.0.0.1:8000/payment/' + user?.email);
+        const { data } = await axios.get('https://api.catsentence.com/payment/' + user?.email);
         setListPayments(data.data)
       } catch (err) {
         console.error(err)
@@ -232,7 +232,7 @@ function SubscriptionBoxModal() {
     })[0]
 
     try {
-      const { data: { data } } = await axios.post('http://127.0.0.1:8000/payment/create', {
+      const { data: { data } } = await axios.post('https://api.catsentence.com/payment/create', {
         price: _selectedPackage.priceIdr,
         name: username,
         email: user?.email,
