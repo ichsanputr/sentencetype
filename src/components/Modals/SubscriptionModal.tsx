@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { useTheme } from "@mui/material/styles";
 import { setLoadingQris } from "../../store/testSlice";
 import { Typography, Box, Button, Link } from "@mui/material";
-import { Email, QrCodeScanner, CardMembership, History } from '@mui/icons-material';
+import { Email, QrCodeScanner, CardMembership, History, CallMade } from '@mui/icons-material';
 import { UserContext } from "../../store/userContext";
 import axios from "axios";
 import {
@@ -138,7 +138,10 @@ function PaymentCard({ payment }: { payment: paymentType }) {
         variant="body1"
         color={theme.text.main}
       >
-        <Link href={payment.checkout_url} target="_blank" rel="noopener noreferrer">Pay Now</Link>
+        <Link href={payment.checkout_url} target="_blank" sx={{
+          display: "flex",
+          alignItems: "center"
+        }} rel="noopener noreferrer"><p>Pay Now</p> <CallMade sx={{marginLeft: "2px"}} fontSize="small" /></Link>
       </Typography>}
     </Box>
   );
