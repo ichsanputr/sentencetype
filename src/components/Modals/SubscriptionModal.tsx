@@ -89,7 +89,7 @@ function SubscriptionBoxModal() {
   const { username, user } = React.useContext(UserContext);
   const [packages, setPackages] = useState<packagesType[]>([
     {
-      id: 0,
+      id: 1,
       text: "1 Month",
       source: "You can undertake all test and use all feature in this app for 1 month",
       length: "1$ / 10.000 Rp",
@@ -97,7 +97,7 @@ function SubscriptionBoxModal() {
       time: "1$ / 10.000 Rp",
     },
     {
-      id: 1,
+      id: 2,
       text: "3 Months",
       source: "You can undertake all test and use all feature in this app for 3 months",
       length: "2.5$ / 25.000 Rp",
@@ -105,7 +105,7 @@ function SubscriptionBoxModal() {
       time: "90",
     },
     {
-      id: 2,
+      id: 3,
       text: "Lifetime",
       source: "You can undertake all test and use all feature in this app for lifetime",
       length: "5$ / 80.000 Rp",
