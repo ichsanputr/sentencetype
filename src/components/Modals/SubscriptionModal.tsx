@@ -130,7 +130,7 @@ function SubscriptionBoxModal() {
     })[0]
 
     try {
-      const { data: { data } } = await axios.post('http://127.0.0.1:8000/api/payment/create', {
+      const { data: { data } } = await axios.post('https://api.catsentence.com/payment/create', {
         price: _selectedPackage.priceIdr,
         name: username,
         email: user?.email,
