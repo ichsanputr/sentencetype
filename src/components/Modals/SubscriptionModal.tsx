@@ -1,9 +1,9 @@
 import Modal from "@mui/material/Modal";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { useTheme } from "@mui/material/styles";
 import { setLoadingQris } from "../../store/testSlice";
-import { Typography, Box, Button } from "@mui/material";
+import { Typography, Box, Button, Link } from "@mui/material";
 import { Email, QrCodeScanner, CardMembership, History } from '@mui/icons-material';
 import { UserContext } from "../../store/userContext";
 import axios from "axios";
@@ -18,6 +18,15 @@ type packagesType = {
   length: string,
   priceIdr: number,
   time: string
+};
+
+type paymentType = {
+  package: string,
+  trx_ref: string,
+  checkout_url: string,
+  status: string,
+  expired: string,
+  created_at: number,
 };
 
 function PackagesCard({ sentence, active }: { sentence: packagesType, active: boolean }) {
@@ -80,11 +89,87 @@ function PackagesCard({ sentence, active }: { sentence: packagesType, active: bo
   );
 }
 
+function PaymentCard({ payment }: { payment: paymentType }) {
+  const theme = useTheme();
+  return (
+    <Box
+      boxSizing={"border-box"}
+      display="grid"
+      p={1}
+      sx={{
+        borderRadius: "10px",
+        padding: "16px 24px",
+        width: {
+          xs: "100%",
+          sm: "fit-content"
+        },
+        border: '6px solid',
+        borderColor: 'transparent',
+        backgroundColor: theme.sub.alt,
+        transition: "background-color 0.2s ease-in-out",
+      }}
+    >
+      <Typography
+        sx={{
+          display: "-webkit-box",
+          WebkitBoxOrient: "vertical",
+          overflow: "hidden",
+          WebkitLineClamp: {
+            xs: 2,
+            sm: 3,
+          },
+        }}
+        variant="body1"
+        color={theme.text.main}
+      >
+        Package {payment.package}
+      </Typography>
+      <Typography
+        sx={{
+          opacity: 0.9,
+          lineHeight: "1.5 !important"
+        }}
+        variant="subtitle2"
+        color={theme.sub.main}
+      >
+        Status: {payment.status}
+      </Typography>
+      <Typography
+        sx={{
+          opacity: 0.9,
+          lineHeight: "1.5 !important"
+        }}
+        variant="subtitle2"
+        color={theme.sub.main}
+      >
+        Payment Expired: {payment.expired}
+      </Typography>
+      {payment.status == 'UNPAID' && <Typography
+        sx={{
+          display: "-webkit-box",
+          WebkitBoxOrient: "vertical",
+          overflow: "hidden",
+          cursor: "pointer",
+          WebkitLineClamp: {
+            xs: 2,
+            sm: 3,
+          },
+        }}
+        variant="body1"
+        color={theme.text.main}
+      >
+        <Link href={payment.checkout_url} target="_blank" rel="noopener noreferrer">Pay Now</Link>
+      </Typography>}
+    </Box>
+  );
+}
+
 function SubscriptionBoxModal() {
   const open = useAppSelector((state) => state.test.showSubscriptionModal);
   const dispatch = useAppDispatch();
   const theme = useTheme();
   const [selectedPackage, setSelectedPackage] = useState<number>(0)
+  const [listPayments, setListPayments] = useState<any>(null)
   const [selectedTab, setSelectedTab] = useState<string>("packages")
   const { username, user } = React.useContext(UserContext);
   const [packages, setPackages] = useState<packagesType[]>([
@@ -114,6 +199,23 @@ function SubscriptionBoxModal() {
     }
   ]);
 
+  useEffect(() => {
+    if (selectedTab != 'payment') {
+      return
+    }
+
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get('http://127.0.0.1:8000/payment/' + user?.email);
+        setListPayments(data.data)
+      } catch (err) {
+        console.error(err)
+      }
+    };
+
+    fetchData();
+  }, [selectedTab]);
+
   const handleClose = () => {
     dispatch(setShowSubscriptionModal(false));
   };
@@ -130,7 +232,7 @@ function SubscriptionBoxModal() {
     })[0]
 
     try {
-      const { data: { data } } = await axios.post('https://api.catsentence.com/payment/create', {
+      const { data: { data } } = await axios.post('http://127.0.0.1:8000/payment/create', {
         price: _selectedPackage.priceIdr,
         name: username,
         email: user?.email,
@@ -206,7 +308,7 @@ function SubscriptionBoxModal() {
             <p>Payment</p>
           </Box>
         </Box>
-        <Box>
+        {selectedTab == "packages" && <Box>
           <Typography variant="subtitle1" sx={{
             marginTop: 1
           }} color={theme.sub.main}>
@@ -230,7 +332,7 @@ function SubscriptionBoxModal() {
               display: {
                 sm: "flex"
               },
-              gap: 3,
+              gap: 2,
               marginTop: 3,
               height: {
                 xs: "50vh",
@@ -264,7 +366,46 @@ function SubscriptionBoxModal() {
               </Button>
             </Box>
           </Box>
-        </Box>
+        </Box>}
+        {selectedTab == "payment" && <Box>
+          <Typography variant="subtitle1" sx={{
+            marginTop: 1
+          }} color={theme.sub.main}>
+            List of all your payments.
+          </Typography>
+          <Box
+            overflow={"auto"}
+            mt={1}
+            sx={{
+              "&::-webkit-scrollbar": {
+                width: "0.5em",
+              },
+              "&::-webkit-scrollbar-track": {
+                boxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
+                webkitBoxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                backgroundColor: theme.sub.main,
+                borderRadius: "10px",
+              },
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "repeat(1, 1fr)",
+                sm: "repeat(3, 1fr)"
+              },
+              marginTop: 3,
+              gap: 2,            
+              height: {
+                xs: "50vh",
+                sm: "fit-content"
+              }
+            }}
+          >
+            {listPayments && listPayments.map((_payment: any) => (
+              <PaymentCard key={_payment.id} payment={_payment} />
+            ))}
+          </Box>
+        </Box>}
       </Box>
     </Modal>
   );
