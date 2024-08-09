@@ -103,7 +103,10 @@ function PaymentCard({ payment }: { payment: paymentType }) {
           xs: "100%",
           sm: "fit-content"
         },
-        height: "fit-content",
+        height: {
+          xs: "154px",
+          sm: "176px"
+        },
         border: '6px solid',
         borderColor: 'transparent',
         backgroundColor: theme.sub.alt,
@@ -369,12 +372,12 @@ function SubscriptionBoxModal() {
               },
               "&::-webkit-scrollbar-thumb": {
                 backgroundColor: theme.sub.main,
-                borderRadius: "10px",
+                borderRadius: "10px", 
               },
               display: "grid",
               gridTemplateColumns: {
                 xs: "repeat(1, 1fr)",
-                sm: "repeat(3, 1fr)"
+                sm: "repeat(4, 1fr)"
               },
               marginTop: 3,
               gap: 2,            
