@@ -154,7 +154,7 @@ function SubscriptionBoxModal() {
   const open = useAppSelector((state) => state.test.showSubscriptionModal);
   const dispatch = useAppDispatch();
   const theme = useTheme();
-  const [selectedPackage, setSelectedPackage] = useState<number>(0)
+  const [selectedPackage, setSelectedPackage] = useState<number>(1)
   const [listPayments, setListPayments] = useState<any>(null)
   const [selectedTab, setSelectedTab] = useState<string>("packages")
   const { username, user } = React.useContext(UserContext);
@@ -207,7 +207,9 @@ function SubscriptionBoxModal() {
   };
 
   function selectPackage(id: number) {
+    console.log(id)
     setSelectedPackage(id)
+    console.log(selectedPackage)
   }
 
   async function createPaymentQris() {
