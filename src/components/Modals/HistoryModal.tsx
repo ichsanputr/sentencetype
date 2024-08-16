@@ -126,7 +126,6 @@ function HistoryModal() {
   };
 
   useEffect(() => {
-    console.log("makan")
     if (user?.email) {
       const collectionRef = doc(firestore, "result", user.email);
       getDoc(collectionRef).then(v => {
