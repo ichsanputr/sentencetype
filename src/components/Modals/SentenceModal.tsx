@@ -49,7 +49,7 @@ function getSentenceGroup(length: number) {
   return quoteGroup;
 }
 
-function SentenceBox({ sentence, category }: { sentence: searchResultType, category: string }) {
+function SentenceBox({ sentence, category, length }: { sentence: searchResultType, category: string, length: string }) {
   const theme = useTheme();
   const dispatch = useAppDispatch();
 
@@ -125,7 +125,7 @@ function SentenceBox({ sentence, category }: { sentence: searchResultType, categ
             length
           </Typography>
           <Typography color={theme.sub.main}>
-            {getSentenceGroup(sentence.length)}
+            {length}
           </Typography>
         </Box>
       </Box>
@@ -310,7 +310,7 @@ function SentenceModal() {
         >
           {searchResults.slice(0, 100).map((_sentence) => (
             <div onClick={() => handleSelectSentence(_sentence.id, _sentence.source)}>
-              <SentenceBox key={_sentence.id} sentence={_sentence} category={category}/>
+              <SentenceBox key={_sentence.id} sentence={_sentence} category={category} length={lengthFilter}/>
             </div>
           ))}
         </Box>
