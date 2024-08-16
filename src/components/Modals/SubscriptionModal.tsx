@@ -17,6 +17,7 @@ type packagesType = {
   source: string | number,
   length: string,
   priceIdr: number,
+  priceEn: number,
   time: string
 };
 
@@ -25,6 +26,7 @@ type paymentType = {
   trx_ref: string,
   checkout_url: string,
   status: string,
+  kind: number,
   expired: string,
   created_at: number,
 };
@@ -132,7 +134,7 @@ function PaymentCard({ payment }: { payment: paymentType }) {
         variant="subtitle2"
         color={theme.sub.main}
       >
-        Expired At: {payment.expired}
+        Expired At: {payment.kind == 1 ? '~' : payment.expired}
       </Typography>
       {payment.status == 'UNPAID' && <Typography
         sx={{
@@ -144,7 +146,7 @@ function PaymentCard({ payment }: { payment: paymentType }) {
         <Link href={payment.checkout_url} target="_blank" sx={{
           display: "flex",
           alignItems: "center"
-        }} rel="noopener noreferrer"><p>Pay Now</p> <CallMade sx={{marginLeft: "2px"}} fontSize="small" /></Link>
+        }} rel="noopener noreferrer"><p>Pay Now</p> <CallMade sx={{ marginLeft: "2px" }} fontSize="small" /></Link>
       </Typography>}
     </Box>
   );
@@ -165,6 +167,7 @@ function SubscriptionBoxModal() {
       source: "You can undertake all test and use all feature in this app for 1 month",
       length: "1$ / 10.000 Rp",
       priceIdr: 10000,
+      priceEn: 1,
       time: "1$ / 10.000 Rp",
     },
     {
@@ -173,6 +176,7 @@ function SubscriptionBoxModal() {
       source: "You can undertake all test and use all feature in this app for 3 months",
       length: "2.5$ / 25.000 Rp",
       priceIdr: 25000,
+      priceEn: 3,
       time: "90",
     },
     {
@@ -181,6 +185,7 @@ function SubscriptionBoxModal() {
       source: "You can undertake all test and use all feature in this app for lifetime",
       length: "5$ / 80.000 Rp",
       priceIdr: 80000,
+      priceEn: 5,
       time: "90",
     }
   ]);
@@ -207,9 +212,7 @@ function SubscriptionBoxModal() {
   };
 
   function selectPackage(id: number) {
-    console.log(id)
     setSelectedPackage(id)
-    console.log(selectedPackage)
   }
 
   async function createPaymentQris() {
@@ -220,8 +223,33 @@ function SubscriptionBoxModal() {
     })[0]
 
     try {
-      const { data: { data } } = await axios.post('https://api.catsentence.com/payment/create', {
+      const { data: { data } } = await axios.post('https://api.catsentence.com/payment/tripay/create', {
         price: _selectedPackage.priceIdr,
+        name: username,
+        email: user?.email,
+        package_name: _selectedPackage.text
+      });
+
+      window.open(data.checkout_url, '_blank')
+    } catch (err) {
+      console.log(err)
+    }
+
+    setTimeout(() => {
+      dispatch(setLoadingQris(false))
+    }, 3000)
+  }
+
+  async function createPaymentPaypal() {
+    dispatch(setLoadingQris(true))
+
+    const _selectedPackage: any = packages.filter(v => {
+      return v.id == selectedPackage
+    })[0]
+
+    try {
+      const { data } = await axios.post('https://api.catsentence.com/payment/paypal/create', {
+        price: _selectedPackage.priceEn,
         name: username,
         email: user?.email,
         package_name: _selectedPackage.text
@@ -341,7 +369,7 @@ function SubscriptionBoxModal() {
             <Box display="flex" marginTop={{ xs: 3, sm: 0 }} sx={{
               float: "right"
             }} gap={2}>
-              <Button variant="contained">
+              <Button variant="contained" onClick={createPaymentPaypal}>
                 Paypal
               </Button>
               <Button variant="contained" onClick={createPaymentQris} sx={{
@@ -374,7 +402,7 @@ function SubscriptionBoxModal() {
               },
               "&::-webkit-scrollbar-thumb": {
                 backgroundColor: theme.sub.main,
-                borderRadius: "10px", 
+                borderRadius: "10px",
               },
               display: "grid",
               gridTemplateColumns: {
@@ -382,7 +410,7 @@ function SubscriptionBoxModal() {
                 sm: "repeat(4, 1fr)"
               },
               marginTop: 3,
-              gap: 2,            
+              gap: 2,
               height: {
                 xs: "280px",
                 sm: "fit-content"
