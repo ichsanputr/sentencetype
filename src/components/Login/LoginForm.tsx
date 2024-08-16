@@ -6,8 +6,8 @@ import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleAuthProvider } from "../../util/firebase";
 import UsernameModal from "./UsernameModal";
 import { LoginInput, StyledLoginButton } from "./Login";
-import { UserContext } from "../../store/userContext";
 import { useNavigate } from "react-router-dom";
+import { GoogleAuthProvider } from "firebase/auth";
 
 function LoginForm() {
   const theme = useTheme();
@@ -34,7 +34,15 @@ function LoginForm() {
 
   async function signInWithGoogle() {
     try {
-      await signInWithPopup(auth, googleAuthProvider);
+      const data = await signInWithPopup(auth, googleAuthProvider);
+
+      const credential = GoogleAuthProvider.credentialFromResult(data);
+      const token = credential?.accessToken;
+
+      if (token){
+        localStorage.setItem('token', token);
+      }
+
       setShowUsernameModal(true);
     } catch (e) {
       console.log(e);
