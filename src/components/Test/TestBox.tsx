@@ -153,7 +153,7 @@ function TestBox() {
         onKeyPress={onKeyPress}
       />}
       {/* Input to handle what user type */}
-      <label id="mobile-input">
+      {window.innerWidth < 900 && <label>
         <input
           ref={inputRef}
           autoCapitalize="off"
@@ -172,7 +172,7 @@ function TestBox() {
             dispatch(setInputFocus(false));
           }}
         />
-      </label>
+      </label>}
 
       {/* Tooltip Restart Test */}
       <Tooltip
