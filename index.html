@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>onchange Example</title>
+    <title>CatSentence - Learn English with Fill the Sentence</title>
 </head>
 
 <body>
@@ -13,10 +13,8 @@
     <script>
         const inputElement = document.getElementById('myInput');
 
-        // Add an event listener for the 'change' event
         inputElement.addEventListener('change', function () {
             let y = splitWithIndices(inputElement.value)
-            console.log(y)
         });
 
         function splitWithIndices(str) {

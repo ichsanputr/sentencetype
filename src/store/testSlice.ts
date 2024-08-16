@@ -294,7 +294,6 @@ export const testSlice = createSlice({
 
       state.currentCharIndex += 1;
     },
-
     incrementTimer: (state, action: PayloadAction<NodeJS.Timer>) => {
       state.timerCount += 1;
     },
@@ -401,9 +400,3 @@ export const {
 export default testSlice.reducer;
 
 export const selectWordsList = (state: RootState) => state.test.wordsList;
-
-export const rawSpeedSelector = (state: RootState) => {
-  return Math.ceil(
-    state.test.correctWords.length / (state.test.timerCount / 60)
-  );
-};
