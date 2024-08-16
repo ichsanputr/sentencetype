@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200..800&display=swap');
+@font-face {
+  font-family: 'Outfit';
+  src: url('font/Outfit.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 * {
   font-family: "Outfit", sans-serif !important;
