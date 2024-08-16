@@ -153,10 +153,12 @@ function TestBox() {
         onKeyPress={onKeyPress}
       />}
       {/* Input to handle what user type */}
+      <label htmlFor="mobileInput"></label>
       <input
         ref={inputRef}
         autoCapitalize="off"
         autoCorrect="off"
+        name="mobileInput"
         autoComplete="off"
         className="hide-mobile"
         style={{
