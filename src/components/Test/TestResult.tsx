@@ -30,6 +30,7 @@ function TestResult() {
 
   async function handleSaveResult() {
     setShowLoadingSave(true)
+
     try {
       const userDoc = doc(collection(firestore, "result"), user!.email as string);
       const batch = writeBatch(firestore);
@@ -45,6 +46,20 @@ function TestResult() {
       await batch.commit();
       setShowAlertSaveSuccess(true)
     } catch (e) {
+      const userDoc = doc(collection(firestore, "result"), user!.email as string);
+      const batch = writeBatch(firestore);
+
+      batch.set(userDoc, {
+        sentences: arrayUnion({
+          id: currentSentenceId,
+          time: timerCount,
+          category: mode2
+        }),
+      });
+
+      await batch.commit();
+      setShowAlertSaveSuccess(true)
+
       console.log(e);
     }
 
