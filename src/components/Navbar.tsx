@@ -144,12 +144,18 @@ function Navbar() {
             "&:hover": {
               color: theme.text.main,
             },
+            display: {
+              xs: "flex",
+              sm: "none"
+            }
           }}
           onClick={() => {
             openKeyboard()
           }}
         >
-          <KeyboardRounded fontSize="medium" />
+          <Tooltip title="Open Keyboard">
+            <KeyboardRounded fontSize="medium" />
+          </Tooltip>
         </IconButton>
         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
           <Tooltip title="Account & Other">
