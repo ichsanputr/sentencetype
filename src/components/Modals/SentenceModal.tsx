@@ -49,9 +49,10 @@ function getSentenceGroup(length: number) {
   return quoteGroup;
 }
 
-function SentenceBox({ sentence }: { sentence: searchResultType }) {
+function SentenceBox({ sentence, category }: { sentence: searchResultType, category: string }) {
   const theme = useTheme();
   const dispatch = useAppDispatch();
+
   return (
     <Box
       onClick={() => {
@@ -112,7 +113,7 @@ function SentenceBox({ sentence }: { sentence: searchResultType }) {
           >
             category
           </Typography>
-          <Typography color={theme.sub.main}>{sentence.source}</Typography>
+          <Typography color={theme.sub.main}>{category}</Typography>
         </Box>
         <Box display="flex" flexDirection={"column"}>
           <Typography
@@ -309,7 +310,7 @@ function SentenceModal() {
         >
           {searchResults.slice(0, 100).map((_sentence) => (
             <div onClick={() => handleSelectSentence(_sentence.id, _sentence.source)}>
-              <SentenceBox key={_sentence.id} sentence={_sentence} />
+              <SentenceBox key={_sentence.id} sentence={_sentence} category={category}/>
             </div>
           ))}
         </Box>
