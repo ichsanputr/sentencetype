@@ -156,6 +156,7 @@ function TestBox() {
       <label>
         <input
           ref={inputRef}
+          aria-label="Input"
           autoCapitalize="off"
           autoCorrect="off"
           name="mobileInput"
