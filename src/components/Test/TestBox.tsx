@@ -153,25 +153,27 @@ function TestBox() {
         onKeyPress={onKeyPress}
       />}
       {/* Input to handle what user type */}
-      <label id="mobile-input" htmlFor="mobileInput"></label>
-      <input
-        ref={inputRef}
-        autoCapitalize="off"
-        aria-labelledby="mobile-input"
-        autoCorrect="off"
-        name="mobileInput"
-        autoComplete="off"
-        className="hide-mobile"
-        style={{
-          width: "5%",
-          opacity: 0,
-        }}
-        onKeyDown={processInput}
-        autoFocus
-        onBlur={() => {
-          dispatch(setInputFocus(false));
-        }}
-      />
+      <label id="mobile-input">
+        <input
+          ref={inputRef}
+          autoCapitalize="off"
+          aria-labelledby="mobile-input"
+          autoCorrect="off"
+          name="mobileInput"
+          autoComplete="off"
+          className="hide-mobile"
+          style={{
+            width: "5%",
+            opacity: 0,
+          }}
+          onKeyDown={processInput}
+          autoFocus
+          onBlur={() => {
+            dispatch(setInputFocus(false));
+          }}
+        />
+      </label>
+
       {/* Tooltip Restart Test */}
       <Tooltip
         placement="left"
