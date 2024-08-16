@@ -69,7 +69,6 @@ export interface TestState {
   timerCount: number;
   currentWordIndex: number;
   correctWords: boolean[];
-  wpm: number;
   searchQuoteModal: boolean;
   currentCharIndex: number;
   punctuation: boolean;
@@ -79,13 +78,8 @@ export interface TestState {
   wordLength: 10 | 25 | 50 | 100;
   quoteLength: quoteLengthOptionsType;
   showResult: boolean;
-  wpmHistory: {
-    time: number;
-    wpm: number;
-  }[];
   rawHistory: {
     time: number;
-    wpm: number;
   }[];
   searchQuote: string[] | null;
   caretPosition: caretPosition;
@@ -113,7 +107,6 @@ const initialState: TestState = {
   time: 30,
   showKeyboard: false,
   timerCount: 0,
-  wpm: 0,
   accuracy: 0,
   currentWordIndex: 0,
   correctWords: [],
@@ -125,7 +118,6 @@ const initialState: TestState = {
   quoteLength: "short",
   showResult: false,
   showSubscriptionModal: false,
-  wpmHistory: [],
   rawHistory: [],
   searchQuoteModal: false,
   searchQuote: null,
@@ -153,7 +145,6 @@ export const testSlice = createSlice({
       state.correctWords = [];
       state.showResult = false;
       state.accuracy = 0;
-      state.wpmHistory = [];
       state.rawHistory = [];
       state.currentCharIndex = 0;
       state.caretPosition = {
@@ -203,7 +194,6 @@ export const testSlice = createSlice({
       }
 
       state.showResult = false;
-      state.wpmHistory = [];
       state.rawHistory = [];
       state.currentCharIndex = 0;
       state.caretPosition = {
@@ -307,13 +297,6 @@ export const testSlice = createSlice({
 
     incrementTimer: (state, action: PayloadAction<NodeJS.Timer>) => {
       state.timerCount += 1;
-
-      if (state.timerCount === 0) {
-        state.wpm = state.correctWords.filter(Boolean).length;
-      } else {
-        state.wpm =
-          state.correctWords.filter(Boolean).length / (state.timerCount / 60);
-      }
     },
     setShowNotLoggedSnackbar(state, action: PayloadAction<boolean>) {
       state.showNotLoggedSnackbar = action.payload;

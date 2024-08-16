@@ -34,7 +34,6 @@ export type CustomTheme = {
 
 export type HistoryType = {
   time: number;
-  wpm: number;
 };
 
 
