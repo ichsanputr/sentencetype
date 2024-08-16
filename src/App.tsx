@@ -45,11 +45,11 @@ function App() {
   const showNotLoggedSnackbar = useAppSelector((state) => state.test.showNotLoggedSnackbar);
   const loadingQris = useAppSelector((state) => state.test.loadingQris);
 
-  function handleShowNotLoggedSnackbar(){
+  function handleShowNotLoggedSnackbar() {
     dispatch(setShowNotLoggedSnackbar(false))
   }
 
-  function handleCloseLoadingQris(){
+  function handleCloseLoadingQris() {
     dispatch(setShowNotLoggedSnackbar(false))
   }
 
@@ -88,33 +88,18 @@ function App() {
         </Snackbar>
         <Snackbar sx={{
           display: "flex",
-          bottom:0
+          bottom: 0
         }} open={loadingQris} anchorOrigin={{ vertical: "bottom", horizontal: "center" }} onClose={handleCloseLoadingQris}>
           <Alert severity="success" icon={false} sx={{
             display: "flex"
           }}>
             <CircularProgress size={14} sx={{
-              marginRight: 1 
+              marginRight: 1
             }} color="secondary" />
             Creating your payment..
           </Alert>
         </Snackbar>
       </Container>
-      {!user && !loading && (
-        <GoogleOneTapLogin
-          onError={(error: any) => console.log(error)}
-          onSuccess={(response: any) => console.log(response)}
-          googleAccountConfigs={{
-            client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID!,
-            callback: async ({ clientId, credential, select_by }) => {
-              const googleCredential =
-                GoogleAuthProvider.credential(credential);
-              await signInWithCredential(auth, googleCredential);
-            },
-          }}
-          disabled={!!user}
-        />
-      )}
     </Box>
   );
 }
