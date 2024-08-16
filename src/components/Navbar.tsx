@@ -138,6 +138,7 @@ function Navbar() {
       <Stack direction={"row"} alignItems={"center"} spacing={0}>
         <IconButton
           tabIndex={-1}
+          aria-label="Open Button"
           sx={{
             color: theme.sub.main,
             transition: "color 0.2s",
