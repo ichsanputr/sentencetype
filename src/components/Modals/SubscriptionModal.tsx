@@ -105,6 +105,10 @@ function PaymentCard({ payment }: { payment: paymentType }) {
           xs: "100%",
           sm: "fit-content"
         },
+        marginBottom: {
+          xs: "1rem",
+          sm: 0
+        },
         height: {
           xs: "154px",
           sm: "176px"
@@ -404,10 +408,9 @@ function SubscriptionBoxModal() {
                 backgroundColor: theme.sub.main,
                 borderRadius: "10px",
               },
-              display: "grid",
-              gridTemplateColumns: {
-                xs: "repeat(1, 1fr)",
-                sm: "repeat(4, 1fr)"
+              display: {
+                xs: "block",
+                sm: "flex"
               },
               marginTop: 3,
               gap: 2,
