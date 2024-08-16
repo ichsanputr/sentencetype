@@ -108,7 +108,7 @@ function LoginForm() {
             fontSize: "0.75rem",
           }}
         >
-          Does'nt have account? <span onClick={() => { navigate('/register') }} style={{
+          Doesn't have account? <span onClick={() => { navigate('/register') }} style={{
             margin: "4px 0",
             color: theme.text.main,
             fontSize: "0.8rem",
@@ -129,7 +129,7 @@ function LoginForm() {
       </form>
       <StyledLoginButton onClick={signInWithGoogle}>
         <Google />
-        Google Sign In
+        Login with Google
       </StyledLoginButton>
       <UsernameModal
         open={showUsernameModal}

@@ -213,7 +213,7 @@ function RegisterForm() {
       </form>
       <StyledLoginButton onClick={signInWithGoogle}>
         <Google />
-        Google Sign Up
+        Register with Google
       </StyledLoginButton>
       <UsernameModal
         open={showUsernameModal}

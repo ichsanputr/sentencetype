@@ -43,6 +43,7 @@ function Navbar() {
   function handleLogout() {
     signOut(auth)
     setShowToastLogout(true)
+    dispatch(resetTest());
   }
 
   function openKeyboard() {

@@ -189,7 +189,7 @@ function TestBox() {
           },
         }}
         arrow
-        title="Restart Test"
+        title="New Test"
       >
         <IconButton
           tabIndex={0}
