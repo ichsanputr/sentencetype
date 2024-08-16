@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
-import englishQuotes from "../../languages/english_quotes.json";
 import sentences from "../../languages/sentences.json";
 import { Typography } from "@mui/material";
 import {
@@ -32,22 +31,6 @@ type searchResultType = {
   source: quoteLengthOptionsType,
   length: number,
 };
-
-function getSentenceGroup(length: number) {
-  const allGroups = ["short", "medium", "long"];
-  const groupRange = englishQuotes.groups;
-  const quoteRangeMap = {} as Record<string, [number, number]>;
-  allGroups.forEach((group, index) => {
-    quoteRangeMap[group] = [groupRange[index][0], groupRange[index][1]];
-  });
-
-  const quoteGroup = allGroups.find((group) => {
-    const [min, max] = quoteRangeMap[group];
-    return length >= min && length <= max;
-  });
-
-  return quoteGroup;
-}
 
 function SentenceBox({ sentence, category, length }: { sentence: searchResultType, category: string, length: string }) {
   const theme = useTheme();
