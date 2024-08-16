@@ -153,10 +153,11 @@ function TestBox() {
         onKeyPress={onKeyPress}
       />}
       {/* Input to handle what user type */}
-      <label htmlFor="mobileInput"></label>
+      <label id="mobile-input" htmlFor="mobileInput"></label>
       <input
         ref={inputRef}
         autoCapitalize="off"
+        aria-labelledby="mobile-input"
         autoCorrect="off"
         name="mobileInput"
         autoComplete="off"
