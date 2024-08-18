@@ -1,17 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import sentences from "../sentences/sentences.json";
+import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
+import getRandomInt from "../util/randNumber";
+import sentences from "../sentences/sentences.json";
 import {
   Letter,
   Mode2,
   quoteLengthOptionsType,
-  wordLengthOptionsType,
   CategoryType
 } from "../typings";
-import getRandomInt from "../util/randNumber";
 
-export const wordLengthOptions: wordLengthOptionsType[] = [10, 25, 50, 100];
 export const quoteLengthOptions: quoteLengthOptionsType[] = [
   "short",
   "medium",
@@ -337,10 +335,6 @@ export const testSlice = createSlice({
     setUserEmail(state, action: PayloadAction<string | null | undefined>) {
       state.userEmail = action.payload;
     },
-    setWordLength(state, action: PayloadAction<wordLengthOptionsType>) {
-      state.wordLength = action.payload;
-      testSlice.caseReducers.resetTest(state);
-    },
     setQuoteLength(state, action: PayloadAction<quoteLengthOptionsType>) {
       state.quoteLength = action.payload;
       testSlice.caseReducers.resetTest(state);
@@ -368,7 +362,6 @@ export const testSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
 export const {
   startTest,
   stopTest,
@@ -383,7 +376,6 @@ export const {
   setLoadingQris,
   setShowNotLoggedSnackbar,
   setShowSubscriptionModal,
-  setWordLength,
   setQuoteLength,
   setSearchQuote,
   closeHistoryResultModal,

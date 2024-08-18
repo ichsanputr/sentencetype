@@ -8,7 +8,6 @@ export enum Mode2 {
   news = "news",
 }
 
-export type wordLengthOptionsType = 10 | 25 | 50 | 100;
 export type quoteLengthOptionsType =
   | "short"
   | "medium"
