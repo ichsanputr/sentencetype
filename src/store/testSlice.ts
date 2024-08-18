@@ -15,6 +15,7 @@ export const quoteLengthOptions: quoteLengthOptionsType[] = [
   "medium",
   "long",
 ];
+
 export const categoryOptions: CategoryType[] = [
   "common",
   "story",
