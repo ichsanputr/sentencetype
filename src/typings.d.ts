@@ -1,5 +1,3 @@
-export type TimeOptionsType = 15 | 30 | 60 | 120;
-
 export type Mode = "punctuation" | "numbers";
 
 export enum Mode2 {
