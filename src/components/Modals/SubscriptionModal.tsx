@@ -332,7 +332,7 @@ function SubscriptionBoxModal() {
           <Typography variant="subtitle1" sx={{
             marginTop: 1
           }} color={theme.sub.main}>
-            You can buy 1 month, 3 months, and lifetime packages on the below.
+            Your subscription active until: <span style={{textDecoration: "underline"}}>3 days</span>
           </Typography>
           <Box
             overflow={"auto"}
