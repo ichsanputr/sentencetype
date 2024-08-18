@@ -1,8 +1,6 @@
 {
     "story": {
         "name": "story",
-        "leftToRight": true,
-        "noLazyMode": true,
         "words": [
             {
                 "id": 1,
@@ -117,8 +115,6 @@
     },
     "news": {
         "name": "news",
-        "leftToRight": true,
-        "noLazyMode": true,
         "words": [
             {
                 "id": 1,
@@ -190,8 +186,6 @@
     },
     "common": {
         "name": "common",
-        "leftToRight": true,
-        "noLazyMode": true,
         "words": [
             {
                 "id": 1,

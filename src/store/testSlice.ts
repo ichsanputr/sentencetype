@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import sentences from "../languages/sentences.json";
+import sentences from "../sentences/sentences.json";
 import { RootState } from "./store";
 import {
   Letter,

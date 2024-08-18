@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
-import sentences from "../../languages/sentences.json";
+import sentences from "../../sentences/sentences.json";
 import { Typography } from "@mui/material";
 import {
   closeSearchModal,

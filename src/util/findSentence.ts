@@ -1,4 +1,4 @@
-import sentences from "../languages/sentences.json";
+import sentences from "../sentences/sentences.json";
 
 function findSentence(id: number, category: string) {
     let categoryWords: Array<{
