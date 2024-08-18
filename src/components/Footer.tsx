@@ -45,26 +45,6 @@ function Footer() {
             <FacebookOutlined sx={{ padding: "1.5px" }} fontSize="small" />
             Facebook
           </Link>
-          <Link
-            target="_blank"
-            href="https://www.instagram.com/sannm.f"
-            sx={{
-              background: "transparent",
-              border: "none",
-              color: theme.sub.main,
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-              fontSize: "13px",
-              "&:hover": {
-                color: theme.text.main,
-                transition: "all 0.2s ease-in-out",
-              },
-            }}
-          >
-            <Instagram sx={{ padding: "1.5px" }} fontSize="small" />
-            Instagram
-          </Link>
         </Stack>
         <Stack direction={"row"}>
           <Box
