@@ -12,6 +12,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Test from "./components/Test/Test";
+import Callback from "./components/CallbackPage";
 import { UserContextProvider } from "./store/userContext";
 import { useFavicon } from "react-use";
 import HistoryModal from "./components/Modals/HistoryModal";
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
 
     children: [
       { path: "/", element: <Test /> },
+      { path: "/callback", element: <Callback /> },
       { path: "*", element: "Not Found" },
     ],
   },

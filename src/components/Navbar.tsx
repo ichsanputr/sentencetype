@@ -37,7 +37,7 @@ function Navbar() {
   }
 
   const navigateLogin = () => {
-    window.open("https://sso.catsentence.com", "_self")
+    window.open("http://localhost:5174?redirect_uri=http://localhost:5173", "_self")
   }
 
   function handleLogout() {
