@@ -4,44 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lengkapin CatSentence - Learn English with Fill the Sentence</title>
+    <title>Lengkapin CatSentence - Learn English with Fill The Blank Sentence</title>
 </head>
 
 <body>
-    <input style="height: 80px;" type="text" id="myInput" placeholder="Type something...">
-
-    <script>
-        const inputElement = document.getElementById('myInput');
-
-        inputElement.addEventListener('change', function () {
-            let y = splitWithIndices(inputElement.value)
-        });
-
-        function splitWithIndices(str) {
-            // Split the string by the delimiter
-            let substrings = str.split(" ");
-
-            // Initialize an array to store the substrings with their start indices
-            let result = [];
-
-            // Initialize the starting index
-            let currentIndex = 0;
-
-            // Iterate through each substring
-            substrings.forEach(substring => {
-                // Push the substring and its start index to the result array
-                result.push({
-                    substring: substring,
-                    position: currentIndex
-                });
-
-                // Update the current index to the next starting position
-                currentIndex++;
-            });
-
-            return result;
-        }
-    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/index.tsx"></script>
 </body>
 
 </html>

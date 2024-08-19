@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import MemoMtLogo from "./MtLogo";
-import { Box, IconButton, Stack, Typography, Snackbar, Divider, Alert, Tooltip, Avatar, Menu, MenuItem, ListItemIcon, useTheme } from "@mui/material";
+import { Box, IconButton, Stack, Typography, Snackbar, Alert, Tooltip, Avatar, Menu, MenuItem, ListItemIcon, useTheme } from "@mui/material";
 import { KeyboardRounded, Logout, History, Login, RedeemRounded } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/store";
@@ -37,7 +37,7 @@ function Navbar() {
   }
 
   const navigateLogin = () => {
-    navigate("/login")
+    window.open("https://sso.catsentence.com", "_self")
   }
 
   function handleLogout() {
@@ -71,6 +71,7 @@ function Navbar() {
       }} open={showToastLogout} autoHideDuration={2000} anchorOrigin={{ vertical: "bottom", horizontal: "center" }} onClose={handleCloseToastLogout}>
         <Alert severity="success">Success to logout!</Alert>
       </Snackbar>
+
       <Box
         padding={0}
         display={"flex"}
@@ -88,33 +89,29 @@ function Navbar() {
             cursor: "pointer",
           }}
         >
-          <MemoMtLogo height={"24px"} width="28px" fill={theme.caret.main} />
+          <MemoMtLogo height={"28px"} width="28px" fill={theme.caret.main} />
           <Box
             sx={{
               display: {
                 sm: "block",
               },
             }}
-            position={"relative"}
           >
             <Typography
               fontFamily="Comfortaa"
               fontSize={12}
-              fontWeight={600}
               variant="caption"
-              position={"absolute"}
               left={0}
-              top={{
-                sm: -1,
-                xs: -5
-              }}
+              margin={0}
               color={theme.sub.main}
             >
               Lengkapin
             </Typography>
-            <Typography fontFamily="Comfortaa" color={theme.text.main} variant="h6" sx={{
+            <Typography fontFamily="Comfortaa" color={theme.text.main} sx={{
+              lineHeight: "0.5rem !important",
               fontSize: {
-                sm: "2rem",
+                xs: "24px",
+                sm: "24px",
               },
             }}>
               catsentence

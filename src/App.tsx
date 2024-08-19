@@ -12,12 +12,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Test from "./components/Test/Test";
-import Login from "./components/Login/Login";
-import Register from "./components/Register/Register";
-import { UserContext, UserContextProvider } from "./store/userContext";
-import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
-import { auth } from "./util/firebase";
-import GoogleOneTapLogin from "react-google-one-tap-login";
+import { UserContextProvider } from "./store/userContext";
 import { useFavicon } from "react-use";
 import HistoryModal from "./components/Modals/HistoryModal";
 import SubscriptionModal from "./components/Modals/SubscriptionModal";
@@ -30,8 +25,6 @@ const router = createBrowserRouter([
 
     children: [
       { path: "/", element: <Test /> },
-      { path: "/login", element: <Login /> },
-      { path: "/register", element: <Register /> },
       { path: "*", element: "Not Found" },
     ],
   },
@@ -39,7 +32,6 @@ const router = createBrowserRouter([
 
 function App() {
   const theme = useTheme();
-  const { user, loading } = useContext(UserContext);
   const dispatch = useAppDispatch();
   const historyResultModal = useAppSelector((state) => state.test.historyResultModal);
   const showNotLoggedSnackbar = useAppSelector((state) => state.test.showNotLoggedSnackbar);
@@ -56,7 +48,8 @@ function App() {
   return (
     <Box
       sx={{
-        py: { xs: 2 },
+        pt: { xs: 1 },
+        pb: { xs: 2 },
       }}
       margin={0}
       width={"100%"}
