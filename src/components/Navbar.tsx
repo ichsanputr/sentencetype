@@ -99,36 +99,23 @@ function Navbar() {
           >
             <Typography
               fontFamily="Comfortaa"
-              fontSize={10}
+              fontSize={12}
+              fontWeight={600}
               variant="caption"
               position={"absolute"}
               left={0}
               top={{
-                sm: -4,
+                sm: -1,
                 xs: -5
               }}
               color={theme.sub.main}
             >
-              fill sentences
-            </Typography>
-            <Typography
-              fontFamily="Comfortaa"
-              fontSize={10}
-              variant="caption"
-              position={"absolute"}
-              right={0}
-              bottom={{
-                xs: -10,
-                sm: -6
-              }}
-              color={theme.sub.main}
-            >
-              learn english
+              Fill It
             </Typography>
             <Typography fontFamily="Comfortaa" color={theme.text.main} variant="h6" sx={{
               fontSize: {
                 sm: "2rem",
-              }
+              },
             }}>
               catsentence
             </Typography>
