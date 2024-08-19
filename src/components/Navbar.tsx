@@ -105,7 +105,7 @@ function Navbar() {
               margin={0}
               color={theme.sub.main}
             >
-              Lengkapin
+              lengkapin
             </Typography>
             <Typography fontFamily="Comfortaa" color={theme.text.main} sx={{
               lineHeight: "0.5rem !important",
