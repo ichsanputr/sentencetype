@@ -110,7 +110,7 @@ function Navbar() {
               }}
               color={theme.sub.main}
             >
-              Fill It
+              Lengkapin
             </Typography>
             <Typography fontFamily="Comfortaa" color={theme.text.main} variant="h6" sx={{
               fontSize: {
